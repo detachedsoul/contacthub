@@ -1,18 +1,25 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
-  },
-  plugins: [],
+	content: ["./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}"],
+	theme: {
+		extend: {
+			keyframes: {
+				floatBounce: {
+					"0%, 100%": {
+						transform: "translateY(0)",
+						easing: "ease-in-out",
+					},
+					"50%": {
+						transform: "translateY(-5%)",
+						easing: "ease-in-out",
+					},
+				},
+			},
+			animation: {
+				floatBounce: "floatBounce 5s ease-in-out infinite",
+			},
+		},
+	},
+	plugins: [],
 } satisfies Config;
