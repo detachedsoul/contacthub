@@ -5,6 +5,10 @@
 
 @layer components {
     .btn {
-        @apply w-full block py-3 px-4 rounded-lg bg-lime-500 text-white md:py-4 hover:bg-lime-600 transition-colors duration-300 ease-in-out
+        @apply w-full block py-3 px-4 rounded-lg bg-lime-500 text-white md:py-4 hover:bg-lime-600 transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-lime-500/50 ring-offset-[#0a0a0a] hover:border-none ring-offset-2
+    }
+
+    .input {
+        @apply rounded-lg block w-full border text-left border-lime-500/50 bg-white/100 text-[#0a0a0a] py-3 px-4 placeholder:text-sm focus:outline-none focus:ring-1 focus:ring-lime-500/50 ring-offset-[#0a0a0a] ring-offset-2
     }
 }
