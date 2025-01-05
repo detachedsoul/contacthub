@@ -1,13 +1,13 @@
+import ResetPasswordForm from "./_components/ResetPasswordForm";
 import AuthImage from "@/assets/auth-image.svg";
 import Image from "next/image";
 import Link from "next/link";
-import SignUpForm from "./_components/SignInForm";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-	title: "ContactHub | Sign In",
+	title: "ContactHub | Reset Password",
 	description:
-		"Welcome Back, Star! Ready to get more friends? Sign right back in!",
+		"Create a new password for your account.",
 };
 
 const SignUp = () => {
@@ -21,25 +21,25 @@ const SignUp = () => {
 
 			<div className="space-y-4">
 				<h1 className="text-3xl font-semibold bg-gradient-to-tr from-red-500 to-green-500 bg-clip-text">
-					Sign In
+					Reset Password
 				</h1>
 
 				<p className="w-4/5 mx-auto">
-					Welcome Back, Star! Ready to get more friends? Sign right
-					back in!
+					Create a new password.
 				</p>
 			</div>
 
-			<SignUpForm />
+			<ResetPasswordForm />
 
 			<p className="md:w-3/4 md:mx-auto">
-				Don’t have an account yet?{" "}
+				Remembered your login details?{" "}
 				<Link
 					className="text-lime-500 underline-offset-4 decoration-wavy hover:underline font-semibold"
-					href="/sign-up"
+					href="/sign-in"
 				>
-					Sign Up!
-				</Link>
+					Sign in
+				</Link>{" "}
+				instead
 			</p>
 		</section>
 	);

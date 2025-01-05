@@ -24,14 +24,15 @@ const SignUp = () => {
 					Forgot Password
 				</h1>
 
-                <p className="w-4/5 mx-auto">
-                    Enter your email and a link would be sent to reset your password.
+				<p className="w-4/5 mx-auto">
+					Enter your email and a link would be sent to reset your
+					password.
 				</p>
 			</div>
 
 			<ForgotPasswordForm />
 
-			<p>
+			<p className="md:w-3/4 md:mx-auto">
 				Remembered your login details?{" "}
 				<Link
 					className="text-lime-500 underline-offset-4 decoration-wavy hover:underline font-semibold"

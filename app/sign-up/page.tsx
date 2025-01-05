@@ -7,7 +7,7 @@ import { Metadata } from "next/types";
 export const metadata: Metadata = {
 	title: "ContactHub | Sign Up",
 	description:
-		"Create a new account, start getting more WhatsApp contacts, It’s that easy!",
+		"Create a new account and start getting more WhatsApp contacts. It’s that easy!",
 };
 
 const SignUp = () => {
@@ -25,14 +25,14 @@ const SignUp = () => {
 				</h1>
 
 				<p className="w-4/5 mx-auto">
-					Create a new account, start getting more WhatsApp contacts,
-					It’s that easy!
+					Create a new account and start getting more WhatsApp
+					contacts. It’s that easy!
 				</p>
 			</div>
 
-            <SignUpForm />
+			<SignUpForm />
 
-			<p>
+			<p className="md:w-3/4 md:mx-auto">
 				Not a new user?{" "}
 				<Link
 					className="text-lime-500 underline-offset-4 decoration-wavy hover:underline font-semibold"

@@ -46,7 +46,7 @@ const SignUpForm = () => {
 					</label>
 
 					<Link
-						className="text-lime-500 text-left underline-offset-4 decoration-wavy hover:underline"
+						className="text-lime-500 text-left underline-offset-4 decoration-wavy hover:underline inline-block mr-auto"
 						href="/forgot-password"
 					>
 						Forgot Password?
