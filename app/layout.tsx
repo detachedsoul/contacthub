@@ -25,11 +25,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.className} ${geistMono.className} antialiased bg-[#0a0a0a] text-[#ededed] selection:bg-lime-500 selection:text-white`}
+				className={`${geistSans.className} ${geistMono.className} antialiased bg-brand-black text-brand-white selection:bg-lime-500 selection:text-white break-words [word-break:break-word] [word-wrap:break-word]`}
 			>
-				<main className="md:w-4/5 lg:w-1/2 md:mx-auto grid place-content-center min-h-svh px-4 py-8">
-					{children}
-				</main>
+				{children}
 			</body>
 		</html>
 	);

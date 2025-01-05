@@ -4,6 +4,10 @@ export default {
 	content: ["./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}"],
 	theme: {
 		extend: {
+			colors: {
+				"brand-black": "#0a0a0a",
+				"brand-white": "#ededed",
+			},
 			keyframes: {
 				floatBounce: {
 					"0%, 100%": {
