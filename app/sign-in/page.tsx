@@ -1,13 +1,13 @@
 import AuthImage from "@/assets/auth-image.svg";
 import Image from "next/image";
 import Link from "next/link";
-import SignUpForm from "./_components/SignUpForm";
+import SignUpForm from "./_components/SignInForm";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-	title: "ContactHub | Sign Up",
+	title: "ContactHub | Sign In",
 	description:
-		"Create a new account, start getting more WhatsApp contacts, It’s that easy!",
+		"Welcome Back, Star! Ready to get more friends? Sign right back in!",
 };
 
 const SignUp = () => {
@@ -21,26 +21,25 @@ const SignUp = () => {
 
 			<div className="space-y-4">
 				<h1 className="text-3xl font-semibold bg-gradient-to-tr from-red-500 to-green-500 bg-clip-text">
-					Sign Up
+					Sign In
 				</h1>
 
 				<p className="w-4/5 mx-auto">
-					Create a new account, start getting more WhatsApp contacts,
-					It’s that easy!
+					Welcome Back, Star! Ready to get more friends? Sign right
+					back in!
 				</p>
 			</div>
 
-            <SignUpForm />
+			<SignUpForm />
 
 			<p>
-				Not a new user?{" "}
+				Don’t have an account yet?{" "}
 				<Link
 					className="text-lime-500 underline-offset-4 decoration-wavy hover:underline font-semibold"
-					href="/sign-in"
+					href="/sign-up"
 				>
-					Sign in
-				</Link>{" "}
-				instead
+					Sign Up!
+				</Link>
 			</p>
 		</section>
 	);
