@@ -157,12 +157,12 @@ const AddListingForm = () => {
 					className="space-y-2"
 					htmlFor="duration"
 				>
-					<span>How long do you want your profile listed?</span>
+					<span>Listing Duration</span>
 
 					<FormSelect
 						data={durationOptions}
 						displayKeys={{ label: "name", value: "value" }}
-						placeholder="Select listing duration"
+						placeholder="Duration"
 						name="duration"
 						onChange={setDuration}
 					/>
