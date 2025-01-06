@@ -36,11 +36,12 @@ const customStyles = {
 	}),
 	singleValue: (base: any) => ({
 		...base,
-		color: "rgba(0, 0, 0, 0.7)",
+		color: "#0a0a0a",
 	}),
 	placeholder: (base: any) => ({
 		...base,
 		color: "rgba(151, 151, 151, 1)",
+		fontSize: "0.875rem",
 	}),
 	menu: (base: any) => ({
 		...base,

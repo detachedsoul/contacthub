@@ -1,16 +1,16 @@
 "use client";
 
-import Contacts from "./_components/Contacts";
-import JoinGroup from "./_components/JoinGroup";
+import ActiveListings from "./ActiveListings";
+import InactiveListings from "./InactiveListings";
 import { useState } from "react";
 
-const options = ["Add Contacts", "Join Group"];
+const options = ["Active Listings", "Inactive Listings"];
 
-const Dashboard = () => {
-	const [currentSelection, setCurrentSelection] = useState("Add Contacts");
+const ListingPage = () => {
+    const [currentSelection, setCurrentSelection] = useState("Active Listings");
 
-	return (
-		<section className="grid gap-8">
+    return (
+		<>
 			<div className="sticky top-20 md:top-[3.55rem] pb-4 z-[1024] bg-brand-black/70 backdrop-blur -mb-4">
 				<div className="flex items-center gap-4 bg-brand-white text-brand-black rounded-full p-2 md:w-4/5 md:mx-auto">
 					{options.map((option) => (
@@ -30,10 +30,10 @@ const Dashboard = () => {
 				</div>
 			</div>
 
-			{currentSelection === "Add Contacts" && <Contacts />}
-			{currentSelection === "Join Group" && <JoinGroup />}
-		</section>
+			{currentSelection === "Active Listings" && <ActiveListings />}
+			{currentSelection === "Inactive Listings" && <InactiveListings />}
+		</>
 	);
 };
 
-export default Dashboard;
+export default ListingPage;

@@ -1,0 +1,43 @@
+"use client";
+
+import { XIcon } from "lucide-react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+
+interface IModal {
+    isOpen: boolean;
+    toggleIsOpen: Dispatch<SetStateAction<boolean>>;
+    children: React.ReactNode;
+};
+
+const Modal: React.FC<IModal> = ({isOpen, toggleIsOpen, children}) => {
+    useEffect(() => {
+        if (isOpen) {
+            document!.querySelector("body")!.style.overflowY = "hidden";
+        } else {
+            document!.querySelector("body")!.style.overflowY = "auto";
+        }
+    }, [isOpen]);
+
+    return (
+		<div
+			className={`min-h-svh fixed h-svh inset-0 w-full bg-brand-black/70 backdrop-blur overflow-y-auto flex flex-col place-content-center p-4 transition-all duration-300 ease-in-out ${
+				isOpen ? "opacity-100 z-[99999]" : "opacity-0 -z-50"
+			}`}
+		>
+			<div className="md:w-1/2 md:mx-auto lg:w-1/3 bg-brand-white text-brand-black px-4 py-8 relative rounded-lg">
+				<button
+					className="bg-lime-500 text-white p-1 hover:bg-lime-600 transition-colors duration-300 ease-in-out rounded-full absolute right-2 top-2"
+					type="button"
+					aria-label="Toggle modal"
+					onClick={() => toggleIsOpen(!isOpen)}
+				>
+					<XIcon />
+				</button>
+
+				<div className="mt-4">{children}</div>
+			</div>
+		</div>
+	);
+};
+
+export default Modal;

@@ -1,4 +1,4 @@
-import { CircleDotIcon, DatabaseIcon } from "lucide-react";
+import BuyPoints from "./_components/BuyPoints";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -8,27 +8,8 @@ export const metadata: Metadata = {
 
 const Points = () => {
     return (
-		<section className="space-y-4">
-			<div className="rounded-2xl bg-gray-900 p-4 space-y-8">
-				<p className="flex items-center gap-2">
-					<DatabaseIcon size={20} />
-					ContactHub points
-				</p>
-
-				<div className="space-y-2">
-					<h2 className="text-sm">Total Points</h2>
-
-					<p className="text-lg">0 Points</p>
-				</div>
-
-				<button
-					className="inline-flex items-center gap-2 rounded-full py-2 px-4 border border-gray-300 hover:bg-lime-500 hover:text-white hover:border-lime-500 transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-lime-500/50 ring-offset-gray-900 ring-offset-2"
-					type="button"
-				>
-					<CircleDotIcon size={20} />
-					Buy Points
-				</button>
-			</div>
+		<section className="grid gap-4">
+            <BuyPoints />
 
 			<p className="text-sm">
 				You can also earn more points by adding friends. You get 5

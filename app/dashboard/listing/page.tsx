@@ -1,39 +1,17 @@
-"use client";
+import ListingPage from "./_components/ListingPage";
+import { Metadata } from "next/types";
 
-import ActiveListings from "./_components/ActiveListings";
-import InactiveListings from "./_components/InactiveListings";
-import { useState } from "react";
+export const metadata: Metadata = {
+	title: "ContactHub | View Listing",
+	description: "View your listing",
+};
 
-const options = ["Active Listings", "Inactive Listings"];
-
-const Dashboard = () => {
-	const [currentSelection, setCurrentSelection] = useState("Active Listings");
-
+const Listing = () => {
 	return (
-		<section className="space-y-8">
-			<div className="sticky top-20 md:top-[3.55rem] pb-4 z-[1024] bg-brand-black/70 backdrop-blur -mb-4">
-				<div className="flex items-center gap-4 bg-brand-white text-brand-black rounded-full p-2 md:w-4/5 md:mx-auto">
-					{options.map((option) => (
-						<button
-							className={`rounded-full p-3 w-full transition-colors duration-300 ease-in-out ${
-								currentSelection === option
-									? "bg-lime-500 text-white"
-									: "hover:bg-lime-500 hover:text-white"
-							}`}
-							type="button"
-							onClick={() => setCurrentSelection(option)}
-							key={option}
-						>
-							{option}
-						</button>
-					))}
-				</div>
-			</div>
-
-			{currentSelection === "Active Listings" && <ActiveListings />}
-			{currentSelection === "Inactive Listings" && <InactiveListings />}
+		<section className="grid gap-8">
+			<ListingPage />
 		</section>
 	);
 };
 
-export default Dashboard;
+export default Listing;
