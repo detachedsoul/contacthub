@@ -20,9 +20,7 @@ const customStyles = {
 	}),
 	option: (base: any, state: any) => ({
 		...base,
-		"backgroundColor": state.isSelected
-			? "rgba(12, 70, 211, 0.08)"
-			: "white",
+		"backgroundColor": state.isSelected ? "rgb(132 204 22)" : "white",
 		"color": state.isSelected
 			? "rgb(255 255 255 / 1)"
 			: "rgba(151, 151, 151, 1)",
@@ -50,7 +48,7 @@ const customStyles = {
 		border: "1px solid rgb(132 204 22 / 0.5)",
 		boxShadow: "none",
 		overflow: "hidden",
-		zIndex: 50,
+		zIndex: 999999,
 	}),
 };
 

@@ -21,7 +21,7 @@ const Contacts = () => {
 
 				<Link
 					className="rounded-b-lg bg-lime-500 text-white hover:bg-lime-600 transition-colors duration-300 ease-in-out p-3 text-center w-full"
-					href="/dashboard/link-account"
+					href="/dashboard/listing/add"
 				>
 					Get listed
 				</Link>
