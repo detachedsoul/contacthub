@@ -40,7 +40,7 @@ const Contacts = () => {
 
 					<div className="bg-white/100 text-brand-black rounded-b-lg grid items-end h-1/2">
 						<button
-							className="text-center text-sm max-w-[60%] my-4 mx-auto inline-flex items-center gap-2 text-lime-500 z-10"
+							className="text-center text-sm max-w-[60%] my-4 mx-auto inline-flex items-center gap-2 text-lime-500 z-10 font-medium"
 							type="button"
 						>
 							Add +5{" "}

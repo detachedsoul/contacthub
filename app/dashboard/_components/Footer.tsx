@@ -13,17 +13,17 @@ const links = [
 	{
 		routeName: "Points",
 		icon: DatabaseIcon,
-		route: "/dashboad/points",
+		route: "/dashboard/points",
 	},
 	{
 		routeName: "Listing",
 		icon: MegaphoneIcon,
-		route: "/dashboad/listing",
+		route: "/dashboard/listing",
 	},
 	{
 		routeName: "Profile",
 		icon: UserIcon,
-		route: "/dashboad/profile",
+		route: "/dashboard/profile",
 	},
 ];
 
