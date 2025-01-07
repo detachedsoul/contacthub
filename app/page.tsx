@@ -14,8 +14,8 @@ const Index = () => {
 
                 <div className="space-y-3">
                     <h1 className="text-3xl font-semibold">
-                        Need More <span className="text-lime-500">WhatsApp</span>{" "}
-                        Contacts or Viewers? We Got You
+                        Get more <span className="text-lime-500">WhatsApp</span>{" "}
+                        contacts and viewers
                     </h1>
 
                     <p className="w-4/5 mx-auto">

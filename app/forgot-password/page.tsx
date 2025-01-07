@@ -1,5 +1,5 @@
 import ForgotPasswordForm from "./_components/ForgotPasswordForm";
-import AuthImage from "@/assets/auth-image.svg";
+import AuthImage from "@/assets/logo.jpeg";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next/types";
@@ -15,7 +15,7 @@ const SignUp = () => {
         <main className="md:w-4/5 lg:w-1/2 md:mx-auto grid place-content-center min-h-svh px-4 py-8">
             <section className="space-y-8 text-center">
                 <Image
-                    className="mx-auto animate-floatBounce"
+                    className="mx-auto animate-floatBounce w-1/3 h-auto"
                     src={AuthImage}
                     alt=""
                 />
