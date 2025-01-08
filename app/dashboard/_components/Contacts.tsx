@@ -6,7 +6,7 @@ import { CircleDotIcon } from "lucide-react";
 const Contacts = () => {
 	return (
 		<section className="grid gap-4 md:grid-cols-2">
-			<div className="rounded-lg bg-brand-white text-brand-black border border-gray-300 flex gap-2 items-center">
+			<div className="rounded-lg bg-brand-white text-brand-black border border-gray-300 flex gap-4 items-center">
 				<Image
 					className="w-1/3 h-full rounded-l-lg"
 					src={UserImage}
@@ -29,7 +29,7 @@ const Contacts = () => {
 
 			{Array.from({ length: 5 }).map((_, index) => (
 				<div
-					className="rounded-lg bg-brand-white text-brand-black border border-gray-300 flex gap-2 items-center"
+					className="rounded-lg bg-brand-white text-brand-black border border-gray-300 flex gap-4 items-center"
 					key={index}
 				>
 					<Image
