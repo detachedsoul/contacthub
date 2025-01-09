@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import FormSelect from "@/components/FormSelect";
@@ -7,7 +6,6 @@ import isFormFieldsComplete from "@/utils/isFormComplete";
 import errorToast from "@/utils/error-toast";
 import isEmailValid from "@/utils/isEmailValid";
 import successToast from "@/utils/success-toast";
-import { Toaster } from "react-hot-toast";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { createUser } from "@/services/user-service";
@@ -19,105 +17,108 @@ const genders = [
 ];
 
 const SignUpForm = () => {
-    const router = useRouter();
+	const router = useRouter();
 
 	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [state, setState] = useState("");
 	const [gender, setGender] = useState("");
 
-    const [formValues, setFormValues] = useState({
-        email: "",
-        name: "",
-        password: "",
-        state: state,
-        gender: gender
-    });
+	const [formValues, setFormValues] = useState({
+		email: "",
+		name: "",
+		password: "",
+		state: state,
+		gender: gender,
+	});
 
-    useEffect(() => {
-        setFormValues((prev) => {
-            return {
+	useEffect(() => {
+		setFormValues((prev) => {
+			return {
 				...prev,
 				state: state,
 				gender: gender,
 			};
-        })
-    }, [state, gender]);
+		});
+	}, [state, gender]);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 
-        setFormValues((prev) => {
-            return {
-                ...prev,
-                [name]: value
-            };
-        });
-    }
+		setFormValues((prev) => {
+			return {
+				...prev,
+				[name]: name === "email" ? value.toLowerCase() :  value,
+			};
+		});
+	};
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
-        setIsLoading(true);
+		setIsLoading(true);
 
 		if (!isFormFieldsComplete) {
-            errorToast("All fields are required.");
-            setIsLoading(false);
+			errorToast("All fields are required.");
+			setIsLoading(false);
 
 			return;
 		}
 
-        if (!isEmailValid(formValues.email)) {
-            errorToast("Invalid email address.");
-            setIsLoading(false);
+		if (!isEmailValid(formValues.email)) {
+			errorToast("Invalid email address.");
+			setIsLoading(false);
 
 			return;
 		}
 
-        try {
-            const res = await createUser(formValues);
+		try {
+			const res = await createUser(formValues);
 
-            if (!res?.id) {
-				errorToast(String(res));
+			if (!res?.id) {
+				errorToast(res);
 
-                return;
+				return;
 			}
 
-            successToast("Account created successfully.");
+			successToast("Account created successfully.");
 
-            setIsLoading(false);
+			setIsLoading(false);
 
-            const userDetails = {
-                name: res?.attributes?.name,
-                email: res?.attributes?.email,
-                state: res?.attributes?.state,
-                gender: res?.attributes?.gender,
-            }
+			const userDetails = {
+				name: res?.attributes?.name,
+				email: res?.attributes?.email,
+				state: res?.attributes?.state,
+				gender: res?.attributes?.gender,
+			};
 
-            localStorage.setItem("user-details", JSON.stringify(userDetails));
+			localStorage.setItem("user-details", JSON.stringify(userDetails));
 
-            router.replace("/dashboard");
-        } catch (error: any) {
-            errorToast(String(error));
+			router.replace("/dashboard");
+		} catch (error) {
+			errorToast(error as string);
 
-            setIsLoading(false);
-        } finally {
-            setIsLoading(false);
-        }
+			setIsLoading(false);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
-		<form className="space-y-8" onSubmit={handleSubmit}>
+		<form
+			className="space-y-8"
+			onSubmit={handleSubmit}
+		>
 			<div className="grid gap-4 md:w-4/5 md:mx-auto md:grid-cols-2">
 				<label htmlFor="email">
 					<input
 						className="input"
 						placeholder="Email Address"
 						name="email"
-                        id="email"
-                        value={formValues.email}
-                        onChange={handleChange}
+						id="email"
+						value={formValues.email}
+						onChange={handleChange}
 					/>
 				</label>
 
@@ -127,9 +128,9 @@ const SignUpForm = () => {
 						type="text"
 						placeholder="Enter Name"
 						name="name"
-                        id="name"
-                        value={formValues.name}
-                        onChange={handleChange}
+						id="name"
+						value={formValues.name}
+						onChange={handleChange}
 					/>
 				</label>
 
@@ -142,9 +143,9 @@ const SignUpForm = () => {
 						type={passwordIsVisible ? "text" : "password"}
 						placeholder="Password"
 						name="password"
-                        id="password"
-                        value={formValues.password}
-                        onChange={handleChange}
+						id="password"
+						value={formValues.password}
+						onChange={handleChange}
 					/>
 
 					<button
@@ -165,9 +166,12 @@ const SignUpForm = () => {
 						name="state"
 						onChange={setState}
 					/>
-                </label>
+				</label>
 
-                <label className="md:col-span-2" htmlFor="gender">
+				<label
+					className="md:col-span-2"
+					htmlFor="gender"
+				>
 					<FormSelect
 						data={genders}
 						displayKeys={{ label: "name", value: "value" }}
@@ -180,13 +184,15 @@ const SignUpForm = () => {
 
 			<button
 				className="btn md:w-4/5 md:mx-auto"
-                type="submit"
-                disabled={!isFormFieldsComplete(formValues) || isLoading}
+				type="submit"
+				disabled={
+					!isFormFieldsComplete(formValues) ||
+					isLoading ||
+					!isEmailValid(formValues.email)
+				}
 			>
 				{isLoading ? "Creating account..." : "Create Account"}
 			</button>
-
-            <Toaster />
 		</form>
 	);
 };

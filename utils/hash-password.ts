@@ -6,8 +6,17 @@ const hashPassword = async (password: string) => {
 	return hashedPassword;
 };
 
-const verifyPassword = async (password: string) => {
-    const isMatch = await bcrypt.compare(password, await hashPassword(password));
+const verifyPassword = async ({
+	password,
+	userPassword,
+}: {
+	password: string;
+	userPassword: string;
+}) => {
+	const isMatch = await bcrypt.compare(
+		password,
+		userPassword,
+	);
 
 	return isMatch;
 };
