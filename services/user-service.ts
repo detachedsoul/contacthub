@@ -96,26 +96,22 @@ export const updateAccountDetails = async ({
 	userQuery.equalTo("email", currentEmail);
 	userQuery.equalTo("objectId", id);
 
-	const emailQuery = new Parse.Query(UserDetails); // Query to check new email
+	const emailQuery = new Parse.Query(UserDetails);
 
 	try {
-		// Step 1: Fetch current user
 		const userExists = await userQuery.first();
 
 		if (!userExists) {
 			throw new Error("Invalid logged in user.");
 		}
 
-		// Step 2: Validate the new email
 		if (!isEmailValid(newEmail)) {
 			throw new Error("Invalid email address.");
 		}
 
-		// Step 3: Check if any other user has the new email
 		emailQuery.equalTo("email", newEmail.toLowerCase());
 		const existingUserWithNewEmail = await emailQuery.first();
 
-		// If the new email exists, ensure it's not the current user
 		if (
 			existingUserWithNewEmail &&
 			existingUserWithNewEmail.id !== userExists.id
@@ -123,13 +119,40 @@ export const updateAccountDetails = async ({
 			throw new Error("A user with this email already exists.");
 		}
 
-		// Step 4: Proceed with updating the email and name
 		userExists.set("email", newEmail.toLowerCase());
 		userExists.set("name", newName);
 
 		const result = await userExists.save();
 
 		return result;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const deleteUser = async ({
+	id,
+	email,
+}: {
+	id: string;
+	email: string;
+}) => {
+    const userQuery = new Parse.Query(UserDetails);
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const userExists = await userQuery.first();
+
+		if (!userExists) {
+			throw new Error("Invalid logged in user.");
+		}
+
+		const result = await userQuery.get(id);
+
+        result.destroy();
+
+        return result;
 	} catch (error) {
 		return String(error);
 	}
