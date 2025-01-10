@@ -5,6 +5,7 @@ import isFormFieldsComplete from "@/utils/isFormComplete";
 import isEmailValid from "@/utils/isEmailValid";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
+import useAuth from "@/hooks/useAuth";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { userLogin } from "@/services/user-service";
@@ -12,6 +13,7 @@ import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
     const router = useRouter();
+    const { setAuthDetails } = useAuth();
 
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +64,8 @@ const SignUpForm = () => {
             };
 
 			localStorage.setItem("user-details", JSON.stringify(userDetails));
+
+            setAuthDetails(userDetails);
 
             router.replace("/dashboard");
         } catch (error) {

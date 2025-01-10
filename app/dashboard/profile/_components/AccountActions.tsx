@@ -1,11 +1,23 @@
 "use client";
 
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+
 const AccountAction = () => {
+    const router = useRouter();
+    const { setAuthDetails } = useAuth();
+
     return (
 		<div className="space-y-4">
 			<button
 				className="rounded-full p-3 w-full transition-colors duration-300 ease-in-out flex items-center place-content-center gap-2 text-center bg-lime-500 border border-lime-500/50 hover:ring-1 ring-offset-2 hover:ring-lime-500/50 ring-offset-brand-black hover:bg-lime-600"
-				type="button"
+                type="button"
+                onClick={() => {
+                    localStorage.removeItem("user-details");
+                    setAuthDetails(null);
+
+                    router.replace("/sign-in");
+                }}
 			>
 				Logout
             </button>

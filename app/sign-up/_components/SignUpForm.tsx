@@ -6,6 +6,7 @@ import isFormFieldsComplete from "@/utils/isFormComplete";
 import errorToast from "@/utils/error-toast";
 import isEmailValid from "@/utils/isEmailValid";
 import successToast from "@/utils/success-toast";
+import useAuth from "@/hooks/useAuth";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { createUser } from "@/services/user-service";
@@ -17,7 +18,8 @@ const genders = [
 ];
 
 const SignUpForm = () => {
-	const router = useRouter();
+    const router = useRouter();
+    const { setAuthDetails } = useAuth();
 
 	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -95,6 +97,8 @@ const SignUpForm = () => {
 			};
 
 			localStorage.setItem("user-details", JSON.stringify(userDetails));
+
+            setAuthDetails(userDetails);
 
 			router.replace("/dashboard");
 		} catch (error) {
