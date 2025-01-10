@@ -87,6 +87,7 @@ const SignUpForm = () => {
 			setIsLoading(false);
 
 			const userDetails = {
+				id: res?.id,
 				name: res?.attributes?.name,
 				email: res?.attributes?.email,
 				state: res?.attributes?.state,

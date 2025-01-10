@@ -30,7 +30,9 @@ export default function RootLayout({
 			>
                 {children}
 
-                <Toaster />
+                <Toaster containerStyle={{
+                    zIndex: 9999
+                }} />
 			</body>
 		</html>
 	);

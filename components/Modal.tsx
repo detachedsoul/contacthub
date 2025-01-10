@@ -21,7 +21,7 @@ const Modal: React.FC<IModal> = ({isOpen, toggleIsOpen, children}) => {
     return (
 		<div
 			className={`min-h-svh fixed h-svh inset-0 w-full bg-brand-black/70 backdrop-blur overflow-y-auto flex flex-col place-content-center p-4 transition-all duration-300 ease-in-out ${
-				isOpen ? "opacity-100 z-[99999]" : "opacity-0 -z-50"
+				isOpen ? "opacity-100 z-[1024]" : "opacity-0 -z-50"
 			}`}
 		>
 			<div className="md:w-1/2 md:mx-auto lg:w-1/3 bg-brand-white text-brand-black px-4 py-8 relative rounded-lg">

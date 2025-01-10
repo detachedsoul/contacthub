@@ -11,7 +11,7 @@ import { userLogin } from "@/services/user-service";
 import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
-	const router = useRouter();
+    const router = useRouter();
 
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -53,12 +53,13 @@ const SignUpForm = () => {
 
             setIsLoading(false);
 
-			const userDetails = {
+            const userDetails = {
+				id: res.id,
 				name: res.get("name"),
 				email: res.get("email"),
 				state: res.get("state"),
 				gender: res.get("gender"),
-			};
+            };
 
 			localStorage.setItem("user-details", JSON.stringify(userDetails));
 

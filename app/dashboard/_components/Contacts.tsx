@@ -16,7 +16,7 @@ const Contacts = () => {
 				<div className="flex items-center justify-between w-full gap-4">
 					<div className="grid gap-0.5 md:gap-1">
 						<p className="md:text-sm text-brand-white shrink-0">
-							<p className="text-sm">List your profile</p>
+							List your profile
 						</p>
 
 						<p className="text-sm md:text-xs text-lime-500 font-medium shrink-0">
