@@ -157,3 +157,28 @@ export const deleteUser = async ({
 		return String(error);
 	}
 };
+
+export const checkUserIsLoggedIn = async ({
+	id,
+	email,
+}: {
+	id: string;
+	email: string;
+}) => {
+    const userQuery = new Parse.Query(UserDetails);
+
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const userExists = await userQuery.first();
+
+		if (!userExists) {
+			throw new Error("You session has expired. Please login to continue.");
+		}
+
+		return true;
+	} catch (error) {
+		return String(error);
+	}
+};

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Header from "./_components/Header";
-import Footer from "./_components/Footer";
+import DashboardLayoutWrapper from "./_components/Layout";
 
 export const metadata: Metadata = {
 	title: "ContactHub | Dashboard",
@@ -13,14 +12,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<>
-            <Header />
-
-            <main className="md:w-4/5 lg:w-1/2 md:mx-auto px-4 py-8 mb-16">
-                {children}
-            </main>
-
-            <Footer />
-		</>
+        <DashboardLayoutWrapper>
+            {children}
+        </DashboardLayoutWrapper>
 	);
 }
