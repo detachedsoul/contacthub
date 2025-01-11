@@ -3,10 +3,16 @@
 import FormSelect from "@/components/FormSelect";
 import statesOfNigeria from "@/utils/states";
 import Image from "next/image";
+import errorToast from "@/utils/error-toast";
+import successToast from "@/utils/success-toast";
+import useAuth from "@/hooks/useAuth";
 import { UserIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createListing } from "@/services/user-service";
 
 const genders = [
+	{ name: "All Genders", value: "All" },
 	{ name: "Male", value: "Male" },
 	{ name: "Female", value: "Female" },
 ];
@@ -28,11 +34,23 @@ const durationOptions = [
 ];
 
 const AddListingForm = () => {
+	const { authDetails } = useAuth();
+	const router = useRouter();
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [state, setState] = useState("");
+	const [gender, setGender] = useState("");
 	const [duration, setDuration] = useState("");
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-	const [listType, setListType] = useState("contact");
+	const [formValues, setFormValues] = useState({
+		displayName: "",
+		whatsAppNumber: "",
+		groupLink: "",
+	});
+
+	const [listType, setListType] = useState("contacts");
 
 	const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
 		const reader = new FileReader();
@@ -52,19 +70,74 @@ const AddListingForm = () => {
 		showUploadedImage(fileInputSelector);
 	};
 
-	console.log(state, duration, listType);
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+	) => {
+		const { name, value } = e.target;
+
+		setFormValues((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		setIsLoading(true);
+
+		try {
+			const res = await createListing({
+				list_type: listType,
+				preferred_location: state,
+				preferred_gender: gender,
+				duration: duration,
+				image_url: imageUrl ?? "",
+				user_id: authDetails?.id ?? "",
+				email: authDetails?.email ?? "",
+				display_name: formValues.displayName,
+				whatsapp_number: formValues.whatsAppNumber || undefined,
+				group_link: formValues.groupLink || undefined,
+			});
+
+			if (typeof res === "string") {
+				errorToast(res);
+
+                return;
+			}
+
+			successToast("Listing created successfully");
+
+            setFormValues({
+				displayName: "",
+				whatsAppNumber: "",
+				groupLink: "",
+			});
+
+			router.push("/dashboard/listing");
+		} catch (error) {
+			errorToast(String(error));
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
-		<form className="space-y-8">
+		<form
+			className="space-y-8"
+			onSubmit={handleSubmit}
+		>
 			<div className="grid gap-4 items-start md:w-4/5 md:mx-auto md:grid-cols-2">
 				<label
 					className="space-y-2 md:col-span-2"
 					htmlFor="profilePicture"
 				>
-					<span className="block text-center">Select Display Image</span>
+					<span className="block text-center">
+						Select Display Image
+					</span>
 
 					<div className="h-28 w-28 mx-auto bg-lime-500/100 rounded-full grid place-content-center cursor-pointer relative ">
-						<UserIcon size={50} strokeWidth={1.5} />
+						<UserIcon
+							size={50}
+							strokeWidth={1.5}
+						/>
 
 						<span className="sr-only">
 							Upload a new profile picture
@@ -101,6 +174,7 @@ const AddListingForm = () => {
 						placeholder="Listing Type"
 						name="listType"
 						onChange={setListType}
+						defaultValue="contacts"
 					/>
 				</label>
 
@@ -116,6 +190,8 @@ const AddListingForm = () => {
 						placeholder="Display name"
 						name="displayName"
 						id="displayName"
+						value={formValues.displayName}
+						onChange={handleChange}
 					/>
 				</label>
 
@@ -132,6 +208,8 @@ const AddListingForm = () => {
 							placeholder="WhatsApp Number"
 							name="whatsAppNumber"
 							id="whatsAppNumber"
+							value={formValues.whatsAppNumber}
+							onChange={handleChange}
 						/>
 					</label>
 				)}
@@ -149,6 +227,8 @@ const AddListingForm = () => {
 							placeholder="Group link"
 							name="groupLink"
 							id="groupLink"
+							value={formValues.groupLink}
+							onChange={handleChange}
 						/>
 					</label>
 				)}
@@ -179,7 +259,7 @@ const AddListingForm = () => {
 						displayKeys={{ label: "name", value: "value" }}
 						placeholder="Select Gender"
 						name="gender"
-						onChange={setState}
+						onChange={setGender}
 					/>
 				</label>
 
@@ -202,8 +282,9 @@ const AddListingForm = () => {
 			<button
 				className="btn md:w-4/5 md:mx-auto"
 				type="submit"
+				disabled={isLoading}
 			>
-				List Profile
+				{isLoading ? "Listing account..." : "List Profile"}
 			</button>
 		</form>
 	);

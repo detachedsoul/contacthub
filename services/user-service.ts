@@ -1,5 +1,6 @@
-import isEmailValid from "@/utils/isEmailValid";
 import Parse from "@/utils/parse-config";
+import isEmailValid from "@/utils/isEmailValid";
+import convertToDate from "@/utils/convert-to-date";
 import { hashPassword, verifyPassword } from "@/utils/hash-password";
 
 interface IUserDetails {
@@ -56,7 +57,9 @@ export const userLogin = async ({
 	const query = new Parse.Query(user);
 
 	try {
-		const userExists = await query.equalTo("email", email.toLowerCase()).first();
+		const userExists = await query
+			.equalTo("email", email.toLowerCase())
+			.first();
 
 		if (!userExists) {
 			throw new Error("Incorrect email and/or password.");
@@ -137,7 +140,7 @@ export const deleteUser = async ({
 	id: string;
 	email: string;
 }) => {
-    const userQuery = new Parse.Query(UserDetails);
+	const userQuery = new Parse.Query(UserDetails);
 	userQuery.equalTo("email", email);
 	userQuery.equalTo("objectId", id);
 
@@ -150,9 +153,9 @@ export const deleteUser = async ({
 
 		const result = await userQuery.get(id);
 
-        result.destroy();
+		result.destroy();
 
-        return result;
+		return result;
 	} catch (error) {
 		return String(error);
 	}
@@ -165,7 +168,7 @@ export const checkUserIsLoggedIn = async ({
 	id: string;
 	email: string;
 }) => {
-    const userQuery = new Parse.Query(UserDetails);
+	const userQuery = new Parse.Query(UserDetails);
 
 	userQuery.equalTo("email", email);
 	userQuery.equalTo("objectId", id);
@@ -174,10 +177,109 @@ export const checkUserIsLoggedIn = async ({
 		const userExists = await userQuery.first();
 
 		if (!userExists) {
-			throw new Error("You session has expired. Please login to continue.");
+			throw new Error(
+				"Your session has expired. Please login to continue.",
+			);
 		}
 
 		return true;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const createListing = async (listingData: {
+	list_type: string;
+	display_name: string;
+	duration: string;
+	preferred_gender: string;
+	preferred_location: string;
+	image_url: string;
+	user_id: string;
+	whatsapp_number?: string;
+	group_link?: string;
+	email: string;
+}) => {
+	const {
+		list_type,
+		display_name,
+		duration,
+		preferred_gender,
+		preferred_location,
+		image_url,
+		user_id,
+		whatsapp_number,
+		group_link,
+		email,
+	} = listingData;
+
+    const requiredFields = [
+		list_type,
+		display_name,
+		duration,
+		preferred_gender,
+		preferred_location,
+		image_url,
+        user_id,
+        email
+	];
+
+	if (!whatsapp_number && !group_link) {
+		throw new Error(
+			"Either whatsapp_number or group_link must be provided.",
+		);
+	}
+
+	const userDetailsQuery = new Parse.Query(UserDetails);
+
+	try {
+		const userDetails = await userDetailsQuery.get(user_id);
+
+		const userEmail = userDetails.get("email");
+		// const userPoints = userDetails.get("points");
+
+        // if (userPoints < 1) {
+        //     throw new Error("You don't have sufficient points to list your account.");
+        // }
+
+        requiredFields.map((value) => {
+            if (value === "") {
+                throw new Error(
+					"All fields are required.",
+				);
+            }
+        });
+
+		if (userEmail !== email) {
+			throw new Error(
+				"Invalid user credentials. Please try logging in again.",
+			);
+		}
+
+		const Listings = Parse.Object.extend("Listings");
+		const newListing = new Listings();
+
+		// Set the required fields
+		newListing.set("list_type", list_type);
+		newListing.set("display_name", display_name);
+		newListing.set("end_date", convertToDate(duration));
+		newListing.set("preferred_gender", preferred_gender);
+		newListing.set("preferred_location", preferred_location);
+		newListing.set("image_url", image_url);
+		newListing.set("user_id", userDetails);
+		newListing.set("start_date", new Date());
+
+		if (whatsapp_number) {
+			newListing.set("whatsapp_number", whatsapp_number);
+		}
+
+		if (group_link) {
+			newListing.set("group_link", group_link);
+		}
+
+		const result = await newListing.save();
+
+		return result;
 	} catch (error) {
 		return String(error);
 	}

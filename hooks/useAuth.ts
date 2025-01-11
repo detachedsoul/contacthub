@@ -5,7 +5,8 @@ type AuthDetails = {
 	name: string;
 	email: string;
 	gender: string;
-	state: string;
+    state: string;
+    points: string
 } | null;
 
 type AuthStore = {

@@ -94,6 +94,7 @@ const SignUpForm = () => {
 				email: res?.attributes?.email,
 				state: res?.attributes?.state,
 				gender: res?.attributes?.gender,
+				points: res?.attributes?.points,
 			};
 
 			localStorage.setItem("user-details", JSON.stringify(userDetails));

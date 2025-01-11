@@ -26,7 +26,7 @@ const Header = () => {
 
 			<span className="bg-lime-500 text-white rounded-full py-1.5 px-3 flex items-center gap-3 shrink-0">
 				<DatabaseIcon size={20} />
-				0P
+				{authDetails?.points}P
 			</span>
 		</header>
 	);

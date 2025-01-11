@@ -61,6 +61,7 @@ const SignUpForm = () => {
 				email: res.get("email"),
 				state: res.get("state"),
 				gender: res.get("gender"),
+				points: res.get("points"),
             };
 
 			localStorage.setItem("user-details", JSON.stringify(userDetails));

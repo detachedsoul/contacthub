@@ -47,7 +47,7 @@ const useAuthValidation = () => {
 
 	useEffect(() => {
         if (isValid === false) {
-            errorToast("You session has expired. Please login to continue.");
+            errorToast("Your session has expired. Please login to continue.");
 
             router.replace("/sign-in");
 		}

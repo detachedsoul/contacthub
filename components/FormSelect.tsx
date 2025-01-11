@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Select, { SingleValue } from "react-select";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 const customStyles = {
 	control: (base: any, state: any) => ({
@@ -56,6 +56,7 @@ const customStyles = {
 interface IFormSelect<T> {
 	noOptionsMessage?: string;
 	errorMsg?: string | undefined;
+	defaultValue?: string;
 	isLoading?: boolean;
 	data: T | T[];
 	placeholder: string;
@@ -68,6 +69,7 @@ interface IFormSelect<T> {
 const FormSelect = <T extends Record<string, string>>({
 	noOptionsMessage = "No data found",
 	errorMsg,
+	defaultValue,
 	isLoading,
 	data,
 	placeholder,
@@ -97,6 +99,15 @@ const FormSelect = <T extends Record<string, string>>({
 			onChange(selectedOption?.value ?? "");
 		}
 	};
+
+    useEffect(() => {
+		if (defaultValue) {
+			setOption({
+				label: defaultValue ?? "",
+				value: defaultValue ?? "",
+			});
+		}
+	}, [defaultValue]);
 
 	return (
 		<>
