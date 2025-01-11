@@ -1,4 +1,4 @@
-const convertToDate = (value) => {
+const convertToDate = (value: string) => {
 	const now = new Date();
 
 	if (value.includes("hours")) {
