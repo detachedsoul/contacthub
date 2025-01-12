@@ -12,6 +12,7 @@ interface IUserDetails {
 }
 
 const UserDetails = Parse.Object.extend("UserDetails");
+const UserListing = Parse.Object.extend("Listings");
 
 export const createUser = async (userDetails: IUserDetails) => {
 	const user = new UserDetails();
@@ -199,6 +200,7 @@ export const createListing = async (listingData: {
 	whatsapp_number?: string;
 	group_link?: string;
 	email: string;
+	desc: string;
 }) => {
 	const {
 		list_type,
@@ -211,6 +213,7 @@ export const createListing = async (listingData: {
 		whatsapp_number,
 		group_link,
 		email,
+        desc
 	} = listingData;
 
     const requiredFields = [
@@ -267,6 +270,7 @@ export const createListing = async (listingData: {
 		newListing.set("preferred_location", preferred_location);
 		newListing.set("image_url", image_url);
 		newListing.set("user_id", userDetails);
+		newListing.set("desc", desc);
 		newListing.set("start_date", new Date());
 
 		if (whatsapp_number) {
@@ -280,6 +284,42 @@ export const createListing = async (listingData: {
 		const result = await newListing.save();
 
 		return result;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const fetchUserListing = async ({
+	id,
+	email,
+	active,
+}: {
+	id: string;
+	email: string;
+	active: boolean;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const user = await userQuery.first();
+		if (!user) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+		const listingQuery = new Parse.Query(UserListing);
+		listingQuery.equalTo("user_id", user);
+
+		if (active) {
+			listingQuery.greaterThanOrEqualTo("end_date", new Date());
+		} else {
+			listingQuery.lessThan("end_date", new Date());
+		}
+
+        const listings = await listingQuery.find();
+
+		return listings;
 	} catch (error) {
 		return String(error);
 	}

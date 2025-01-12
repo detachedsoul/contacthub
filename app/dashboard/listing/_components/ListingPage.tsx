@@ -1,13 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import ActiveListings from "./ActiveListings";
 import InactiveListings from "./InactiveListings";
+import useAuth from "@/hooks/useAuth";
+import useFetch from "@/hooks/useFetch";
+import { fetchUserListing } from "@/services/user-service";
 import { useState } from "react";
+
+export interface IListings {
+    data: string | Parse.Object<Parse.Attributes>[] | undefined;
+    isLoading: boolean;
+    error: any;
+};
 
 const options = ["Active Listings", "Inactive Listings"];
 
 const ListingPage = () => {
+    const { authDetails } = useAuth();
+
     const [currentSelection, setCurrentSelection] = useState("Active Listings");
+
+	const { data, error, isLoading } = useFetch(
+		[
+			"fetchUserListing",
+			authDetails?.id ?? "",
+			authDetails?.email ?? "",
+			currentSelection,
+		],
+		() =>
+			fetchUserListing({
+				id: authDetails?.id ?? "",
+				email: authDetails?.email ?? "",
+				active: currentSelection === "Active Listings" ? true : false,
+			}),
+		{
+			refreshInterval: 1000,
+		},
+	);
 
     return (
 		<>
@@ -30,8 +60,20 @@ const ListingPage = () => {
 				</div>
 			</div>
 
-			{currentSelection === "Active Listings" && <ActiveListings />}
-			{currentSelection === "Inactive Listings" && <InactiveListings />}
+			{currentSelection === "Active Listings" && (
+				<ActiveListings
+					data={data}
+					isLoading={isLoading}
+					error={error}
+				/>
+			)}
+			{currentSelection === "Inactive Listings" && (
+				<InactiveListings
+					data={data}
+					isLoading={isLoading}
+					error={error}
+				/>
+			)}
 		</>
 	);
 };

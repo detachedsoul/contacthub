@@ -47,7 +47,8 @@ const AddListingForm = () => {
 	const [formValues, setFormValues] = useState({
 		displayName: "",
 		whatsAppNumber: "",
-		groupLink: "",
+        groupLink: "",
+        desc: ""
 	});
 
 	const [listType, setListType] = useState("contacts");
@@ -93,6 +94,7 @@ const AddListingForm = () => {
 				user_id: authDetails?.id ?? "",
 				email: authDetails?.email ?? "",
 				display_name: formValues.displayName,
+				desc: formValues.desc,
 				whatsapp_number: formValues.whatsAppNumber || undefined,
 				group_link: formValues.groupLink || undefined,
 			});
@@ -108,7 +110,8 @@ const AddListingForm = () => {
             setFormValues({
 				displayName: "",
 				whatsAppNumber: "",
-				groupLink: "",
+                groupLink: "",
+                desc: ""
 			});
 
 			router.push("/dashboard/listing");
@@ -275,6 +278,23 @@ const AddListingForm = () => {
 						placeholder="Select State"
 						name="state"
 						onChange={setState}
+					/>
+				</label>
+
+				<label
+					className="space-y-2 md:col-span-2"
+					htmlFor="desc"
+				>
+					<span>Short Description</span>
+
+					<input
+						className="input"
+						type="text"
+						placeholder="Write a short description"
+						name="desc"
+						id="desc"
+						value={formValues.desc}
+						onChange={handleChange}
 					/>
 				</label>
 			</div>
