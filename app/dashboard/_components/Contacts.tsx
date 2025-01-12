@@ -3,11 +3,13 @@ import UserImage from "@/assets/user.jpg";
 import useFetch from "@/hooks/useFetch";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
+import errorToast from "@/utils/error-toast";
+import successToast from "@/utils/success-toast";
 import { CircleDollarSignIcon } from "lucide-react";
-import { fetchListings } from "@/services/user-service";
+import { fetchListings, addPointsToUser } from "@/services/user-service";
 
 const Contacts = () => {
-	const { authDetails } = useAuth();
+	const { authDetails, setAuthDetails } = useAuth();
 
 	const { data, error, isLoading } = useFetch(
 		["fetchListings", authDetails?.id ?? "", authDetails?.email ?? ""],
@@ -19,11 +21,49 @@ const Contacts = () => {
 		{
 			refreshInterval: 50000,
 		},
-	);
+    );
+
+    const updatePoints = async () => {
+        try {
+            const res = await addPointsToUser({
+                id: authDetails?.id ?? "",
+                email: authDetails?.email ?? ""
+            });
+
+            if (typeof res === "string") {
+                errorToast(res);
+
+                return;
+            }
+
+            const userDetails = {
+				id: res.id,
+				name: res.get("name"),
+				email: res.get("email"),
+				state: res.get("state"),
+				gender: res.get("gender"),
+				points: res.get("points"),
+            };
+
+            localStorage.setItem("user-details", JSON.stringify(userDetails));
+
+            successToast(`You have been gifted 5 more points. Total points is now ${res.get("points")}`);
+
+            setAuthDetails(userDetails);
+        } catch (error) {
+            errorToast(String(error));
+        }
+    };
 
 	return (
 		<section className="grid gap-8 md:grid-cols-2">
-			<div className="text-brand-black flex gap-4 items-center">
+			<div
+				className={`text-brand-black flex gap-4 items-center ${
+					Array.isArray(data) && data.length < 1
+						? "md:col-span-2"
+						: ""
+				}`}
+			>
 				<Image
 					className="size-12 rounded-full"
 					src={UserImage}
@@ -37,7 +77,7 @@ const Contacts = () => {
 						</p>
 
 						<p className="text-sm md:text-xs text-lime-500 font-medium shrink-0">
-							Im new here
+							Get more views
 						</p>
 					</div>
 
@@ -71,7 +111,13 @@ const Contacts = () => {
 				))}
 
 			{error && (
-				<p className="text-red-500 font-medium text-xl">
+				<p
+					className={`text-red-500 font-medium ${
+						Array.isArray(data) && data.length < 1
+							? "md:col-span-2 md:mx-auto md:w-4/5 text-center"
+							: ""
+					}`}
+				>
 					{String(error)}
 				</p>
 			)}
@@ -117,7 +163,8 @@ const Contacts = () => {
 									"display_name",
 								)}&type=phone_number&app_absent=0`}
 								target="_blank"
-								rel="noopener noreferrer"
+                                rel="noopener noreferrer"
+                                onClick={updatePoints}
 							>
 								Add +5{" "}
 								<CircleDollarSignIcon
@@ -130,9 +177,15 @@ const Contacts = () => {
 				))}
 
 			{!isLoading && !error && Array.isArray(data) && data.length < 1 && (
-                <p className="text-lime-500 font-medium">
-                    There are no listed accounts yet. Please check back later.
-                </p>
+				<p
+					className={`text-lime-500 font-medium ${
+						Array.isArray(data) && data.length < 1
+							? "md:col-span-2 md:mx-auto md:w-4/5 text-center"
+							: ""
+					}`}
+				>
+					There are no listed accounts yet. Please check back later.
+				</p>
 			)}
 		</section>
 	);

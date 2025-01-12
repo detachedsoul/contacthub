@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-type AuthDetails = {
+export type AuthDetails = {
 	id: string;
 	name: string;
 	email: string;
 	gender: string;
     state: string;
-    points: string
+    points: number
 } | null;
 
 type AuthStore = {

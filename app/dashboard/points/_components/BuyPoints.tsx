@@ -1,11 +1,14 @@
 "use client";
 
 import Modal from "@/components/Modal";
+import useAuth from "@/hooks/useAuth";
 import { formatAmount } from "@/utils/format-money";
 import { CircleDotIcon, DatabaseIcon } from "lucide-react";
 import { useState } from "react";
 
 const BuyPoints = () => {
+    const { authDetails } = useAuth();
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
 	return (
@@ -19,7 +22,7 @@ const BuyPoints = () => {
 				<div className="space-y-2">
 					<h2 className="text-sm">Total Points</h2>
 
-					<p className="text-lg">0 Points</p>
+					<p className="text-lg">{authDetails?.points ?? 0} Points</p>
 				</div>
 
 				<button
@@ -57,9 +60,13 @@ const BuyPoints = () => {
 							/>
 						</label>
 
-                        <p className="text-sm">
-                            You would pay <span className="font-medium text-lime-500">{formatAmount({amount: 5000})}</span> for 2 points
-                        </p>
+						<p className="text-sm">
+							You would pay{" "}
+							<span className="font-medium text-lime-500">
+								{formatAmount({ amount: 5000 })}
+							</span>{" "}
+							for 2 points
+						</p>
 					</div>
 
 					<button

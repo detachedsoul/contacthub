@@ -348,12 +348,42 @@ export const fetchListings = async ({
 			.notEqualTo("user_id", user.id)
 			.greaterThanOrEqualTo("end_date", new Date());
 
-        // listingQuery.greaterThanOrEqualTo("end_date", new Date());
-
 		const listings = await listingQuery.find();
 
 		return listings;
 	} catch (error) {
 		return String(error);
+	}
+};
+
+export const addPointsToUser = async ({
+	id,
+	email,
+}: {
+	id: string;
+	email: string;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const user = await userQuery.get(id);
+
+		if (!user) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+		const currentPoints = user.get("points") || 0;
+
+		const updatedPoints = currentPoints + 5;
+
+		user.set("points", updatedPoints);
+
+		const result = await user.save();
+
+		return result
+	} catch (error) {
+        return String(error);
 	}
 };
