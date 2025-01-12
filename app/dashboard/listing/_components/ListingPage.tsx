@@ -35,7 +35,7 @@ const ListingPage = () => {
 				active: currentSelection === "Active Listings" ? true : false,
 			}),
 		{
-			refreshInterval: 1000,
+			refreshInterval: 50000,
 		},
 	);
 

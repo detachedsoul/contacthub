@@ -324,3 +324,36 @@ export const fetchUserListing = async ({
 		return String(error);
 	}
 };
+
+export const fetchListings = async ({
+	id,
+	email,
+}: {
+	id: string;
+	email: string;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+        const user = await userQuery.first();
+
+		if (!user) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+        const listingQuery = new Parse.Query(UserListing);
+        listingQuery
+			.notEqualTo("user_id", user.id)
+			.greaterThanOrEqualTo("end_date", new Date());
+
+        // listingQuery.greaterThanOrEqualTo("end_date", new Date());
+
+		const listings = await listingQuery.find();
+
+		return listings;
+	} catch (error) {
+		return String(error);
+	}
+};
