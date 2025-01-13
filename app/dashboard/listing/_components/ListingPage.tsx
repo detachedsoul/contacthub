@@ -19,7 +19,7 @@ const options = ["Active", "Inactive"];
 const ListingPage = () => {
     const { authDetails } = useAuth();
 
-    const [currentSelection, setCurrentSelection] = useState("Active Listings");
+    const [currentSelection, setCurrentSelection] = useState("Active");
 
 	const { data, error, isLoading } = useFetch(
 		[
@@ -32,7 +32,7 @@ const ListingPage = () => {
 			fetchUserListing({
 				id: authDetails?.id ?? "",
 				email: authDetails?.email ?? "",
-				active: currentSelection === "Active Listings" ? true : false,
+				active: currentSelection === "Active" ? true : false,
 			}),
 		{
 			refreshInterval: 50000,
@@ -60,14 +60,15 @@ const ListingPage = () => {
 				</div>
 			</div>
 
-			{currentSelection === "Active Listings" && (
+			{currentSelection === "Active" && (
 				<ActiveListings
 					data={data}
 					isLoading={isLoading}
 					error={error}
 				/>
-			)}
-			{currentSelection === "Inactive Listings" && (
+            )}
+
+			{currentSelection === "Inactive" && (
 				<InactiveListings
 					data={data}
 					isLoading={isLoading}
