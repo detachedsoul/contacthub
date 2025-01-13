@@ -19,20 +19,24 @@ const BuyPoints = () => {
 					ContactHub points
 				</p>
 
-				<div className="space-y-2">
-					<h2 className="text-sm">Total Points</h2>
+				<div className="flex items-center gap-4 justify-between">
+					<div className="space-y-2">
+						<h2 className="text-sm">Total Points</h2>
 
-					<p className="text-lg">{authDetails?.points ?? 0} Points</p>
+						<p className="text-lg">
+							{authDetails?.points ?? 0} Points
+						</p>
+					</div>
+
+					<button
+						className="inline-flex items-center gap-2 rounded-full py-2 px-4 border border-gray-300 hover:bg-lime-500 hover:text-white hover:border-lime-500 transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-lime-500/50 ring-offset-gray-900 ring-offset-2"
+						type="button"
+						onClick={() => setModalIsOpen(true)}
+					>
+						<CircleDotIcon size={20} />
+						Buy Points
+					</button>
 				</div>
-
-				<button
-					className="inline-flex items-center gap-2 rounded-full py-2 px-4 border border-gray-300 hover:bg-lime-500 hover:text-white hover:border-lime-500 transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-lime-500/50 ring-offset-gray-900 ring-offset-2"
-					type="button"
-					onClick={() => setModalIsOpen(true)}
-				>
-					<CircleDotIcon size={20} />
-					Buy Points
-				</button>
 			</div>
 
 			<Modal

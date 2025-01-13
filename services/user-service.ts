@@ -14,6 +14,7 @@ interface IUserDetails {
 const UserDetails = Parse.Object.extend("UserDetails");
 const UserListing = Parse.Object.extend("Listings");
 const PointsRecord = Parse.Object.extend("AddedContactsRecords");
+const PasswordReset = Parse.Object.extend("PasswordReset");
 
 export const createUser = async (userDetails: IUserDetails) => {
 	const user = new UserDetails();
@@ -451,6 +452,48 @@ export const isNumberInAddedContactsRecords = async ({
 		await newRecord.save();
 
 		return false;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const storeResetToken = async ({
+	token,
+	email,
+}: {
+	token: string;
+	email: string;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	const resetQuery = new Parse.Query(PasswordReset);
+
+	userQuery.equalTo("email", email);
+
+	try {
+		const user = await userQuery.first();
+
+		if (!user) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+		resetQuery.equalTo("user_id", user);
+
+		const existingReset = await resetQuery.first();
+
+		if (existingReset) {
+            existingReset.set("token", token);
+
+			await existingReset.save();
+		} else {
+            const newReset = new PasswordReset();
+
+			newReset.set("token", token);
+            newReset.set("user_id", user);
+
+			await newReset.save();
+		}
+
+		return true;
 	} catch (error) {
 		return String(error);
 	}

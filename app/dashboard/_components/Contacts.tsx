@@ -40,8 +40,6 @@ const Contacts = () => {
 	const updatePoints = async (number: string) => {
 		const isEligible = await isEligibleForBonus(number);
 
-        console.log(isEligible);
-
 		if (typeof isEligible === "string") {
 			errorToast(isEligible);
 
