@@ -478,22 +478,70 @@ export const storeResetToken = async ({
 
 		resetQuery.equalTo("user_id", user);
 
-		const existingReset = await resetQuery.first();
+		const existingTokenRecord = await resetQuery.first();
 
-		if (existingReset) {
-            existingReset.set("token", token);
+        const expirationDate = new Date();
+		expirationDate.setHours(expirationDate.getHours() + 1);
 
-			await existingReset.save();
+		if (existingTokenRecord) {
+            existingTokenRecord.set("token", token);
+            existingTokenRecord.set("expires_at", expirationDate);
+
+			await existingTokenRecord.save();
 		} else {
-            const newReset = new PasswordReset();
+            const newResetToken = new PasswordReset();
 
-			newReset.set("token", token);
-            newReset.set("user_id", user);
+			newResetToken.set("token", token);
+			newResetToken.set("token", token);
+            newResetToken.set("user_id", user);
 
-			await newReset.save();
+			await newResetToken.save();
 		}
 
 		return true;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const resetPassword = async ({
+	token,
+	password,
+}: {
+	token: string;
+	password: string;
+}) => {
+	const resetQuery = new Parse.Query(PasswordReset);
+	const userQuery = new Parse.Query(UserDetails);
+
+	try {
+		resetQuery.equalTo("token", token);
+		const resetRecord = await resetQuery.first();
+
+		if (!resetRecord) {
+			throw new Error("Invalid or expired reset token.");
+		}
+
+        const expiresAt = resetRecord.get("expires_at");
+		if (expiresAt && new Date() > expiresAt) {
+			throw new Error("Reset token has expired.");
+		}
+
+		const userId = resetRecord.get("user_id").id;
+		userQuery.equalTo("objectId", userId);
+
+		const user = await userQuery.first();
+
+		if (!user) {
+			throw new Error("User not found.");
+		}
+
+		user.set("password", hashPassword(password));
+		await user.save();
+
+		await resetRecord.destroy();
+
+		return "Password updated successfully.";
 	} catch (error) {
 		return String(error);
 	}

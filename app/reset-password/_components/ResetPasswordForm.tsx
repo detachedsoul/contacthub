@@ -99,7 +99,7 @@ const ResetPasswordForm = () => {
 
 			<button
 				className="btn md:w-4/5 md:mx-auto"
-				type="submit"
+                type="submit"
 			>
 				Reset Password
 			</button>
