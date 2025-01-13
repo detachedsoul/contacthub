@@ -14,7 +14,7 @@ export interface IListings {
     error: any;
 };
 
-const options = ["Active Listings", "Inactive Listings"];
+const options = ["Active", "Inactive"];
 
 const ListingPage = () => {
     const { authDetails } = useAuth();

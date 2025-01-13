@@ -18,9 +18,16 @@ const Header = () => {
 				/>
 				Hi,{" "}
 				{authDetails?.name ? (
-					<span className="text-ellipsis">
-						{authDetails?.name.split(" ")[0]}{authDetails?.name.split(" ").length > 1 && "..."}
-					</span>
+					<>
+						<span className="text-ellipsis md:hidden">
+							{authDetails?.name.split(" ")[0]}
+							{authDetails?.name.split(" ").length > 1 && "..."}
+						</span>
+
+						<span className="text-ellipsis hidden md:inline-block">
+                            {authDetails?.name}
+						</span>
+					</>
 				) : (
 					<span className="h-4 w-20 rounded-lg bg-gray-200 animate-pulse"></span>
 				)}

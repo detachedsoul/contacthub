@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ResetPasswordForm from "./_components/ResetPasswordForm";
 import AuthImage from "@/assets/logo.jpeg";
 import Image from "next/image";
@@ -6,8 +7,7 @@ import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
 	title: "ContactHub | Reset Password",
-	description:
-		"Create a new password for your account.",
+	description: "Create a new password for your account.",
 };
 
 const SignUp = () => {
@@ -28,7 +28,13 @@ const SignUp = () => {
 					<p className="w-4/5 mx-auto">Create a new password.</p>
 				</div>
 
-				<ResetPasswordForm />
+				<Suspense
+					fallback={
+						<div className="h-svh md:w-4/5 lg:w-1/2 md:mx-auto rounded-lg bg-gray-900/50 animate-pulse"></div>
+					}
+				>
+					<ResetPasswordForm />
+				</Suspense>
 
 				<p className="md:w-3/4 md:mx-auto">
 					Remembered your login details?{" "}
