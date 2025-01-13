@@ -215,10 +215,10 @@ export const createListing = async (listingData: {
 		whatsapp_number,
 		group_link,
 		email,
-        desc
+		desc,
 	} = listingData;
 
-    const requiredFields = [
+	const requiredFields = [
 		{
 			"List type": list_type,
 		},
@@ -236,9 +236,9 @@ export const createListing = async (listingData: {
 		},
 		{
 			"Display image": image_url,
-        },
-        {
-			"Description": desc,
+		},
+		{
+			Description: desc,
 		},
 		{
 			"User ID": user_id,
@@ -262,23 +262,25 @@ export const createListing = async (listingData: {
 		const userEmail = userDetails.get("email");
 		// const userPoints = userDetails.get("points");
 
-        // if (userPoints < 1) {
-        //     throw new Error("You don't have sufficient points to list your account.");
-        // }
+		// if (userPoints < 1) {
+		//     throw new Error("You don't have sufficient points to list your account.");
+		// }
 
-        for (const fields of requiredFields) {
-            const [key, value] = Object.entries(fields)[0];
+		for (const fields of requiredFields) {
+			const [key, value] = Object.entries(fields)[0];
 
-            if (!value) {
-                throw new Error(`${key} is required.`);
-            }
+			if (!value) {
+				throw new Error(`${key} is required.`);
+			}
 
-            if (key === "Description") {
-                if (value.length > 20) {
-                    throw new Error(`Description should not exceed 30 characters.`);
-                }
-            }
-        }
+			if (key === "Description") {
+				if (value.length > 20) {
+					throw new Error(
+						`Description should not exceed 30 characters.`,
+					);
+				}
+			}
+		}
 
 		if (userEmail !== email) {
 			throw new Error(
@@ -344,7 +346,7 @@ export const fetchUserListing = async ({
 			listingQuery.lessThan("end_date", new Date());
 		}
 
-        const listings = await listingQuery.find();
+		const listings = await listingQuery.find();
 
 		return listings;
 	} catch (error) {
@@ -364,14 +366,14 @@ export const fetchListings = async ({
 	userQuery.equalTo("objectId", id);
 
 	try {
-        const user = await userQuery.first();
+		const user = await userQuery.first();
 
 		if (!user) {
 			throw new Error("Invalid logged-in user.");
 		}
 
-        const listingQuery = new Parse.Query(UserListing);
-        listingQuery
+		const listingQuery = new Parse.Query(UserListing);
+		listingQuery
 			.notEqualTo("user_id", user.id)
 			.greaterThanOrEqualTo("end_date", new Date());
 
@@ -409,9 +411,9 @@ export const addPointsToUser = async ({
 
 		const result = await user.save();
 
-		return result
+		return result;
 	} catch (error) {
-        return String(error);
+		return String(error);
 	}
 };
 
@@ -473,27 +475,24 @@ export const storeResetToken = async ({
 		const user = await userQuery.first();
 
 		if (!user) {
-			throw new Error("Invalid logged-in user.");
+			throw new Error("Invalid user.");
 		}
 
 		resetQuery.equalTo("user_id", user);
 
 		const existingTokenRecord = await resetQuery.first();
 
-        const expirationDate = new Date();
-		expirationDate.setHours(expirationDate.getHours() + 1);
-
 		if (existingTokenRecord) {
-            existingTokenRecord.set("token", token);
-            existingTokenRecord.set("expires_at", expirationDate);
+			existingTokenRecord.set("token", token);
+			existingTokenRecord.set("expires_at", convertToDate("1 hours"));
 
 			await existingTokenRecord.save();
 		} else {
-            const newResetToken = new PasswordReset();
+			const newResetToken = new PasswordReset();
 
 			newResetToken.set("token", token);
-			newResetToken.set("token", token);
-            newResetToken.set("user_id", user);
+			newResetToken.set("expires_at", convertToDate("1 hours"));
+			newResetToken.set("user_id", user);
 
 			await newResetToken.save();
 		}
@@ -522,7 +521,7 @@ export const resetPassword = async ({
 			throw new Error("Invalid or expired reset token.");
 		}
 
-        const expiresAt = resetRecord.get("expires_at");
+		const expiresAt = resetRecord.get("expires_at");
 		if (expiresAt && new Date() > expiresAt) {
 			throw new Error("Reset token has expired.");
 		}
@@ -536,12 +535,12 @@ export const resetPassword = async ({
 			throw new Error("User not found.");
 		}
 
-		user.set("password", hashPassword(password));
+		user.set("password", await hashPassword(password));
 		await user.save();
 
 		await resetRecord.destroy();
 
-		return "Password updated successfully.";
+		return true;
 	} catch (error) {
 		return String(error);
 	}
