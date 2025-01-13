@@ -10,7 +10,7 @@ const Header = () => {
 
 	return (
 		<header className="flex items-center justify-between gap-4 p-4 md:py-1 sticky md:w-4/5 lg:w-1/2 md:mx-auto z-[1024] top-0 bg-brand-black/70 backdrop-blur text-brand-white">
-			<div className="flex items-center gap-2">
+			<div className="flex items-center flex-wrap gap-2">
 				<Image
 					className="rounded-full size-12"
 					src={UserImage}
@@ -18,7 +18,9 @@ const Header = () => {
 				/>
 				Hi,{" "}
 				{authDetails?.name ? (
-					authDetails?.name
+					<span className="text-ellipsis">
+						{authDetails?.name.split(" ")[0]}{authDetails?.name.split(" ").length > 1 && "..."}
+					</span>
 				) : (
 					<span className="h-4 w-20 rounded-lg bg-gray-200 animate-pulse"></span>
 				)}

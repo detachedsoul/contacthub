@@ -13,6 +13,7 @@ interface IUserDetails {
 
 const UserDetails = Parse.Object.extend("UserDetails");
 const UserListing = Parse.Object.extend("Listings");
+const PointsRecord = Parse.Object.extend("AddedContactsRecords");
 
 export const createUser = async (userDetails: IUserDetails) => {
 	const user = new UserDetails();
@@ -410,5 +411,47 @@ export const addPointsToUser = async ({
 		return result
 	} catch (error) {
         return String(error);
+	}
+};
+
+export const isNumberInAddedContactsRecords = async ({
+	number,
+	id,
+	email,
+}: {
+	number: string;
+	id: string;
+	email: string;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	const contactQuery = new Parse.Query(PointsRecord);
+
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const userExists = await userQuery.first();
+		if (!userExists) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+		contactQuery.equalTo("user_id", userExists);
+		contactQuery.equalTo("whatsapp_number", number);
+
+		const existingRecord = await contactQuery.first();
+
+		if (existingRecord) {
+			return true;
+		}
+
+		const newRecord = new PointsRecord();
+		newRecord.set("whatsapp_number", number);
+		newRecord.set("user_id", userExists);
+
+		await newRecord.save();
+
+		return false;
+	} catch (error) {
+		return String(error);
 	}
 };

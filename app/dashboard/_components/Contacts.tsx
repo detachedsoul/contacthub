@@ -6,7 +6,11 @@ import Link from "next/link";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
 import { DatabaseIcon } from "lucide-react";
-import { fetchListings, addPointsToUser } from "@/services/user-service";
+import {
+	fetchListings,
+	addPointsToUser,
+	isNumberInAddedContactsRecords,
+} from "@/services/user-service";
 
 const Contacts = () => {
 	const { authDetails, setAuthDetails } = useAuth();
@@ -21,42 +25,70 @@ const Contacts = () => {
 		{
 			refreshInterval: 50000,
 		},
-    );
+	);
 
-    const updatePoints = async () => {
-        try {
-            const res = await addPointsToUser({
-                id: authDetails?.id ?? "",
-                email: authDetails?.email ?? ""
-            });
+	const isEligibleForBonus = async (number: string) => {
+		const isEligible = await isNumberInAddedContactsRecords({
+			id: authDetails?.id ?? "",
+			email: authDetails?.email ?? "",
+			number: number,
+		});
 
-            if (typeof res === "string") {
-                errorToast(res);
+		return isEligible;
+	};
 
-                return;
-            }
+	const updatePoints = async (number: string) => {
+		const isEligible = await isEligibleForBonus(number);
 
-            const userDetails = {
+        console.log(isEligible);
+
+		if (typeof isEligible === "string") {
+			errorToast(isEligible);
+
+			return;
+		}
+
+		if (isEligible) {
+			return;
+		}
+
+		try {
+			const res = await addPointsToUser({
+				id: authDetails?.id ?? "",
+				email: authDetails?.email ?? "",
+			});
+
+			if (typeof res === "string") {
+				errorToast(res);
+
+				return;
+			}
+
+			const userDetails = {
 				id: res.id,
 				name: res.get("name"),
 				email: res.get("email"),
 				state: res.get("state"),
 				gender: res.get("gender"),
 				points: res.get("points"),
-            };
+			};
 
-            localStorage.setItem("user-details", JSON.stringify(userDetails));
+			localStorage.setItem("user-details", JSON.stringify(userDetails));
 
-            successToast(`You have been gifted 5 more points. Total points is now ${res.get("points")}`);
+			successToast(
+				`You have been gifted 5 more points. Total points is now ${res.get(
+					"points",
+				)}`,
+			);
 
-            setAuthDetails(userDetails);
-        } catch (error) {
-            errorToast(String(error));
-        }
-    };
+			setAuthDetails(userDetails);
+		} catch (error) {
+			errorToast(String(error));
+		}
+	};
 
 	return (
-		<div className="grid gap-12 md:gap-x-8 md:grid-cols-2">
+		<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
 			<div
 				className={`text-brand-black flex gap-4 items-center pb-8 md:pb-0 ${
 					Array.isArray(data) && data.length < 1
@@ -128,7 +160,7 @@ const Contacts = () => {
 				data.length > 0 &&
 				data.map((a) => (
 					<div
-						className="text-brand-black flex gap-4 items-center border-b border-gray-600 pb-12 last:border-transparent md:border-transparent md:pb-0"
+						className="text-brand-black flex gap-4 items-center"
 						key={
 							a.get("objectId") +
 							a.get("image_url") +
@@ -143,13 +175,13 @@ const Contacts = () => {
 							height={80}
 						/>
 
-						<div className="flex items-center justify-between w-full gap-4">
+						<div className="flex items-center justify-between w-full gap-4 border-b-[0.031rem] border-gray-700 pb-4 md:pb-2">
 							<div className="grid gap-0.5 md:gap-1 text-left">
 								<p className="md:text-sm text-brand-white shrink-0">
 									{a.get("display_name")}
 								</p>
 
-								<p className="text-sm md:text-xs text-lime-500 font-medium shrink-0">
+								<p className="text-sm md:text-xs text-gray-500 font-medium shrink-0">
 									{a.get("desc")}
 								</p>
 							</div>
@@ -163,8 +195,13 @@ const Contacts = () => {
 									"display_name",
 								)}&type=phone_number&app_absent=0`}
 								target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={updatePoints}
+								rel="noopener noreferrer"
+								onClick={async () =>
+									await updatePoints(
+										a.get("whatsapp_number") ??
+											a.get("group_link"),
+									)
+								}
 							>
 								Add +5{" "}
 								<DatabaseIcon
