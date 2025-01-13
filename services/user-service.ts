@@ -217,14 +217,33 @@ export const createListing = async (listingData: {
 	} = listingData;
 
     const requiredFields = [
-		list_type,
-		display_name,
-		duration,
-		preferred_gender,
-		preferred_location,
-		image_url,
-        user_id,
-        email
+		{
+			"List type": list_type,
+		},
+		{
+			"Display name": display_name,
+		},
+		{
+			"Listing duration": duration,
+		},
+		{
+			"Preferred gender": preferred_gender,
+		},
+		{
+			"Preferred location": preferred_location,
+		},
+		{
+			"Display image": image_url,
+        },
+        {
+			"Description": desc,
+		},
+		{
+			"User ID": user_id,
+		},
+		{
+			"User email": email,
+		},
 	];
 
 	if (!whatsapp_number && !group_link) {
@@ -245,13 +264,19 @@ export const createListing = async (listingData: {
         //     throw new Error("You don't have sufficient points to list your account.");
         // }
 
-        requiredFields.map((value) => {
-            if (value === "") {
-                throw new Error(
-					"All fields are required.",
-				);
+        for (const fields of requiredFields) {
+            const [key, value] = Object.entries(fields)[0];
+
+            if (!value) {
+                throw new Error(`${key} is required.`);
             }
-        });
+
+            if (key === "Description") {
+                if (value.length > 20) {
+                    throw new Error(`Description should not exceed 30 characters.`);
+                }
+            }
+        }
 
 		if (userEmail !== email) {
 			throw new Error(

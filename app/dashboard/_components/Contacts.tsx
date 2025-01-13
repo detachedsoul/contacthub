@@ -5,7 +5,7 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
-import { CircleDollarSignIcon } from "lucide-react";
+import { DatabaseIcon } from "lucide-react";
 import { fetchListings, addPointsToUser } from "@/services/user-service";
 
 const Contacts = () => {
@@ -56,9 +56,9 @@ const Contacts = () => {
     };
 
 	return (
-		<section className="grid gap-8 md:grid-cols-2">
+		<div className="grid gap-12 md:gap-x-8 md:grid-cols-2">
 			<div
-				className={`text-brand-black flex gap-4 items-center ${
+				className={`text-brand-black flex gap-4 items-center pb-8 md:pb-0 ${
 					Array.isArray(data) && data.length < 1
 						? "md:col-span-2"
 						: ""
@@ -128,7 +128,7 @@ const Contacts = () => {
 				data.length > 0 &&
 				data.map((a) => (
 					<div
-						className="text-brand-black flex gap-4 items-center"
+						className="text-brand-black flex gap-4 items-center border-b border-gray-600 pb-12 last:border-transparent md:border-transparent md:pb-0"
 						key={
 							a.get("objectId") +
 							a.get("image_url") +
@@ -167,7 +167,7 @@ const Contacts = () => {
                                 onClick={updatePoints}
 							>
 								Add +5{" "}
-								<CircleDollarSignIcon
+								<DatabaseIcon
 									size={18}
 									strokeWidth={1.5}
 								/>
@@ -187,7 +187,7 @@ const Contacts = () => {
 					There are no listed accounts yet. Please check back later.
 				</p>
 			)}
-		</section>
+		</div>
 	);
 };
 

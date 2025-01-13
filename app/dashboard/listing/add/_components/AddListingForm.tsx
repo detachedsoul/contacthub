@@ -19,7 +19,7 @@ const genders = [
 
 const listTypes = [
 	{ name: "Add Ups / More Contact", value: "contacts" },
-	{ name: "Group Join", value: "group" },
+	// { name: "Group Join", value: "group" },
 ];
 
 const states = [{ name: "All States", value: "all" }, ...statesOfNigeria];
@@ -129,10 +129,10 @@ const AddListingForm = () => {
 		>
 			<div className="grid gap-4 items-start md:w-4/5 md:mx-auto md:grid-cols-2">
 				<label
-					className="space-y-2 md:col-span-2"
+					className="space-y-2 mb-4 md:col-span-2"
 					htmlFor="profilePicture"
 				>
-					<span className="block text-center">
+					<span className="block text-center font-medium">
 						Select Display Image
 					</span>
 
@@ -294,7 +294,8 @@ const AddListingForm = () => {
 						name="desc"
 						id="desc"
 						value={formValues.desc}
-						onChange={handleChange}
+                        onChange={handleChange}
+                        maxLength={20}
 					/>
 				</label>
 			</div>

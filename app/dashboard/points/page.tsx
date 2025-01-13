@@ -13,7 +13,7 @@ const Points = () => {
 
 			<p className="text-sm">
 				You can also earn more points by adding friends. You get 5
-				points for every friend you add
+				points for every friend you add.
 			</p>
 
 			<h2 className="text-xl font-medium text-lime-500">
