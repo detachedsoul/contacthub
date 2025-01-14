@@ -76,7 +76,7 @@ const PWA: React.FC = () => {
 					</p>
 
 					<button
-						className="btn bg-brand-purple text-white hover:bg-brand-dark-purple transition-colors duration-300 ease-in rounded-lg"
+						className="btn bg-brand-purple text-white hover:bg-brand-dark-purple transition-colors duration-300 ease-in rounded-lg ring-offset-brand-white"
 						type="button"
 						onClick={installPWA}
 					>

@@ -43,7 +43,7 @@ const IOSPWA = () => {
 
 			<button
 				onClick={handleDismiss}
-				className="bg-lime-500 text-white w-auto px-6 btn rounded-md cursor-pointer block mx-auto mt-2"
+				className="bg-lime-500 text-white w-auto px-6 btn rounded-md cursor-pointer block mx-auto mt-2 ring-offset-brand-white"
 				type="button"
 				aria-label="Dismiss installation prompt"
 			>
