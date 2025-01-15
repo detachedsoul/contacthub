@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const PWA: React.FC = () => {
 	const [isActive, setIsActive] = useState(false);
-    const [supportsPWA, setSupportsPWA] = useState(false);
+	const [supportsPWA, setSupportsPWA] = useState(false);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [promptInstall, setPromptInstall] = useState<null | any>(null);
@@ -21,21 +21,25 @@ const PWA: React.FC = () => {
 		const handler = (e: any) => {
 			e.preventDefault();
 
-			setIsActive(true);
-			setSupportsPWA(true);
-			setPromptInstall(e);
+            const isPromptDismissed = localStorage.getItem("promptDismissed");
+
+			if (!isPromptDismissed) {
+				setIsActive(true);
+				setSupportsPWA(true);
+				setPromptInstall(e);
+			}
 		};
 
 		window.addEventListener("beforeinstallprompt", handler);
 
 		const appInstalledHandler = () => {
 			setIsActive(false);
-        };
+		};
 
 		window.addEventListener("appinstalled", appInstalledHandler);
 
 		return () => {
-            window.removeEventListener("beforeinstallprompt", handler);
+			window.removeEventListener("beforeinstallprompt", handler);
 
 			window.removeEventListener("appinstalled", appInstalledHandler);
 		};
@@ -44,9 +48,13 @@ const PWA: React.FC = () => {
 	const installPWA = () => {
 		if (!promptInstall) {
 			return;
-        }
+		}
 
 		promptInstall.prompt();
+	};
+
+	const handleDismiss = () => {
+		localStorage.setItem("promptDismissed", "true");
 	};
 
 	return supportsPWA ? (
@@ -63,7 +71,10 @@ const PWA: React.FC = () => {
 						className="bg-[#F2F2F2] shadow-2xl drop-shadow-xl hover:drop-shadow-none transition-shadow rounded-lg p-2"
 						type="button"
 						aria-label="Close modal"
-						onClick={() => setIsActive(false)}
+						onClick={() => {
+							handleDismiss();
+							setIsActive(false);
+						}}
 					>
 						<X size={20} />
 					</button>
