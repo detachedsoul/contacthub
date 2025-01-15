@@ -373,13 +373,21 @@ export const fetchListings = async ({
 		}
 
 		const listingQuery = new Parse.Query(UserListing);
-		listingQuery
-			.notEqualTo("user_id", user.id)
-			.greaterThanOrEqualTo("end_date", new Date());
 
-		const listings = await listingQuery.find();
+		listingQuery.notEqualTo("user_id", user.id);
+		listingQuery.greaterThanOrEqualTo("end_date", new Date());
 
-		return listings;
+        const userState = user.get("state");
+
+		if (userState) {
+			listingQuery.containedIn("preferred_location", [userState, "all"]);
+		} else {
+			listingQuery.equalTo("preferred_location", "all");
+		}
+
+		const results = await listingQuery.find();
+
+		return results;
 	} catch (error) {
 		return String(error);
 	}
