@@ -21,7 +21,7 @@ const Index = () => {
 							contacts!
 						</h1>
 
-						<p>Grow WhatsApp contacts fast and meet new people!</p>
+						<p>Grow your WhatsApp contacts fast and meet new people!</p>
 					</div>
 
 					<div className="grid gap-4">
