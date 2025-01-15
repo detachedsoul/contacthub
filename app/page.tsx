@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/assets/logo.jpeg";
+import Logo from "@/assets/logo.png";
 import AuthCheck from "@/components/AuthCheck";
 
 const Index = () => {
@@ -17,7 +17,7 @@ const Index = () => {
 					<div className="space-y-3">
 						<h1 className="text-2xl md:text-3xl font-semibold">
 							Boost your{" "}
-							<span className="text-lime-500">WhatsApp</span>{" "}
+							<span className="text-brand-lime">WhatsApp</span>{" "}
 							contacts!
 						</h1>
 
@@ -33,7 +33,7 @@ const Index = () => {
 						</Link>
 
 						<Link
-							className="btn bg-transparent hover:bg-lime-700 hover:border-transparent border border-lime-500 w-auto inline-block ring-offset-transparent text-center"
+							className="btn bg-transparent text-white hover:bg-lime-700 hover:border-transparent border border-brand-lime w-auto inline-block ring-offset-transparent text-center"
 							href="/sign-in"
 						>
 							Sign In

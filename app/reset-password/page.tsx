@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import ResetPasswordForm from "./_components/ResetPasswordForm";
-import AuthImage from "@/assets/logo.jpeg";
+import AuthImage from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next/types";
@@ -15,7 +15,7 @@ const SignUp = () => {
 		<main className="md:w-4/5 lg:w-1/2 md:mx-auto grid place-content-center min-h-svh px-4 py-8">
 			<section className="space-y-8 text-center">
 				<Image
-					className="mx-auto animate-floatBounce w-1/3 h-auto"
+					className="mx-auto animate-floatBounce w-1/2 md:w-1/3 h-auto"
 					src={AuthImage}
 					alt=""
 				/>
@@ -39,7 +39,7 @@ const SignUp = () => {
 				<p className="md:w-3/4 md:mx-auto">
 					Remembered your login details?{" "}
 					<Link
-						className="text-lime-500 underline-offset-4 decoration-wavy hover:underline font-semibold"
+						className="text-brand-lime underline-offset-4 decoration-wavy hover:underline font-semibold"
 						href="/sign-in"
 					>
 						Sign in

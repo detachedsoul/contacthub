@@ -47,8 +47,8 @@ const ListingPage = () => {
 						<button
 							className={`rounded-full p-3 w-full transition-colors duration-300 ease-in-out ${
 								currentSelection === option
-									? "bg-lime-500 text-white"
-									: "hover:bg-lime-500 hover:text-white"
+									? "bg-brand-lime text-[#000100]"
+									: "hover:bg-brand-lime"
 							}`}
 							type="button"
 							onClick={() => setCurrentSelection(option)}
@@ -66,7 +66,7 @@ const ListingPage = () => {
 					isLoading={isLoading}
 					error={error}
 				/>
-            )}
+			)}
 
 			{currentSelection === "Inactive" && (
 				<InactiveListings

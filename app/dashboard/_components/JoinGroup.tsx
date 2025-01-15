@@ -12,13 +12,13 @@ const JoinGroup = () => {
 			>
 				<div className="bg-brand-white text-brand-black px-4 py-3.5 rounded-l-lg w-full flex items-center gap-2 text-sm">
 					<MegaphoneIcon
-						className="text-lime-500"
+						className="text-brand-lime"
 						strokeWidth={1.5}
 					/>
 					List your group
 				</div>
 
-				<span className="rounded-r-lg px-4 py-3.5 bg-lime-500 text-white/100 group-hover:bg-lime-600 text-center grid place-content-center shrink-0 text-sm">
+				<span className="rounded-r-lg px-4 py-3.5 bg-brand-lime text-white/100 group-hover:bg-lime-600 text-center grid place-content-center shrink-0 text-sm">
 					Get listed
 				</span>
 			</Link>
@@ -27,7 +27,7 @@ const JoinGroup = () => {
 				<div className="bg-brand-white text-brand-black rounded-t-lg h-1/2 py-8"></div>
 
 				<div className="bg-white/100 text-brand-black rounded-b-lg grid place-content-center h-1/2 py-8">
-					<p className="text-center text-sm mx-auto inline-flex items-center gap-2 text-lime-500 font-medium z-10">
+					<p className="text-center text-sm mx-auto inline-flex items-center gap-2 text-brand-lime font-medium z-10">
 						The Billionaire’s Club
 					</p>
 				</div>
@@ -51,7 +51,7 @@ const JoinGroup = () => {
 				</button>
 
 				<button
-					className="rounded-full p-3 w-full transition-colors duration-300 ease-in-out flex items-center place-content-center gap-2 text-center bg-lime-500 border border-lime-500/50 hover:ring-1 ring-offset-2 hover:ring-lime-500/50 ring-offset-brand-black hover:bg-lime-600"
+					className="rounded-full p-3 w-full transition-colors duration-300 ease-in-out flex items-center place-content-center gap-2 text-center bg-brand-lime border border-brand-lime/50 hover:ring-1 ring-offset-2 hover:ring-brand-lime/50 ring-offset-brand-black hover:bg-lime-600"
 					type="button"
 				>
 					Join group (+5 points)

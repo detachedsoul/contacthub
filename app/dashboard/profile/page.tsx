@@ -21,12 +21,12 @@ const Profile = () => {
 					className="flex items-center gap-4 group transition-all duration-300 ease-in-out hover:gap-6"
 					href=""
 				>
-					<div className="rounded-full bg-gray-800 grid place-content-center p-4 transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:bg-lime-500">
+					<div className="rounded-full bg-gray-800 grid place-content-center p-4 transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:bg-brand-lime">
 						<MicIcon />
 					</div>
 
 					<div className="text-left">
-						<h2 className="text-lime-500 font-medium">Support</h2>
+						<h2 className="text-brand-lime font-medium">Support</h2>
 
 						<p className="text-sm group-hover:pl-2 transition-all duration-300 ease-in-out">
 							Contact our support team

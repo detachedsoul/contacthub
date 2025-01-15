@@ -60,7 +60,7 @@ const PWA: React.FC = () => {
 	return supportsPWA ? (
 		<div
 			className={`fixed top-0 bottom-0 left-0 z-[1024] flex h-full w-full flex-col place-content-center bg-brand-black/50 backdrop-blur transition-all duration-500 ease-in-out ${
-				isActive ? "opacity-100 z-[1024]" : "opacity-0 -z-[1024]"
+				isActive ? "opacity-100 z-[1024]" : "opacity-0 -z-[9999]"
 			}`}
 		>
 			<div className="z-[1024] ml-[5%] w-[calc(100%-10%)] rounded-2xl bg-brand-white text-brand-black text-center min-[500px]:ml-[calc((100%-60%)/2)] min-[500px]:w-3/5 min-[600px]:ml-[calc((100%-50%)/2)] min-[600px]:w-1/2 lg:ml-[calc((100%-30%)/2)] lg:w-[30%]">
@@ -87,7 +87,7 @@ const PWA: React.FC = () => {
 					</p>
 
 					<button
-						className="btn bg-brand-purple text-white hover:bg-brand-dark-purple transition-colors duration-300 ease-in rounded-lg ring-offset-brand-white"
+						className="btn hover:bg-brand-dark-purple transition-colors duration-300 ease-in rounded-lg ring-offset-brand-white"
 						type="button"
 						onClick={installPWA}
 					>

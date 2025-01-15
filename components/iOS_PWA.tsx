@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/app/icon.jpeg";
+import Logo from "@/app/icon.jpg";
 import { useState, useEffect } from "react";
 import { ShareIcon, XIcon } from "lucide-react";
 
@@ -45,7 +45,7 @@ const IOSPWA = () => {
 				className={`flex items-center gap-4 fixed w-full top-0 justify-between bg-brand-black text-white p-2 transition-all duration-300 ease-in-out ${
 					showInstructionsPrompt
 						? "opacity-100 z-[1024]"
-						: "opacity-0 -z-[1024]"
+						: "opacity-0 -z-[9999]"
 				}`}
 			>
 				<div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ const IOSPWA = () => {
 				className={`fixed bottom-0 flex flex-col place-content-end bg-brand-black/50 backdrop-blur w-full h-svh transition-all duration-300 ease-in-out ${
 					showInstructions
 						? "opacity-100 z-[1024]"
-						: "opacity-0 -z-[1024]"
+						: "opacity-0 -z-[9999]"
 				}`}
 			>
 				<div className="bg-brand-black p-8 w-full h-auto rounded-t-3xl grid gap-6">
@@ -115,7 +115,7 @@ const IOSPWA = () => {
 							<p>ContactHub</p>
 
 							<Link
-								className="text-lime-500 text-sm decoration-wavy underline-offset-4 hover:underline"
+								className="text-brand-lime text-sm decoration-wavy underline-offset-4 hover:underline"
 								href="https://contacthub.com.ng/"
 							>
 								contacthub.com.ng

@@ -16,7 +16,7 @@ const Points = () => {
 				points for every friend you add.
 			</p>
 
-			<h2 className="text-xl font-medium text-lime-500">
+			<h2 className="text-xl font-medium text-brand-lime">
 				Recent Transactions
 			</h2>
 		</section>

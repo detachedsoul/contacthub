@@ -110,7 +110,7 @@ const SignUpForm = () => {
 						/>
 
 						<button
-							className="absolute right-4 top-3 text-lime-500"
+							className="absolute right-4 top-3 text-brand-lime"
 							type="button"
 							aria-label="Toggle password visibility"
 							onClick={() =>
@@ -122,7 +122,7 @@ const SignUpForm = () => {
 					</label>
 
 					<Link
-						className="text-lime-500 text-left underline-offset-4 decoration-wavy hover:underline inline-block mr-auto"
+						className="text-brand-lime text-left underline-offset-4 decoration-wavy hover:underline inline-block mr-auto"
 						href="/forgot-password"
 					>
 						Forgot Password?

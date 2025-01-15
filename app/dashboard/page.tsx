@@ -17,8 +17,8 @@ const Dashboard = () => {
 						<button
 							className={`rounded-full p-3 w-full transition-colors duration-300 ease-in-out ${
 								currentSelection === option
-									? "bg-lime-500 text-white"
-									: "hover:bg-lime-500 hover:text-white"
+									? "bg-brand-lime text-white"
+									: "hover:bg-brand-lime hover:text-white"
 							}`}
 							type="button"
 							onClick={() => setCurrentSelection(option)}

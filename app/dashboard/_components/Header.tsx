@@ -33,7 +33,7 @@ const Header = () => {
 				)}
 			</div>
 
-			<span className="bg-lime-500 text-white rounded-full py-1.5 px-3 flex items-center gap-3 shrink-0">
+			<span className="bg-brand-lime text-brand-black rounded-full py-1.5 px-3 flex items-center gap-3 shrink-0">
 				<DatabaseIcon size={20} />
 				{authDetails?.points}P
 			</span>

@@ -136,7 +136,7 @@ const AddListingForm = () => {
 						Select Display Image
 					</span>
 
-					<div className="h-28 w-28 mx-auto bg-lime-500/100 rounded-full grid place-content-center cursor-pointer relative ">
+					<div className="h-28 w-28 mx-auto bg-brand-lime/100 rounded-full grid place-content-center cursor-pointer relative ">
 						<UserIcon
 							size={50}
 							strokeWidth={1.5}

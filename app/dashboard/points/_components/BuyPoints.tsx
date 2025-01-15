@@ -29,7 +29,7 @@ const BuyPoints = () => {
 					</div>
 
 					<button
-						className="inline-flex items-center gap-2 rounded-full py-2 px-4 border border-gray-300 hover:bg-lime-500 hover:text-white hover:border-lime-500 transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-lime-500/50 ring-offset-gray-900 ring-offset-2"
+						className="inline-flex items-center gap-2 rounded-full py-2 px-4 border border-gray-300 hover:bg-brand-lime hover:text-white hover:border-brand-lime transition-colors duration-300 ease-in-out hover:ring-1 hover:ring-brand-lime/50 ring-offset-gray-900 ring-offset-2"
 						type="button"
 						onClick={() => setModalIsOpen(true)}
 					>
@@ -66,7 +66,7 @@ const BuyPoints = () => {
 
 						<p className="text-sm">
 							You would pay{" "}
-							<span className="font-medium text-lime-500">
+							<span className="font-medium text-brand-lime">
 								{formatAmount({ amount: 5000 })}
 							</span>{" "}
 							for 2 points

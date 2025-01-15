@@ -155,7 +155,7 @@ const SignUpForm = () => {
 					/>
 
 					<button
-						className="absolute right-4 top-3 text-lime-500"
+						className="absolute right-4 top-3 text-brand-lime"
 						type="button"
 						aria-label="Toggle password visibility"
 						onClick={() => setPasswordIsVisible(!passwordIsVisible)}

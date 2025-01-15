@@ -7,10 +7,12 @@ export default {
 			colors: {
 				"brand-black": "#0a0a0a",
 				"brand-white": "#ededed",
+				"brand-lime": "#cef006",
 			},
-            backgroundImage: {
-                "index-bg": "linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .7)), url('../public/index-bg.jpg')"
-            },
+			backgroundImage: {
+				"index-bg":
+					"linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .7)), url('../public/index-bg.jpg')",
+			},
 			keyframes: {
 				floatBounce: {
 					"0%, 100%": {

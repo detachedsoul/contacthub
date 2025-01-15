@@ -89,12 +89,12 @@ const EditUserDetails = () => {
 				type="button"
 				onClick={() => setModalIsOpen(true)}
 			>
-				<div className="rounded-full bg-gray-800 grid place-content-center p-4 transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:bg-lime-500">
+				<div className="rounded-full bg-gray-800 grid place-content-center p-4 transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:bg-brand-lime">
 					<UserRoundIcon />
 				</div>
 
 				<div className="text-left">
-					<h2 className="text-lime-500 font-medium">My Profile</h2>
+					<h2 className="text-brand-lime font-medium">My Profile</h2>
 
 					<p className="text-sm group-hover:pl-2 transition-all duration-300 ease-in-out">
 						Make changes to your account

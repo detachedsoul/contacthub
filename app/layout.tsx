@@ -72,7 +72,7 @@ export default function RootLayout({
                 <link rel="apple-touch-icon" href="/icons/icon-48x48.png" />
             </head>
 			<body
-				className={`${geistSans.className} ${geistMono.className} antialiased bg-brand-black text-brand-white selection:bg-lime-500 selection:text-white break-words [word-break:break-word] [word-wrap:break-word]`}
+				className={`${geistSans.className} ${geistMono.className} antialiased bg-brand-black text-brand-white selection:bg-brand-lime selection:text-white break-words [word-break:break-word] [word-wrap:break-word]`}
 			>
 				{children}
 

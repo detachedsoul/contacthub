@@ -106,13 +106,13 @@ const Contacts = () => {
 							List your profile
 						</p>
 
-						<p className="text-sm md:text-xs text-lime-500 font-medium shrink-0">
+						<p className="text-sm md:text-xs text-brand-lime font-medium shrink-0">
 							Get more views
 						</p>
 					</div>
 
 					<Link
-						className="text-lime-500"
+						className="text-brand-lime"
 						href="/dashboard/listing/add"
 					>
 						Get listed
@@ -132,10 +132,10 @@ const Contacts = () => {
 							<div className="grid gap-2 text-left">
 								<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
 
-								<div className="h-2 w-16 rounded-lg bg-lime-500 animate-pulse"></div>
+								<div className="h-2 w-16 rounded-lg bg-brand-lime animate-pulse"></div>
 							</div>
 
-							<div className="h-2 w-10 rounded-lg bg-lime-500 animate-pulse"></div>
+							<div className="h-2 w-10 rounded-lg bg-brand-lime animate-pulse"></div>
 						</div>
 					</div>
 				))}
@@ -185,7 +185,7 @@ const Contacts = () => {
 							</div>
 
 							<Link
-								className="text-center text-sm inline-flex items-center gap-2 text-lime-500 font-medium shrink-0"
+								className="text-center text-sm inline-flex items-center gap-2 text-brand-lime font-medium shrink-0"
 								href={`https://api.whatsapp.com/send/?phone=${
 									a.get("whatsapp_number") ??
 									a.get("group_link")
@@ -213,7 +213,7 @@ const Contacts = () => {
 
 			{!isLoading && !error && Array.isArray(data) && data.length < 1 && (
 				<p
-					className={`text-lime-500 font-medium ${
+					className={`text-brand-lime font-medium ${
 						Array.isArray(data) && data.length < 1
 							? "md:col-span-2 md:mx-auto md:w-4/5 text-center"
 							: ""

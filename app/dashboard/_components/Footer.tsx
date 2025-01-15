@@ -40,8 +40,8 @@ const Footer = () => {
 							`/${pathname.split("/")[1]}/${
 								pathname.split("/")[2]
 							}`
-							? "border-lime-500 text-lime-500"
-							: "hover:border-lime-500 hover:text-lime-500 border-transparent"
+							? "border-brand-lime text-brand-lime"
+							: "hover:border-brand-lime hover:text-brand-lime border-transparent"
 					}`}
 					href={link.route}
 					key={link.routeName}

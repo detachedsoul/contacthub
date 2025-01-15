@@ -20,10 +20,10 @@ const InactiveListings: React.FC<IListings> = ({data, isLoading, error}) => {
 								<div className="grid gap-2 text-left">
 									<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
 
-									<div className="h-2 w-16 rounded-lg bg-lime-500 animate-pulse"></div>
+									<div className="h-2 w-16 rounded-lg bg-brand-lime animate-pulse"></div>
 								</div>
 
-								<div className="h-2 w-10 rounded-lg bg-lime-500 animate-pulse"></div>
+								<div className="h-2 w-10 rounded-lg bg-brand-lime animate-pulse"></div>
 							</div>
 						</div>
 					))}
@@ -61,7 +61,7 @@ const InactiveListings: React.FC<IListings> = ({data, isLoading, error}) => {
 										{a.get("display_name")}
 									</p>
 
-									<p className="text-sm md:text-xs text-lime-500 font-medium shrink-0">
+									<p className="text-sm md:text-xs text-brand-lime font-medium shrink-0">
 										{a.get("desc")}
 									</p>
 								</div>
@@ -74,12 +74,12 @@ const InactiveListings: React.FC<IListings> = ({data, isLoading, error}) => {
 			{!isLoading && !error && Array.isArray(data) && data.length < 1 && (
 				<>
 					<Image
-						className="size-20 mx-auto rounded-full border border-lime-500/20 ring-1 ring-offset-4 ring-offset-brand-black ring-lime-500/50 animate-floatBounce"
+						className="size-20 mx-auto rounded-full border border-brand-lime/20 ring-1 ring-offset-4 ring-offset-brand-black ring-brand-lime/50 animate-floatBounce"
 						src={UserImage}
 						alt="Wisdom"
 					/>
 
-					<h1 className="text-xl animate-pulse text-lime-500">
+					<h1 className="text-xl animate-pulse text-brand-lime">
 						You don’t have any Inactive Listing
 					</h1>
 

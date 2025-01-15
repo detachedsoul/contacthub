@@ -137,7 +137,7 @@ const FormSelect = <T extends Record<string, string>>({
 			)}
 
 			{isLoading && (
-				<div className="py-7 px-4 bg-lime-500/20 animate-pulse rounded-lg"></div>
+				<div className="py-7 px-4 bg-brand-lime/20 animate-pulse rounded-lg"></div>
 			)}
 
 			{(errorMsg || (hasErrorProperty(data) && data.error)) &&

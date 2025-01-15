@@ -26,7 +26,7 @@ const Modal: React.FC<IModal> = ({isOpen, toggleIsOpen, children}) => {
 		>
 			<div className="md:w-1/2 md:mx-auto lg:w-1/3 bg-brand-white text-brand-black px-4 py-8 relative rounded-lg">
 				<button
-					className="bg-lime-500 text-white p-1 hover:bg-lime-600 transition-colors duration-300 ease-in-out rounded-full absolute right-2 top-2"
+					className="bg-brand-lime text-white p-1 hover:bg-lime-600 transition-colors duration-300 ease-in-out rounded-full absolute right-2 top-2"
 					type="button"
 					aria-label="Toggle modal"
 					onClick={() => toggleIsOpen(!isOpen)}
