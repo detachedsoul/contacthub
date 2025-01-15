@@ -35,22 +35,24 @@ const useAuthValidation = () => {
 		}
 	};
 
-	useEffect(() => {
-		validateCredentials();
+	// useEffect(() => {
+	// 	validateCredentials();
 
-        const interval = setInterval(() => {
-			validateCredentials();
-		}, 120000);
+    //     const interval = setInterval(() => {
+	// 		validateCredentials();
+	// 	}, 120000);
 
-		return () => clearInterval(interval);
-	}, []);
+	// 	return () => clearInterval(interval);
+	// }, []);
 
-	useEffect(() => {
-        if (isValid === false) {
-            errorToast("Your session has expired. Please login to continue.");
+    useEffect(() => {
+        validateCredentials();
 
-            router.replace("/sign-in");
-		}
+        // if (isValid === false) {
+        //     errorToast("Your session has expired. Please login to continue.");
+
+        //     router.replace("/sign-in");
+		// }
 	}, [isValid, router]);
 
 	return isValid;

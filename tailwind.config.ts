@@ -8,6 +8,9 @@ export default {
 				"brand-black": "#0a0a0a",
 				"brand-white": "#ededed",
 			},
+            backgroundImage: {
+                "index-bg": "linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .7)), url('../public/index-bg.jpg')"
+            },
 			keyframes: {
 				floatBounce: {
 					"0%, 100%": {
