@@ -151,7 +151,7 @@ const EditUserDetails = () => {
 					</div>
 
 					<button
-						className="btn ring-offset-brand-white"
+						className="btn ring-offset-brand-white disabled:bg-lime-500"
 						type="submit"
 						disabled={
 							!isFormFieldsComplete(formValues) ||
