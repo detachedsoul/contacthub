@@ -1,9 +1,33 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import SingleLogo from "@/assets/single-logo.jpg";
 import Logo from "@/assets/logo.png";
 import AuthCheck from "@/components/AuthCheck";
+import { useState, useEffect } from "react";
 
 const Index = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 3000);
+	}, []);
+
+	if (isLoading) {
+		return (
+			<div className="h-svh md:w-4/5 lg:w-1/2 md:mx-auto grid place-content-center bg-brand-lime">
+				<Image
+					className="w-1/2 mx-auto h-auto"
+					src={SingleLogo}
+					alt="ContactHub"
+				/>
+			</div>
+		);
+	}
+
     return (
 		<AuthCheck>
 			<main className="md:w-4/5 lg:w-1/2 md:mx-auto relative flex flex-col place-content-end min-h-svh px-4 py-8 bg-index-bg bg-cover bg-center">
