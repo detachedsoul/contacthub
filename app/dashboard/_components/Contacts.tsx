@@ -33,7 +33,8 @@ const Contacts = () => {
 	);
 
 	const [modalIsActive, setModalIsActive] = useState(false);
-	const [selectedContact, setSelectedContact] = useState<Parse.Object<Attributes> | null>(null);
+	const [selectedContact, setSelectedContact] =
+		useState<Parse.Object<Attributes> | null>(null);
 
 	const isEligibleForBonus = async (number: string) => {
 		const isEligible = await isNumberInAddedContactsRecords({
@@ -91,7 +92,7 @@ const Contacts = () => {
 		} catch (error) {
 			errorToast(String(error));
 		}
-    };
+	};
 
 	return (
 		<>
@@ -106,7 +107,7 @@ const Contacts = () => {
 					<Image
 						className="size-12 rounded-full"
 						src={Logo}
-						alt="Wwisdom"
+						alt={authDetails?.name ?? ""}
 					/>
 
 					<div className="flex items-center justify-between w-full gap-4">
@@ -209,8 +210,6 @@ const Contacts = () => {
 										`https://wa.me/${
 											a.get("whatsapp_number") ??
 											a.get("group_link")
-										}?text=Hi, nice to meet you. Please save my name as ${
-											authDetails?.name ?? ""
 										}`,
 									)}
 									target="_blank"
@@ -297,8 +296,6 @@ const Contacts = () => {
 							`https://wa.me/${
 								selectedContact?.get("whatsapp_number") ??
 								selectedContact?.get("group_link")
-							}?text=Hi, nice to meet you. Please save my name as ${
-								authDetails?.name ?? ""
 							}`,
 						)}
 						target="_blank"
@@ -310,11 +307,11 @@ const Contacts = () => {
 							)
 						}
 					>
-                        Add Up
-                        <DatabaseIcon
-										size={18}
-										strokeWidth={1.5}
-									/>
+						Add Up
+						<DatabaseIcon
+							size={18}
+							strokeWidth={1.5}
+						/>
 					</Link>
 				</div>
 			</Modal>

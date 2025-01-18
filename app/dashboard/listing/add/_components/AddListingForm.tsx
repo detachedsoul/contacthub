@@ -198,6 +198,24 @@ const AddListingForm = () => {
 					/>
 				</label>
 
+				<label
+					className="space-y-2 md:col-span-2"
+					htmlFor="desc"
+				>
+					<span>Short Description</span>
+
+					<input
+						className="input"
+						type="text"
+						placeholder="Fashion store, unisex wears, etc..."
+						name="desc"
+						id="desc"
+						value={formValues.desc}
+						onChange={handleChange}
+						maxLength={20}
+					/>
+				</label>
+
 				{listType === "contacts" && (
 					<label
 						className="space-y-2"
@@ -278,24 +296,6 @@ const AddListingForm = () => {
 						placeholder="Select State"
 						name="state"
 						onChange={setState}
-					/>
-				</label>
-
-				<label
-					className="space-y-2 md:col-span-2"
-					htmlFor="desc"
-				>
-					<span>Short Description</span>
-
-					<input
-						className="input"
-						type="text"
-						placeholder="Write a short description"
-						name="desc"
-						id="desc"
-						value={formValues.desc}
-                        onChange={handleChange}
-                        maxLength={20}
 					/>
 				</label>
 			</div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import UserImage from "@/assets/single-logo.jpg";
+import UserImage from "@/assets/user-avatar.svg";
 import useAuth from "@/hooks/useAuth";
 import { DatabaseIcon } from "lucide-react";
 

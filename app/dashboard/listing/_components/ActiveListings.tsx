@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import UserImage from "@/assets/user.jpg";
+import UserImage from "@/assets/user-avatar.svg";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "lucide-react";
 import { IListings } from "./ListingPage";
