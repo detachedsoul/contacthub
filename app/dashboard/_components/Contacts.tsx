@@ -91,7 +91,7 @@ const Contacts = () => {
 		} catch (error) {
 			errorToast(String(error));
 		}
-	};
+    };
 
 	return (
 		<>
@@ -205,12 +205,14 @@ const Contacts = () => {
 
 								<Link
 									className="text-center text-sm inline-flex items-center gap-2 text-brand-lime font-medium shrink-0"
-									href={`https://api.whatsapp.com/send/?phone=${
-										a.get("whatsapp_number") ??
-										a.get("group_link")
-									}&text=Hi, nice to meet you. Please save my name as ${
-										authDetails?.name ?? ""
-									}&type=phone_number`}
+									href={encodeURI(
+										`https://wa.me/${
+											a.get("whatsapp_number") ??
+											a.get("group_link")
+										}?text=Hi, nice to meet you. Please save my name as ${
+											authDetails?.name ?? ""
+										}`,
+									)}
 									target="_blank"
 									rel="noopener noreferrer"
 									onClick={async () =>
@@ -290,13 +292,15 @@ const Contacts = () => {
 					</p>
 
 					<Link
-						className="text-center text-sm btn font-medium"
-						href={`https://api.whatsapp.com/send/?phone=${
-							selectedContact?.get("whatsapp_number") ??
-							selectedContact?.get("group_link")
-						}&text=Hi, nice to meet you. Please save my name as ${
-							authDetails?.name ?? ""
-						}&type=phone_number`}
+						className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2"
+						href={encodeURI(
+							`https://wa.me/${
+								selectedContact?.get("whatsapp_number") ??
+								selectedContact?.get("group_link")
+							}?text=Hi, nice to meet you. Please save my name as ${
+								authDetails?.name ?? ""
+							}`,
+						)}
 						target="_blank"
 						rel="noopener noreferrer"
 						onClick={async () =>
@@ -306,7 +310,11 @@ const Contacts = () => {
 							)
 						}
 					>
-						Add Up
+                        Add Up
+                        <DatabaseIcon
+										size={18}
+										strokeWidth={1.5}
+									/>
 					</Link>
 				</div>
 			</Modal>
