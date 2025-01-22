@@ -28,7 +28,7 @@ const generateAccount = async () => {
         if (!req.ok) {
             const error = await req?.json();
 
-           throw new Error(error?.message);
+           return error?.message;
 		}
 
 		const res = await req.json();

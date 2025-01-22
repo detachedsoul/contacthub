@@ -29,12 +29,16 @@ const BuyPoints = () => {
 		const cookie = cookieManager.get("accountDetails");
 
 		if (cookie) {
-			setCookieValues(JSON.parse(cookie));
+            if (new Date(JSON.parse(cookie).expire_date) > new Date()) {
+                setCookieValues(JSON.parse(cookie));
 
-			setIsSubmitting(false);
-			setIsSummaryShown(true);
+				setIsSubmitting(false);
+				setIsSummaryShown(true);
 
-			return;
+				return;
+            } else {
+                cookieManager.delete("accountDetails");
+            }
 		}
 
 		try {
@@ -51,11 +55,14 @@ const BuyPoints = () => {
 
 				setCookieValues(res?.banks);
 
+                setIsSummaryShown(true);
+
 				successToast("Account generated successfully");
-			}
+            } else {
+                errorToast(String(res));
+            }
 
 			setIsSubmitting(false);
-			setIsSummaryShown(true);
 		} catch (error) {
 			errorToast(String(error));
 
