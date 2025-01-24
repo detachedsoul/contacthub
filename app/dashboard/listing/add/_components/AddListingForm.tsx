@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import FormSelect from "@/components/FormSelect";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
 import useAuth from "@/hooks/useAuth";
-import { ImageIcon, UserIcon } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createListing } from "@/services/user-service";
