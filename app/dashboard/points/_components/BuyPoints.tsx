@@ -44,7 +44,7 @@ const BuyPoints = () => {
 		try {
 			const res = await generateAccount();
 
-			if (res.status === true) {
+			if (res?.status === true) {
 				cookieManager.set(
 					"accountDetails",
 					JSON.stringify(res?.banks) ?? "",
