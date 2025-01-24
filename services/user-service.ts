@@ -274,9 +274,9 @@ export const createListing = async (listingData: {
 			}
 
 			if (key === "Description") {
-				if (value.length > 20) {
+				if (value.length > 250) {
 					throw new Error(
-						`Description should not exceed 30 characters.`,
+						`Description should not exceed 250 characters.`,
 					);
 				}
 			}

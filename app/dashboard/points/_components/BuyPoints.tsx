@@ -152,7 +152,7 @@ const BuyPoints = () => {
 
 							<p className="text-sm">
 								You would pay{" "}
-								<span className="font-medium text-brand-lime">
+								<span className="font-medium text-red-800">
 									{formatAmount({
 										amount: Number(points) * 1,
 									})}

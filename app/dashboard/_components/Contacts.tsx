@@ -8,7 +8,7 @@ import Link from "next/link";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
 import Modal from "@/components/Modal";
-import { DatabaseIcon } from "lucide-react";
+import { DatabaseIcon, LocateIcon, User, User2Icon, UserCircle } from "lucide-react";
 import {
 	fetchListings,
 	addPointsToUser,
@@ -96,8 +96,8 @@ const Contacts = () => {
 
 	return (
 		<>
-			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
-				<div
+
+<div
 					className={`text-brand-black flex gap-4 items-center pb-8 md:pb-0 ${
 						Array.isArray(data) && data.length < 1
 							? "md:col-span-2"
@@ -107,7 +107,7 @@ const Contacts = () => {
 					<Image
 						className="size-12 rounded-full"
 						src={Logo}
-						alt={authDetails?.name ?? ""}
+						alt={authDetails?.name ?? "image"}
 					/>
 
 					<div className="flex items-center justify-between w-full gap-4">
@@ -122,32 +122,61 @@ const Contacts = () => {
 						</div>
 
 						<Link
-							className="text-brand-lime"
+							className="text-black bg-brand-lime rounded-full py-2 px-2 text-sm"
 							href="/dashboard/listing/add"
 						>
 							Get listed
 						</Link>
 					</div>
 				</div>
+			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
+				
 
 				{isLoading &&
 					Array.from({ length: 5 }).map((_, index) => (
-						<div
-							className="text-brand-black flex gap-4 items-center"
-							key={index}
-						>
-							<div className="h-12 w-14 rounded-full bg-gray-300 animate-pulse"></div>
 
-							<div className="flex items-center justify-between w-full gap-4">
-								<div className="grid gap-2 text-left">
-									<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+						<div className="mt-8 grid gap-4">
 
-									<div className="h-2 w-16 rounded-lg bg-brand-lime animate-pulse"></div>
-								</div>
+<div className="h-[200px] w-full rounded-lg bg-gray-300 animate-pulse"></div>
 
-								<div className="h-2 w-10 rounded-lg bg-brand-lime animate-pulse"></div>
-							</div>
-						</div>
+					<div className="space-y-2">
+					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+
+					<div className="h-4 w-full rounded-lg bg-gray-400 animate-pulse "></div>
+					</div>
+
+					<div className="flex gap-4 items-center">
+
+					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+
+					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+
+
+
+					</div>
+
+					<div className="h-12 w-full rounded-lg bg-gray-400 animate-pulse"></div>
+
+					
+						
+				</div>
+
+						// <div
+						// 	className="text-brand-black flex gap-4 items-center"
+						// 	key={index}
+						// >
+						// 	<div className="h-12 w-14 rounded-full bg-gray-300 animate-pulse"></div>
+
+						// 	<div className="flex items-center justify-between w-full gap-4">
+						// 		<div className="grid gap-2 text-left">
+						// 			<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+
+						// 			<div className="h-2 w-16 rounded-lg bg-brand-lime animate-pulse"></div>
+						// 		</div>
+
+						// 		<div className="h-2 w-10 rounded-lg bg-brand-lime animate-pulse"></div>
+						// 	</div>
+						// </div>
 					))}
 
 				{error && (
@@ -166,69 +195,165 @@ const Contacts = () => {
 					!error &&
 					Array.isArray(data) &&
 					data.length > 0 &&
-					data.map((a) => (
-						<div
-							className="text-brand-black flex gap-4 items-center"
-							key={
-								a.get("objectId") +
-								a.get("image_url") +
-								a.get("desc")
-							}
-						>
-							<Image
-								className="size-12 rounded-full cursor-pointer"
-								src={a.get("image_url")}
-								alt={a.get("display_name")}
-								width={80}
-								height={80}
-								onClick={() => {
-									setSelectedContact(a);
-									setModalIsActive(true);
-								}}
-							/>
+					data.map((selectedContact) => (
 
-							<div className="flex items-center justify-between w-full gap-4 border-b-[0.031rem] border-gray-700 pb-4 md:pb-2">
-								<div
-									className="grid gap-0.5 md:gap-1 text-left cursor-pointer"
-									onClick={() => {
-										setSelectedContact(a);
-										setModalIsActive(true);
-									}}
-								>
-									<p className="md:text-sm text-brand-white shrink-0">
-										{a.get("display_name")}
-									</p>
+						<div className="mt-8 grid gap-4">
+					<Image
+						className="w-full h-[200px] rounded-lg object-center"
+						src={selectedContact?.get("image_url") ?? ""}
+						width={100}
+						height={300}
+						alt={selectedContact?.get("display_name") ?? "image"}
+					/>
 
-									<p className="text-sm md:text-xs text-gray-500 font-medium shrink-0">
-										{a.get("desc")}
-									</p>
-								</div>
+					<div className="space-y-0.5">
+						<p className="font-medium text-lg pl-2">
+							{selectedContact?.get("display_name")}
+						</p>
 
-								<Link
-									className="text-center text-sm inline-flex items-center gap-2 text-brand-lime font-medium shrink-0"
-									href={encodeURI(
-										`https://wa.me/${
-											a.get("whatsapp_number") ??
-											a.get("group_link")
-										}`,
-									)}
-									target="_blank"
-									rel="noopener noreferrer"
-									onClick={async () =>
-										await updatePoints(
-											a.get("whatsapp_number") ??
-												a.get("group_link"),
-										)
-									}
-								>
-									Add +5{" "}
+						<p className="text-sm pl-2 italic">
+							{selectedContact?.get("desc")}
+						</p>
+					</div>
+
+					<div className="flex gap-4 items-center">
+
+						<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
+
+							<LocateIcon
+							size={14}
+							strokeWidth={2}
+							></LocateIcon>
+							<span className="font-medium text-xs">
+							{selectedContact?.get("preferred_location") ===
+							"all"
+								? "All States"
+								: selectedContact?.get("preferred_location")}
+						</span>
+
+
+
+						</div>
+
+						<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
+
+							<User2Icon
+
+							size={14}
+							strokeWidth={2}
+							></User2Icon>
+						
+
+						<span className="font-medium text-xs">
+							{selectedContact?.get("preferred_gender") === "All"
+								? "All Genders"
+								: selectedContact?.get("preferred_gender")}
+						</span>
+
+
+
+						</div>
+
+
+
+					</div>
+
+
+
+					<Link
+						className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2 h-12"
+						href={encodeURI(
+							`https://wa.me/${
+								selectedContact?.get("whatsapp_number") ??
+								selectedContact?.get("group_link")
+							}`,
+						)}
+						target="_blank"
+						rel="noopener noreferrer"
+						onClick={async () =>
+							await updatePoints(
+								selectedContact?.get("whatsapp_number") ??
+									selectedContact?.get("group_link"),
+							)
+						}
+					>
+						Add +5{" "}
 									<DatabaseIcon
 										size={18}
 										strokeWidth={1.5}
 									/>
-								</Link>
-							</div>
-						</div>
+					</Link>
+
+
+						
+				</div>
+
+
+
+						// <div
+						// 	className="text-brand-black flex gap-4 items-center"
+						// 	key={
+						// 		a.get("objectId") +
+						// 		a.get("image_url") +
+						// 		a.get("desc")
+						// 	}
+						// >
+						// 	<Image
+						// 		className="size-12 rounded-full cursor-pointer"
+						// 		src={a.get("image_url")}
+						// 		alt={a.get("display_name")}
+						// 		width={80}
+						// 		height={80}
+						// 		onClick={() => {
+						// 			setSelectedContact(a);
+						// 			setModalIsActive(true);
+						// 		}}
+						// 	/>
+
+						// 	<div className="flex items-center justify-between w-full gap-4 border-b-[0.031rem] border-gray-700 pb-4 md:pb-2">
+						// 		<div
+						// 			className="grid gap-0.5 md:gap-1 text-left cursor-pointer"
+						// 			onClick={() => {
+						// 				setSelectedContact(a);
+						// 				setModalIsActive(true);
+						// 			}}
+						// 		>
+						// 			<p className="md:text-sm text-brand-white shrink-0">
+						// 				{a.get("display_name")}
+						// 			</p>
+
+						// 			<p className="text-sm md:text-xs text-gray-500 font-medium shrink-0">
+						// 				{a.get("desc")}
+						// 			</p>
+						// 		</div>
+
+						// 		<Link
+						// 			className="text-center text-sm inline-flex items-center gap-2 text-brand-lime font-medium shrink-0"
+						// 			href={encodeURI(
+						// 				`https://wa.me/${
+						// 					a.get("whatsapp_number") ??
+						// 					a.get("group_link")
+						// 				}`,
+						// 			)}
+						// 			target="_blank"
+						// 			rel="noopener noreferrer"
+						// 			onClick={async () =>
+						// 				await updatePoints(
+						// 					a.get("whatsapp_number") ??
+						// 						a.get("group_link"),
+						// 				)
+						// 			}
+						// 		>
+						// 			Add +5{" "}
+						// 			<DatabaseIcon
+						// 				size={18}
+						// 				strokeWidth={1.5}
+						// 			/>
+						// 		</Link>
+						// 	</div>
+						// </div>
+
+
 					))}
 
 				{!isLoading &&
@@ -258,7 +383,7 @@ const Contacts = () => {
 						src={selectedContact?.get("image_url") ?? ""}
 						width={100}
 						height={300}
-						alt={selectedContact?.get("display_name") ?? ""}
+						alt={selectedContact?.get("display_name") ?? "image"}
 					/>
 
 					<div className="space-y-0.5">

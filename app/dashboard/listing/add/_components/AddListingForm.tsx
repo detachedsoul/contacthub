@@ -6,7 +6,7 @@ import Image from "next/image";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
 import useAuth from "@/hooks/useAuth";
-import { UserIcon } from "lucide-react";
+import { ImageIcon, UserIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createListing } from "@/services/user-service";
@@ -72,7 +72,7 @@ const AddListingForm = () => {
 	};
 
 	const handleChange = (
-		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		e: any,
 	) => {
 		const { name, value } = e.target;
 
@@ -133,13 +133,14 @@ const AddListingForm = () => {
 					htmlFor="profilePicture"
 				>
 					<span className="block text-center font-medium">
-						Select Display Image
+						Upload Display Image
 					</span>
 
 					<div className="h-28 w-28 mx-auto bg-brand-lime/100 rounded-full grid place-content-center cursor-pointer relative ">
-						<UserIcon
+						<ImageIcon
 							size={50}
 							strokeWidth={1.5}
+							className="text-black"
 						/>
 
 						<span className="sr-only">
@@ -204,16 +205,18 @@ const AddListingForm = () => {
 				>
 					<span>Short Description</span>
 
-					<input
+					<textarea
 						className="input"
-						type="text"
 						placeholder="Fashion store, unisex wears, etc..."
 						name="desc"
 						id="desc"
 						value={formValues.desc}
 						onChange={handleChange}
-						maxLength={20}
-					/>
+						maxLength={250}
+						rows={3}
+						>
+
+					</textarea>
 				</label>
 
 				{listType === "contacts" && (
