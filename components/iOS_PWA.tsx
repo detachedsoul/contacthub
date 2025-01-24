@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/app/icon.jpg";
+import Logo from "@/app/icon.png";
 import { useState, useEffect } from "react";
 import { ShareIcon, XIcon } from "lucide-react";
 
