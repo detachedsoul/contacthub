@@ -11,6 +11,8 @@ import { ImageIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createListing } from "@/services/user-service";
+import { PhonecodeSelect } from "react-country-state-city";
+import "react-country-state-city/dist/react-country-state-city.css";
 
 const genders = [
 	{ name: "All Genders", value: "All" },
@@ -52,7 +54,9 @@ const AddListingForm = () => {
         desc: ""
 	});
 
-	const [listType, setListType] = useState("contacts");
+    const [listType, setListType] = useState("contacts");
+
+    const [phonecode, setPhonecode] = useState<any>(null);
 
 	const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
 		const reader = new FileReader();
@@ -77,6 +81,8 @@ const AddListingForm = () => {
 	) => {
 		const { name, value } = e.target;
 
+        if (name === "whatsAppNumber" && isNaN(Number(value))) return;
+
 		setFormValues((prev) => ({ ...prev, [name]: value }));
 	};
 
@@ -96,7 +102,8 @@ const AddListingForm = () => {
 				email: authDetails?.email ?? "",
 				display_name: formValues.displayName,
 				desc: formValues.desc,
-				whatsapp_number: formValues.whatsAppNumber || undefined,
+				whatsapp_number:
+					`+${phonecode}${formValues.whatsAppNumber}` || undefined,
 				group_link: formValues.groupLink || undefined,
 			});
 
@@ -215,9 +222,7 @@ const AddListingForm = () => {
 						onChange={handleChange}
 						maxLength={250}
 						rows={3}
-						>
-
-					</textarea>
+					></textarea>
 				</label>
 
 				{listType === "contacts" && (
@@ -227,15 +232,26 @@ const AddListingForm = () => {
 					>
 						<span>WhatsApp Number</span>
 
-						<input
-							className="input"
-							type="text"
-							placeholder="WhatsApp Number"
-							name="whatsAppNumber"
-							id="whatsAppNumber"
-							value={formValues.whatsAppNumber}
-							onChange={handleChange}
-						/>
+						<div className="flex input p-0 focus:ring-0 items-center">
+							<PhonecodeSelect
+								containerClassName="!p-0 !m-0 !border-transparent !rounded-none !w-3/4"
+								inputClassName="!p-0 !m-0 !border-transparent !rounded-none"
+								onChange={(code: any) =>
+									setPhonecode(code?.phone_code)
+								}
+								placeHolder="Country Code"
+							/>
+
+							<input
+								className="input border-transparent rounded-none focus:ring-0 bg-transparent pl-1 focus:outline-none focus:ring-transparent focus:ring-offset-0"
+								type="text"
+								placeholder="WhatsApp Number"
+								name="whatsAppNumber"
+								id="whatsAppNumber"
+								value={formValues.whatsAppNumber}
+								onChange={handleChange}
+							/>
+						</div>
 					</label>
 				)}
 

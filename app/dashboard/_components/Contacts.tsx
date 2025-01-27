@@ -137,7 +137,10 @@ const Contacts = () => {
 			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
 				{isLoading &&
 					Array.from({ length: 5 }).map((_, index) => (
-						<div className="mt-8 grid gap-4" key={index}>
+						<div
+							className="mt-8 grid gap-4"
+							key={index}
+						>
 							<div className="h-[200px] w-full rounded-lg bg-gray-300 animate-pulse"></div>
 
 							<div className="space-y-2">
@@ -261,6 +264,8 @@ const Contacts = () => {
 										selectedContact?.get(
 											"whatsapp_number",
 										) ?? selectedContact?.get("group_link")
+									}&text=Hi, nice to meet you. Please save my name as ${
+										authDetails?.name ?? ""
 									}`,
 								)}
 								target="_blank"
