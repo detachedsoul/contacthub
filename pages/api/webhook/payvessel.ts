@@ -63,6 +63,22 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 // create ransaction record
 
 
+// transaction table
+
+// user
+
+// desc
+
+// amount
+
+// fee
+
+// settlementAmount
+
+// reference
+
+// Date
+
 
   // If everything is valid, fund the user's wallet or perform other actions
   // Example: update user wallet with the amount (you should have a function to handle this)
