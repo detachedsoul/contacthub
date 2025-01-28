@@ -8,7 +8,7 @@ import errorToast from "@/utils/error-toast";
 import cookieManager from "@/utils/cookie-manager";
 import { formatAmount } from "@/utils/format-money";
 import { CircleDotIcon, DatabaseIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import successToast from "@/utils/success-toast";
 
 const BuyPoints = () => {
@@ -17,7 +17,8 @@ const BuyPoints = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [points, setPoints] = useState("");
-	const [cookieValues, setCookieValues] = useState<null | any>(null);
+    const [cookieValues, setCookieValues] = useState<null | any>(null);
+    const [timeLeft, setTimeLeft] = useState<string>("");
 
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
 
@@ -44,7 +45,7 @@ const BuyPoints = () => {
 		try {
 			const res = await generateAccount();
 
-			if (res.status === true) {
+			if (res?.status === true) {
 				cookieManager.set(
 					"accountDetails",
 					JSON.stringify(res?.banks) ?? "",
@@ -70,7 +71,39 @@ const BuyPoints = () => {
 		} finally {
 			setIsSubmitting(false);
 		}
-	};
+    };
+
+	useEffect(() => {
+		const target = new Date(cookieValues?.expire_date ?? "").getTime();
+
+		if (isNaN(target)) {
+			console.error("Invalid date provided");
+			return;
+		}
+
+		const interval = setInterval(() => {
+			const now = new Date().getTime();
+			const remainingTime = target - now;
+
+			if (remainingTime <= 0) {
+                clearInterval(interval);
+				return;
+			}
+
+			const totalSeconds = Math.floor(remainingTime / 1000);
+			const hours = Math.floor(totalSeconds / 3600);
+			const minutes = Math.floor((totalSeconds % 3600) / 60);
+			const seconds = totalSeconds % 60;
+
+			if (hours < 1) {
+				setTimeLeft(`${minutes}m ${seconds}s`);
+			} else {
+				setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+			}
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [cookieValues, timeLeft]);
 
 	return (
 		<>
@@ -179,21 +212,14 @@ const BuyPoints = () => {
 					<div className="grid gap-4">
 						<p>
 							Make a transfer of{" "}
-							<span className="font-semibold">
+							<span className="font-semibold text-red-800">
 								{formatAmount({ amount: Number(points) })}
 							</span>{" "}
 							to the bank with the details below.{" "}
 							<span className="font-semibold">
 								Please note that this account is only valid for
-								1 hour, and would expire by{" "}
-								{new Date(
-									cookieValues.expire_date,
-								).toLocaleTimeString("en-US", {
-									hour: "2-digit",
-									minute: "2-digit",
-									second: "2-digit",
-									hour12: true,
-								})}
+								1 hour, and would expire in{" "}
+								<span className="text-red-800">{timeLeft}</span>
 							</span>
 						</p>
 

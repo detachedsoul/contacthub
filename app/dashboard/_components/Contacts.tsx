@@ -7,15 +7,21 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
-import Modal from "@/components/Modal";
-import { DatabaseIcon, LocateIcon, User, User2Icon, UserCircle } from "lucide-react";
+// import Modal from "@/components/Modal";
+import {
+	DatabaseIcon,
+	LocateIcon,
+	// User,
+	User2Icon,
+	// UserCircle,
+} from "lucide-react";
 import {
 	fetchListings,
 	addPointsToUser,
 	isNumberInAddedContactsRecords,
 } from "@/services/user-service";
-import { useState } from "react";
-import Parse, { Attributes } from "parse/node";
+// import { useState } from "react";
+// import Parse, { Attributes } from "parse/node";
 
 const Contacts = () => {
 	const { authDetails, setAuthDetails } = useAuth();
@@ -32,9 +38,9 @@ const Contacts = () => {
 		},
 	);
 
-	const [modalIsActive, setModalIsActive] = useState(false);
-	const [selectedContact, setSelectedContact] =
-		useState<Parse.Object<Attributes> | null>(null);
+	// const [modalIsActive, setModalIsActive] = useState(false);
+	// const [selectedContact, setSelectedContact] =
+	// 	useState<Parse.Object<Attributes> | null>(null);
 
 	const isEligibleForBonus = async (number: string) => {
 		const isEligible = await isNumberInAddedContactsRecords({
@@ -96,70 +102,61 @@ const Contacts = () => {
 
 	return (
 		<>
+			<div
+				className={`text-brand-black flex gap-4 items-center pb-8 md:pb-0 ${
+					Array.isArray(data) && data.length < 1
+						? "md:col-span-2"
+						: ""
+				}`}
+			>
+				<Image
+					className="size-12 rounded-full"
+					src={Logo}
+					alt={authDetails?.name ?? "image"}
+				/>
 
-<div
-					className={`text-brand-black flex gap-4 items-center pb-8 md:pb-0 ${
-						Array.isArray(data) && data.length < 1
-							? "md:col-span-2"
-							: ""
-					}`}
-				>
-					<Image
-						className="size-12 rounded-full"
-						src={Logo}
-						alt={authDetails?.name ?? "image"}
-					/>
+				<div className="flex items-center justify-between w-full gap-4">
+					<div className="grid gap-0.5 md:gap-1">
+						<p className="md:text-sm text-brand-white shrink-0">
+							List your profile
+						</p>
 
-					<div className="flex items-center justify-between w-full gap-4">
-						<div className="grid gap-0.5 md:gap-1">
-							<p className="md:text-sm text-brand-white shrink-0">
-								List your profile
-							</p>
-
-							<p className="text-sm md:text-xs text-brand-lime font-medium shrink-0">
-								Get more views
-							</p>
-						</div>
-
-						<Link
-							className="text-black bg-brand-lime rounded-full py-2 px-2 text-sm"
-							href="/dashboard/listing/add"
-						>
-							Get listed
-						</Link>
+						<p className="text-sm md:text-xs text-brand-lime font-medium shrink-0">
+							Get more views
+						</p>
 					</div>
-				</div>
-			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
-				
 
+					<Link
+						className="text-black bg-brand-lime rounded-full py-2 px-2 text-sm"
+						href="/dashboard/listing/add"
+					>
+						Get listed
+					</Link>
+				</div>
+			</div>
+			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
 				{isLoading &&
 					Array.from({ length: 5 }).map((_, index) => (
+						<div
+							className="mt-8 grid gap-4"
+							key={index}
+						>
+							<div className="h-[200px] w-full rounded-lg bg-gray-300 animate-pulse"></div>
 
-						<div className="mt-8 grid gap-4">
+							<div className="space-y-2">
+								<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
 
-<div className="h-[200px] w-full rounded-lg bg-gray-300 animate-pulse"></div>
+								<div className="h-4 w-full rounded-lg bg-gray-400 animate-pulse "></div>
+							</div>
 
-					<div className="space-y-2">
-					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+							<div className="flex gap-4 items-center">
+								<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
 
-					<div className="h-4 w-full rounded-lg bg-gray-400 animate-pulse "></div>
-					</div>
+								<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
+							</div>
 
-					<div className="flex gap-4 items-center">
-
-					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
-
-					<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
-
-
-
-					</div>
-
-					<div className="h-12 w-full rounded-lg bg-gray-400 animate-pulse"></div>
-
-					
-						
-				</div>
+							<div className="h-12 w-full rounded-lg bg-gray-400 animate-pulse"></div>
+						</div>
 
 						// <div
 						// 	className="text-brand-black flex gap-4 items-center"
@@ -195,100 +192,99 @@ const Contacts = () => {
 					!error &&
 					Array.isArray(data) &&
 					data.length > 0 &&
-					data.map((selectedContact) => (
+					data.map((selectedContact, index) => (
+						<div
+							className="mt-8 grid gap-4"
+							key={index}
+							// onClick={() => {
+							// 	setSelectedContact(selectedContact);
+							// 	setModalIsActive(true);
+							// }}
+						>
+							<Image
+								className="w-full h-[200px] rounded-lg object-center"
+								src={selectedContact?.get("image_url") ?? ""}
+								width={100}
+								height={300}
+								alt={
+									selectedContact?.get("display_name") ??
+									"image"
+								}
+							/>
 
-						<div className="mt-8 grid gap-4">
-					<Image
-						className="w-full h-[200px] rounded-lg object-center"
-						src={selectedContact?.get("image_url") ?? ""}
-						width={100}
-						height={300}
-						alt={selectedContact?.get("display_name") ?? "image"}
-					/>
+							<div className="space-y-0.5">
+								<p className="font-medium text-lg pl-2">
+									{selectedContact?.get("display_name")}
+								</p>
 
-					<div className="space-y-0.5">
-						<p className="font-medium text-lg pl-2">
-							{selectedContact?.get("display_name")}
-						</p>
+								<p className="text-sm pl-2 italic">
+									{selectedContact?.get("desc")}
+								</p>
+							</div>
 
-						<p className="text-sm pl-2 italic">
-							{selectedContact?.get("desc")}
-						</p>
-					</div>
+							<div className="flex gap-4 items-center">
+								<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
+									<LocateIcon
+										size={14}
+										strokeWidth={2}
+									></LocateIcon>
+									<span className="font-medium text-xs">
+										{selectedContact?.get(
+											"preferred_location",
+										) === "all"
+											? "All States"
+											: selectedContact?.get(
+													"preferred_location",
+											  )}
+									</span>
+								</div>
 
-					<div className="flex gap-4 items-center">
+								<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
+									<User2Icon
+										size={14}
+										strokeWidth={2}
+									></User2Icon>
 
-						<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
+									<span className="font-medium text-xs">
+										{selectedContact?.get(
+											"preferred_gender",
+										) === "All"
+											? "All Genders"
+											: selectedContact?.get(
+													"preferred_gender",
+											  )}
+									</span>
+								</div>
+							</div>
 
-							<LocateIcon
-							size={14}
-							strokeWidth={2}
-							></LocateIcon>
-							<span className="font-medium text-xs">
-							{selectedContact?.get("preferred_location") ===
-							"all"
-								? "All States"
-								: selectedContact?.get("preferred_location")}
-						</span>
-
-
-
+							<Link
+								className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2 h-12"
+								href={encodeURI(
+									`https://wa.me/${
+										selectedContact?.get(
+											"whatsapp_number",
+										) ?? selectedContact?.get("group_link")
+									}&text=Hi, nice to meet you. Please save my name as ${
+										authDetails?.name ?? ""
+									}`,
+								)}
+								target="_blank"
+								rel="noopener noreferrer"
+								onClick={async () =>
+									await updatePoints(
+										selectedContact?.get(
+											"whatsapp_number",
+										) ?? selectedContact?.get("group_link"),
+									)
+								}
+							>
+								Add +5{" "}
+								<DatabaseIcon
+									size={18}
+									strokeWidth={1.5}
+								/>
+							</Link>
 						</div>
-
-						<div className=" border border-gray-100 rounded-full flex items-center py-1 px-2 gap-1">
-
-							<User2Icon
-
-							size={14}
-							strokeWidth={2}
-							></User2Icon>
-						
-
-						<span className="font-medium text-xs">
-							{selectedContact?.get("preferred_gender") === "All"
-								? "All Genders"
-								: selectedContact?.get("preferred_gender")}
-						</span>
-
-
-
-						</div>
-
-
-
-					</div>
-
-
-
-					<Link
-						className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2 h-12"
-						href={encodeURI(
-							`https://wa.me/${
-								selectedContact?.get("whatsapp_number") ??
-								selectedContact?.get("group_link")
-							}`,
-						)}
-						target="_blank"
-						rel="noopener noreferrer"
-						onClick={async () =>
-							await updatePoints(
-								selectedContact?.get("whatsapp_number") ??
-									selectedContact?.get("group_link"),
-							)
-						}
-					>
-						Add +5{" "}
-									<DatabaseIcon
-										size={18}
-										strokeWidth={1.5}
-									/>
-					</Link>
-
-
-						
-				</div>
-
-
 
 						// <div
 						// 	className="text-brand-black flex gap-4 items-center"
@@ -352,8 +348,6 @@ const Contacts = () => {
 						// 		</Link>
 						// 	</div>
 						// </div>
-
-
 					))}
 
 				{!isLoading &&
@@ -373,7 +367,7 @@ const Contacts = () => {
 					)}
 			</div>
 
-			<Modal
+			{/* <Modal
 				isOpen={modalIsActive}
 				toggleIsOpen={setModalIsActive}
 			>
@@ -439,7 +433,7 @@ const Contacts = () => {
 						/>
 					</Link>
 				</div>
-			</Modal>
+			</Modal> */}
 		</>
 	);
 };
