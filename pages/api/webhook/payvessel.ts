@@ -53,6 +53,16 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ message: 'Transaction already exists' });
   }
 
+  // get customer withemail
+
+  // if cusomer not exits return error
+
+
+//  credit customer
+
+// create ransaction record
+
+
 
   // If everything is valid, fund the user's wallet or perform other actions
   // Example: update user wallet with the amount (you should have a function to handle this)
