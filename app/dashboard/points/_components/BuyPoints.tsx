@@ -29,17 +29,14 @@ const BuyPoints = () => {
 		["confirmTransaction", authDetails, payload],
 		async () => {
             try {
-				const req = await fetch(
-					"http://localhost:3000/api/webhook/payvessel",
-					{
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({
-							...payload,
-							user_id: authDetails?.id ?? ""
-						}),
-					},
-				);
+				const req = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						...payload,
+						user_id: authDetails?.id ?? "",
+					}),
+				});
 
 				if (!req.ok) {
 					const error = await req?.json();
@@ -53,8 +50,6 @@ const BuyPoints = () => {
 			} catch (error: any) {
 				throw new Error(String(error?.message));
 			}
-
-
 		},
 		{
 			refreshInterval: 50000,
