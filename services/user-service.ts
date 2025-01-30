@@ -15,6 +15,7 @@ const UserDetails = Parse.Object.extend("UserDetails");
 const UserListing = Parse.Object.extend("Listings");
 const PointsRecord = Parse.Object.extend("AddedContactsRecords");
 const PasswordReset = Parse.Object.extend("PasswordReset");
+const Transaction = Parse.Object.extend("Transactions");
 
 export const createUser = async (userDetails: IUserDetails) => {
 	const user = new UserDetails();
@@ -549,6 +550,88 @@ export const resetPassword = async ({
 		await resetRecord.destroy();
 
 		return true;
+	} catch (error) {
+		return String(error);
+	}
+};
+
+export const checkOrCreateTransaction = async ({
+	user_id,
+	email,
+	response_email,
+	desc,
+	amount,
+	fee,
+	settlement_amount,
+	reference,
+	date,
+}: {
+	user_id: string;
+	email: string;
+	response_email: string;
+	desc: string;
+	amount: string;
+	fee: string;
+	settlement_amount: string;
+	reference: string;
+	date: Date;
+}) => {
+	if (!reference || !user_id || !email) {
+		throw new Error("transaction_id, user_id, and email are required");
+    }
+
+    if (response_email !== email) {
+        throw new Error("Invalid user");
+    }
+
+	try {
+		const userQuery = new Parse.Query(UserDetails);
+		userQuery.equalTo("objectId", user_id);
+		userQuery.equalTo("email", email);
+
+		const user = await userQuery.first();
+
+		if (!user) {
+			throw new Error("Invalid user");
+		}
+
+		const transactionQuery = new Parse.Query(Transaction);
+		const userPointer = new UserDetails();
+		userPointer.id = user_id;
+
+		transactionQuery.equalTo("reference", reference);
+		transactionQuery.equalTo("user_id", userPointer);
+
+		const existingTransaction = await transactionQuery.first();
+
+		if (existingTransaction) {
+			throw new Error("This transaction already exists");
+		}
+
+		const newTransaction = new Transaction();
+		newTransaction.set("user_id", userPointer);
+		newTransaction.set("desc", desc);
+		newTransaction.set("amount", amount);
+		newTransaction.set("fee", fee);
+		newTransaction.set("settlement_amount", settlement_amount);
+		newTransaction.set("reference", reference);
+		newTransaction.set("date", date);
+
+		const res = await newTransaction.save();
+
+        if (res) {
+            const userID = await userQuery.get(user_id);
+
+            const currentPoints = userID.get("points") || 0;
+
+			const updatedPoints = Number(currentPoints) + Number(amount);
+
+			userID.set("points", updatedPoints);
+
+			const result = await userID.save();
+
+			return result;
+        }
 	} catch (error) {
 		return String(error);
 	}

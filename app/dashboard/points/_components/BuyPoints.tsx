@@ -6,13 +6,16 @@ import useAuth from "@/hooks/useAuth";
 import generateAccount from "@/services/generate-account";
 import errorToast from "@/utils/error-toast";
 import cookieManager from "@/utils/cookie-manager";
+import successToast from "@/utils/success-toast";
+import useFetch from "@/hooks/useFetch";
+import { useState, useEffect } from "react";
 import { formatAmount } from "@/utils/format-money";
 import { CircleDotIcon, DatabaseIcon } from "lucide-react";
-import { useState, useEffect } from "react";
-import successToast from "@/utils/success-toast";
+import { payload } from "@/utils/dummy-payload";
+import { checkOrCreateTransaction } from "@/services/user-service";
 
 const BuyPoints = () => {
-	const { authDetails } = useAuth();
+	const { authDetails, setAuthDetails } = useAuth();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,6 +24,78 @@ const BuyPoints = () => {
     const [timeLeft, setTimeLeft] = useState<string>("");
 
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
+
+    const { data } = useFetch(
+		["confirmTransaction", authDetails, payload],
+		async () => {
+            try {
+				const req = await fetch(
+					"http://localhost:3000/api/webhook/payvessel",
+					{
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							...payload,
+							user_id: authDetails?.id ?? ""
+						}),
+					},
+				);
+
+				if (!req.ok) {
+					const error = await req?.json();
+
+					return error?.message;
+				}
+
+				const res = await req.json();
+
+				return res;
+			} catch (error: any) {
+				throw new Error(String(error?.message));
+			}
+
+
+		},
+		{
+			refreshInterval: 50000,
+		},
+	);
+
+    const {
+		data: transaction
+	} = useFetch(
+		["confirmTransaction", authDetails, data],
+		() =>
+			checkOrCreateTransaction({
+				user_id: authDetails?.id ?? "",
+				desc: data?.data?.desc,
+				amount: String(data?.data?.amount),
+				response_email: String(data?.data?.email),
+				fee: String(data?.data?.fee),
+				settlement_amount: String(data?.data?.settlement_amount),
+                reference: data?.data?.reference,
+                email: authDetails?.email ?? "",
+				date: new Date(),
+			}),
+		{
+			refreshInterval: 50000,
+		},
+	);
+
+    if (transaction && typeof transaction !== "string") {
+        const userDetails = {
+            id: transaction.id,
+            name: transaction.get("name"),
+            email: transaction.get("email"),
+            state: transaction.get("state"),
+            gender: transaction.get("gender"),
+            points: transaction.get("points"),
+        };
+
+        localStorage.setItem("user-details", JSON.stringify(userDetails));
+
+        setAuthDetails(userDetails);
+    }
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -74,35 +149,37 @@ const BuyPoints = () => {
     };
 
 	useEffect(() => {
-		const target = new Date(cookieValues?.expire_date ?? "").getTime();
+        if (cookieValues) {
+            const target = new Date(cookieValues?.expire_date ?? "").getTime();
 
-		if (isNaN(target)) {
-			console.error("Invalid date provided");
-			return;
-		}
-
-		const interval = setInterval(() => {
-			const now = new Date().getTime();
-			const remainingTime = target - now;
-
-			if (remainingTime <= 0) {
-                clearInterval(interval);
+			if (isNaN(target)) {
+				console.error("Invalid date provided");
 				return;
 			}
 
-			const totalSeconds = Math.floor(remainingTime / 1000);
-			const hours = Math.floor(totalSeconds / 3600);
-			const minutes = Math.floor((totalSeconds % 3600) / 60);
-			const seconds = totalSeconds % 60;
+			const interval = setInterval(() => {
+				const now = new Date().getTime();
+				const remainingTime = target - now;
 
-			if (hours < 1) {
-				setTimeLeft(`${minutes}m ${seconds}s`);
-			} else {
-				setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
-			}
-		}, 1000);
+				if (remainingTime <= 0) {
+					clearInterval(interval);
+					return;
+				}
 
-		return () => clearInterval(interval);
+				const totalSeconds = Math.floor(remainingTime / 1000);
+				const hours = Math.floor(totalSeconds / 3600);
+				const minutes = Math.floor((totalSeconds % 3600) / 60);
+				const seconds = totalSeconds % 60;
+
+				if (hours < 1) {
+					setTimeLeft(`${minutes}m ${seconds}s`);
+				} else {
+					setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+				}
+			}, 1000);
+
+			return () => clearInterval(interval);
+        }
 	}, [cookieValues, timeLeft]);
 
 	return (
@@ -250,11 +327,8 @@ const BuyPoints = () => {
 							<button
 								className="btn ring-offset-brand-white disabled:bg-lime-500"
 								type="button"
-								disabled={isSubmitting}
 							>
-								{isSubmitting
-									? "Processing..."
-									: "Confirm Payment"}
+								Continue
 							</button>
 
 							<button

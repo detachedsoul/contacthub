@@ -37,8 +37,8 @@ const Footer = () => {
 					className={`text-sm grid gap-1 transition-colors ease-in-out duration-300 font-medium border-t-2 pt-2 ${
 						link.route === pathname ||
 						link.route ===
-							`/${pathname.split("/")[1]}/${
-								pathname.split("/")[2]
+							`/${pathname?.split("/")[1]}/${
+								pathname?.split("/")[2]
 							}`
 							? "border-brand-lime text-brand-lime"
 							: "hover:border-brand-lime hover:text-brand-lime border-transparent"
