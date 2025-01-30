@@ -23,7 +23,7 @@ const Transactions = () => {
     const { authDetails } = useAuth();
 
     const { data, error, isLoading } = useFetch(
-		["fetchListings", authDetails?.id ?? "", authDetails?.email ?? ""],
+		["fetchTransaction", authDetails?.id ?? "", authDetails?.email ?? ""],
 		() =>
 			fetchTransactions({
 				id: authDetails?.id ?? "",
@@ -33,8 +33,6 @@ const Transactions = () => {
 			refreshInterval: 50000,
 		},
     );
-
-    console.log(data)
 
     return (
 		<>

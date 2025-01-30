@@ -9,7 +9,4 @@ export default withSerwist({
 	experimental: {
 		turbo: {},
 	},
-	api: {
-		bodyParser: true,
-	},
 });
