@@ -322,6 +322,7 @@ const BuyPoints = () => {
 							<button
 								className="btn ring-offset-brand-white disabled:bg-lime-500"
 								type="button"
+								onClick={() => setModalIsOpen(false)}
 							>
 								Continue
 							</button>

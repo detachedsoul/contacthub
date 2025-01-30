@@ -636,3 +636,34 @@ export const checkOrCreateTransaction = async ({
 		return String(error);
 	}
 };
+
+export const fetchTransactions = async ({
+	id,
+	email,
+}: {
+	id: string;
+	email: string;
+}) => {
+	const userQuery = new Parse.Query(UserDetails);
+	const transactionQuery = new Parse.Query(Transaction);
+
+	userQuery.equalTo("email", email);
+	userQuery.equalTo("objectId", id);
+
+	try {
+		const user = await userQuery.first();
+
+		if (!user) {
+			throw new Error("Invalid logged-in user.");
+		}
+
+		transactionQuery.equalTo("user_id", user);
+
+		const transactions = await transactionQuery.find();
+
+		return transactions;
+
+	} catch (error) {
+		return String(error);
+	}
+};
