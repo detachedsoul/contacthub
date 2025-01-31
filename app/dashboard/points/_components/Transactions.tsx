@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import { fetchTransactions } from "@/services/user-service";
+import { formatAmount } from "@/utils/format-money";
 
 const formatDate = (date: Date) => {
 	const options: Intl.DateTimeFormatOptions = {
@@ -70,18 +71,6 @@ const Transactions = () => {
 								</th>
 
 								<th className="px-4 py-4 font-medium border-b-[0.031rem] border-brand-lime">
-									Fee
-								</th>
-
-								<th className="px-4 py-4 font-medium border-b-[0.031rem] border-brand-lime">
-									Settlement Amount
-								</th>
-
-								<th className="px-4 py-4 font-medium border-b-[0.031rem] border-brand-lime">
-									Reference
-								</th>
-
-								<th className="px-4 py-4 font-medium border-b-[0.031rem] border-brand-lime">
 									Date
 								</th>
 							</tr>
@@ -91,23 +80,11 @@ const Transactions = () => {
                             {data?.map((item) => (
                                 <tr key={item.get("reference")}>
                                     <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">
-                                        {item.get("amount")}
+                                        {formatAmount({ amount: item.get("amount") })}
                                     </td>
 
                                     <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">
-                                        {item.get("fee")}
-                                    </td>
-
-                                    <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">
-                                        {item.get("settlement_amount")}
-                                    </td>
-
-                                    <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">
-                                        {item.get("desc")}
-                                    </td>
-
-                                    <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">
-                                        {item.get("reference")}
+                                        Recharge of {item.get("amount")} points
                                     </td>
 
                                     <td className="p-4 whitespace-nowrap font-normal border-b-[0.031rem] border-[#5d5d5d14] last:border-none last:border-transparent">

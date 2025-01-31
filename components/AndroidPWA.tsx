@@ -60,10 +60,14 @@ const PWA: React.FC = () => {
 	return supportsPWA ? (
 		<div
 			className={`fixed top-0 bottom-0 left-0 flex h-full w-full flex-col place-content-center bg-brand-black/50 backdrop-blur transition-all duration-500 ease-in-out ${
-				isActive ? "opacity-100 z-[1024]" : "opacity-0 -z-[1-24]"
+				isActive ? "opacity-100 z-[1024]" : "opacity-0 -z-[1024]"
 			}`}
 		>
-			<div className="z-[1024] ml-[5%] w-[calc(100%-10%)] rounded-2xl bg-brand-white text-brand-black text-center min-[500px]:ml-[calc((100%-60%)/2)] min-[500px]:w-3/5 min-[600px]:ml-[calc((100%-50%)/2)] min-[600px]:w-1/2 lg:ml-[calc((100%-30%)/2)] lg:w-[30%]">
+			<div
+				className={`ml-[5%] w-[calc(100%-10%)] rounded-2xl bg-brand-white text-brand-black text-center min-[500px]:ml-[calc((100%-60%)/2)] min-[500px]:w-3/5 min-[600px]:ml-[calc((100%-50%)/2)] min-[600px]:w-1/2 lg:ml-[calc((100%-30%)/2)] lg:w-[30%] ${
+					isActive ? "z-[1024]" : ""
+				}`}
+			>
 				<div className="flex items-center justify-between px-4 py-2 bg-gray-200 rounded-t-2xl">
 					<h1 className="font-medium text-xl">Install PWA App</h1>
 
