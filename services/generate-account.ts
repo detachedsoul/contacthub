@@ -1,41 +1,49 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+import axios from "axios";
 
-const generateAccount = async () => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+const generateAccount = async (email:string,name:string,phoneNumber:string) => {
     try {
-        const req = await fetch(
-			"https://api.payvessel.com/api/external/request/customerReservedAccount/",
-			{
-				method: "POST",
-				headers: {
-					"api-key": process.env.API_KEY ?? "",
-					"api-secret": process.env.API_SECRET ?? "",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					email: "ojimahwisdom01@gmail.com",
-					name: "Wisdom Ojimah",
-					phoneNumber: "08105008304",
-					bankcode: ["120001"],
-					account_type: "DYNAMIC",
-					businessid: process.env.BUSINESS_ID,
-					bvn: process.env.BVN,
-					nin: process.env.NIN,
-				}),
-			},
-		);
+        // Send POST request using Axios
+        const response = await axios.post(
+            "https://api.payvessel.com/api/external/request/customerReservedAccount/",
+            {
+                email: email,
+                name: name,
+                phoneNumber: phoneNumber,
+                bankcode: ["120001"],
+                account_type: "DYNAMIC",
+                businessid: process.env.BUSINESS_ID,
+                bvn: "",
+                nin: "",
+            },
+            {
+                headers: {
+                    "api-key": process.env.API_KEY ?? "",
+                    "api-secret": process.env.API_SECRET ?? "",
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-        if (!req.ok) {
-            const error = await req?.json();
-
-           return error?.message;
-		}
-
-		const res = await req.json();
-
-        return res;
+       
+        // Handle successful response
+        return response.data; // Axios returns data directly in the response object
     } catch (error: any) {
-        throw new Error(String(error?.message));
+        // Handle error response
+        if (error.response) {
+
+			console.log(error.response);
+			
+            // Axios error response structure
+            const errorMessage = error.response.data?.message || "Unknown error";
+            throw new Error(errorMessage);
+        } else {
+            // Generic error if no response
+            throw new Error(error?.message || "Something went wrong");
+        }
     }
 };
 

@@ -658,6 +658,9 @@ export const fetchTransactions = async ({
 		}
 
 		transactionQuery.equalTo("user_id", user);
+		transactionQuery.descending('date');
+		// transactionQuery.limit(100); 
+		// transactionQuery.skip(100); 
 
 		const transactions = await transactionQuery.find();
 

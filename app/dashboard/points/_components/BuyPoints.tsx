@@ -25,76 +25,75 @@ const BuyPoints = () => {
 
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
 
-    const { data } = useFetch(
-		["confirmTransaction", authDetails, payload],
-		async () => {
-            try {
-				const req = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						...payload,
-						user_id: authDetails?.id ?? "",
-					}),
-				});
+    // const { data } = useFetch(
+	// 	["confirmTransaction", authDetails, payload],
+	// 	async () => {
+    //         try {
+	// 			const req = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
+	// 				method: "POST",
+	// 				headers: { "Content-Type": "application/json" },
+	// 				body: JSON.stringify({
+	// 					...payload,
+	// 					user_id: authDetails?.id ?? "",
+	// 				}),
+	// 			});
 
-				if (!req.ok) {
-					const error = await req?.json();
+	// 			if (!req.ok) {
+	// 				const error = await req?.json();
 
-					return error?.message;
-				}
+	// 				return error?.message;
+	// 			}
 
-				const res = await req.json();
+	// 			const res = await req.json();
 
-				return res;
-			} catch (error: any) {
-				throw new Error(String(error?.message));
-			}
-		},
-		{
-			refreshInterval: 50000,
-		},
-	);
+	// 			return res;
+	// 		} catch (error: any) {
+	// 			throw new Error(String(error?.message));
+	// 		}
+	// 	},
+	// 	{
+	// 		refreshInterval: 50000,
+	// 	},
+	// );
 
-    const {
-		data: transaction
-	} = useFetch(
-		["confirmTransaction", authDetails, data],
-		() =>
-			checkOrCreateTransaction({
-				user_id: authDetails?.id ?? "",
-				desc: data?.data?.desc,
-				amount: String(data?.data?.amount),
-				response_email: String(data?.data?.email),
-				fee: String(data?.data?.fee),
-				settlement_amount: String(data?.data?.settlement_amount),
-                reference: data?.data?.reference,
-                email: authDetails?.email ?? "",
-				date: new Date(),
-			}),
-		{
-			refreshInterval: 50000,
-		},
-	);
+    // const {
+	// 	data: transaction
+	// } = useFetch(
+	// 	["confirmTransaction", authDetails, data],
+	// 	() =>
+	// 		checkOrCreateTransaction({
+	// 			user_id: authDetails?.id ?? "",
+	// 			desc: data?.data?.desc,
+	// 			amount: String(data?.data?.amount),
+	// 			response_email: String(data?.data?.email),
+	// 			fee: String(data?.data?.fee),
+	// 			settlement_amount: String(data?.data?.settlement_amount),
+    //             reference: data?.data?.reference,
+    //             email: authDetails?.email ?? "",
+	// 			date: new Date(),
+	// 		}),
+	// 	{
+	// 		refreshInterval: 50000,
+	// 	},
+	// );
 
-    if (transaction && typeof transaction !== "string") {
-        const userDetails = {
-            id: transaction.id,
-            name: transaction.get("name"),
-            email: transaction.get("email"),
-            state: transaction.get("state"),
-            gender: transaction.get("gender"),
-            points: transaction.get("points"),
-        };
+    // if (transaction && typeof transaction !== "string") {
+    //     const userDetails = {
+    //         id: transaction.id,
+    //         name: transaction.get("name"),
+    //         email: transaction.get("email"),
+    //         state: transaction.get("state"),
+    //         gender: transaction.get("gender"),
+    //         points: transaction.get("points"),
+    //     };
 
-        localStorage.setItem("user-details", JSON.stringify(userDetails));
+    //     localStorage.setItem("user-details", JSON.stringify(userDetails));
 
-        setAuthDetails(userDetails);
-    }
+    //     setAuthDetails(userDetails);
+    // }
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
 		setIsSubmitting(true);
 
 		const cookie = cookieManager.get("accountDetails");
@@ -113,7 +112,13 @@ const BuyPoints = () => {
 		}
 
 		try {
-			const res = await generateAccount();
+
+			const email:any =  authDetails?.email
+			const name:any =  authDetails?.name
+			const phone :any=  "09022001100"
+			
+			const res = await generateAccount(email,name,phone);
+
 
 			if (res?.status === true) {
 				cookieManager.set(
@@ -287,9 +292,9 @@ const BuyPoints = () => {
 							<span className="font-semibold text-red-800">
 								{formatAmount({ amount: Number(points) })}
 							</span>{" "}
-							to the bank with the details below.{" "}
+							to the bank with the details below, your wallet will automatic credit immediatly the payment received.{" "}
 							<span className="font-semibold">
-								Please note that this account is only valid for
+								Please note that this account is only  for this transaction and valid for
 								1 hour, and would expire in{" "}
 								<span className="text-red-800">{timeLeft}</span>
 							</span>
@@ -324,7 +329,7 @@ const BuyPoints = () => {
 								type="button"
 								onClick={() => setModalIsOpen(false)}
 							>
-								Continue
+								I have make the payment
 							</button>
 
 							<button
