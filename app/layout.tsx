@@ -69,7 +69,7 @@ export default function RootLayout({
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
                 <meta name="apple-mobile-web-app-title" content="ContactHub" />
-                <link rel="apple-touch-icon" href="/icons/icon-48x48.png" />
+                <link rel="apple-touch-icon" href="/icons2/icon-512-maskable.png" />
             </head>
 			<body
 				className={`${geistSans.className} ${geistMono.className} antialiased bg-brand-black text-brand-white selection:bg-brand-lime selection:text-white break-words [word-break:break-word] [word-wrap:break-word]`}
