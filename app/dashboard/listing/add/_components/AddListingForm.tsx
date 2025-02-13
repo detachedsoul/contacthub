@@ -14,6 +14,9 @@ import { createListing } from "@/services/user-service";
 import { PhonecodeSelect } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 const genders = [
 	{ name: "All Genders", value: "All" },
 	{ name: "Male", value: "Male" },
@@ -56,7 +59,7 @@ const AddListingForm = () => {
 
     const [listType, setListType] = useState("contacts");
 
-    const [phonecode, setPhonecode] = useState<any>(null);
+    const [phone, setPhone] = useState<any>(null);
 
 	const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
 		const reader = new FileReader();
@@ -89,6 +92,10 @@ const AddListingForm = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		if(!phone){
+			return 
+		}
+
 		setIsLoading(true);
 
 		try {
@@ -102,8 +109,8 @@ const AddListingForm = () => {
 				email: authDetails?.email ?? "",
 				display_name: formValues.displayName,
 				desc: formValues.desc,
-				whatsapp_number:
-					`+${phonecode}${formValues.whatsAppNumber}` || undefined,
+				whatsapp_number:phone,
+					// `+${phonecode}${formValues.whatsAppNumber}` || undefined,
 				group_link: formValues.groupLink || undefined,
 			});
 
@@ -233,16 +240,28 @@ const AddListingForm = () => {
 						<span>WhatsApp Number</span>
 
 						<div className="flex input p-0 focus:ring-0 items-center">
-							<PhonecodeSelect
+							{/* <PhonecodeSelect
 								containerClassName="!p-0 !m-0 !border-transparent !rounded-none !w-3/4"
 								inputClassName="!p-0 !m-0 !border-transparent !rounded-none"
 								onChange={(code: any) =>
 									setPhonecode(code?.phone_code)
 								}
-								placeHolder="Country Code"
-							/>
 
-							<input
+
+								
+								
+							/> */}
+
+						<PhoneInput
+							placeholder="Enter phone number"
+							value={phone}
+							international
+							// style={}
+							defaultCountry="NG"
+							className="input border-transparent rounded-none focus:ring-0 bg-transparent pl-1 focus:outline-none focus:ring-transparent focus:ring-offset-0"
+							onChange={setPhone}/>
+
+							{/* <input
 								className="input border-transparent rounded-none focus:ring-0 bg-transparent pl-1 focus:outline-none focus:ring-transparent focus:ring-offset-0"
 								type="text"
 								placeholder="WhatsApp Number"
@@ -250,7 +269,7 @@ const AddListingForm = () => {
 								id="whatsAppNumber"
 								value={formValues.whatsAppNumber}
 								onChange={handleChange}
-							/>
+							/> */}
 						</div>
 					</label>
 				)}
