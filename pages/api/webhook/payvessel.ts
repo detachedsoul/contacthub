@@ -12,7 +12,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // const payvesselSignature = req.headers["http_payvessel_http_signature"] as string;
-  // const ipAddress = req.socket.remoteAddress;
+  const ipAddress:any = req.socket.remoteAddress;
+  const  whitelist = ["162.246.254.36", "3.255.23.38"]
+  if ( !whitelist.includes(ipAddress)) {
+    return res.status(405).json({ message: "Uknown Ip Address" });
+  }
 
 
   const payload: any = req.body;
