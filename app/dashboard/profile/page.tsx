@@ -19,7 +19,7 @@ const Profile = () => {
 
 				<Link
 					className="flex items-center gap-4 group transition-all duration-300 ease-in-out hover:gap-6"
-					href=""
+					href="https://t.me/08135951438" target="__blank"
 				>
 					<div className="rounded-full bg-gray-800 grid place-content-center p-4 transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:bg-brand-lime">
 						<MicIcon />

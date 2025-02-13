@@ -5,8 +5,11 @@ import UserImage from "@/assets/user-avatar.svg";
 import useAuth from "@/hooks/useAuth";
 import { DatabaseIcon } from "lucide-react";
 
+
+
 const Header = () => {
 	const { authDetails } = useAuth();
+	
 
 	return (
 		<header className="flex items-center justify-between gap-4 p-4 md:py-1 sticky md:w-4/5 lg:w-1/2 md:mx-auto z-[1024] top-0 bg-brand-black/70 backdrop-blur text-brand-white">

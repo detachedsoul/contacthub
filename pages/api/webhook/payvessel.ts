@@ -11,14 +11,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const payvesselSignature = req.headers["http_payvessel_http_signature"] as string;
-  const ipAddress = req.socket.remoteAddress;
+  // const payvesselSignature = req.headers["http_payvessel_http_signature"] as string;
+  // const ipAddress = req.socket.remoteAddress;
 
-  // You can add validation for the signature and IP here if necessary
-  // Example:
-  // if (!payvesselSignature || !ipAddress || !allowedIps.includes(ipAddress)) {
-  //   return res.status(400).json({ message: 'Permission denied, invalid hash or IP address.' });
-  // }
 
   const payload: any = req.body;
   // console.log(payload);
@@ -29,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const settlementAmount = parseFloat(order.settlement_amount);
   const fee = parseFloat(order.fee);
   const reference = transaction.reference;
-  const desc = order.description;
+  // const desc = order.description;
   const email = customer.email;
 
   if (!order || !transaction) {

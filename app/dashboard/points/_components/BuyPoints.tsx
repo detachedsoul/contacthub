@@ -7,15 +7,13 @@ import generateAccount from "@/services/generate-account";
 import errorToast from "@/utils/error-toast";
 import cookieManager from "@/utils/cookie-manager";
 import successToast from "@/utils/success-toast";
-import useFetch from "@/hooks/useFetch";
+// import useFetch from "@/hooks/useFetch";
 import { useState, useEffect } from "react";
 import { formatAmount } from "@/utils/format-money";
 import { CircleDotIcon, DatabaseIcon } from "lucide-react";
-import { payload } from "@/utils/dummy-payload";
-import { checkOrCreateTransaction } from "@/services/user-service";
 
 const BuyPoints = () => {
-	const { authDetails, setAuthDetails } = useAuth();
+	const { authDetails } = useAuth();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,6 +22,11 @@ const BuyPoints = () => {
     const [timeLeft, setTimeLeft] = useState<string>("");
 
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
+	
+	
+	 
+
+
 
     // const { data } = useFetch(
 	// 	["confirmTransaction", authDetails, payload],
@@ -55,6 +58,8 @@ const BuyPoints = () => {
 	// 		refreshInterval: 50000,
 	// 	},
 	// );
+
+
 
     // const {
 	// 	data: transaction

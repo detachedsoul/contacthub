@@ -28,7 +28,6 @@ const generateAccount = async (email:string,name:string,phoneNumber:string) => {
             }
         );
 
-       
         // Handle successful response
         return response.data; // Axios returns data directly in the response object
     } catch (error: any) {
