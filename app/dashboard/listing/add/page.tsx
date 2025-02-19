@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const Points = () => {
 	return (
-		<section className="space-y-8">
+		<section className="grid gap-8">
             <h1 className="text-center text-xl">
                 Get Lisited and Increase Your Views
             </h1>

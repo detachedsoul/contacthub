@@ -2,6 +2,7 @@ import Parse from "@/utils/parse-config";
 import isEmailValid from "@/utils/isEmailValid";
 import convertToDate from "@/utils/convert-to-date";
 import { hashPassword, verifyPassword } from "@/utils/hash-password";
+import { getPointsForDuration } from "@/app/dashboard/listing/add/_components/AddListingForm";
 
 interface IUserDetails {
 	name: string;
@@ -261,11 +262,14 @@ export const createListing = async (listingData: {
 		const userDetails = await userDetailsQuery.get(user_id);
 
 		const userEmail = userDetails.get("email");
-		// const userPoints = userDetails.get("points");
+        const userPoints = userDetails.get("points");
+        const deduction = getPointsForDuration(duration);
 
-		// if (userPoints < 1) {
-		//     throw new Error("You don't have sufficient points to list your account.");
-		// }
+		if (Number(userPoints) < deduction) {
+			throw new Error(
+				"You don't have sufficient points to list your account.",
+			);
+		}
 
 		for (const fields of requiredFields) {
 			const [key, value] = Object.entries(fields)[0];
@@ -311,7 +315,11 @@ export const createListing = async (listingData: {
 			newListing.set("group_link", group_link);
 		}
 
-		const result = await newListing.save();
+		await newListing.save();
+
+        // Update the points of the user
+        userDetails.set("points", userPoints - deduction);
+		const result = await userDetails.save();
 
 		return result;
 	} catch (error) {
@@ -659,8 +667,8 @@ export const fetchTransactions = async ({
 
 		transactionQuery.equalTo("user_id", user);
 		transactionQuery.descending('date');
-		// transactionQuery.limit(100); 
-		// transactionQuery.skip(100); 
+		// transactionQuery.limit(100);
+		// transactionQuery.skip(100);
 
 		const transactions = await transactionQuery.find();
 
