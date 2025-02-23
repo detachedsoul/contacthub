@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // const payvesselSignature = req.headers["http_payvessel_http_signature"] as string;
-  const ipAddress:any = req.socket.remoteAddress;
+  const ipAddress:any = req.headers["x-forwarded-for"];
   const head:any =  JSON.stringify(req.headers);
 
   const  whitelist = ["162.246.254.36", "3.255.23.38"]
