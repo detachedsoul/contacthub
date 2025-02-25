@@ -52,10 +52,13 @@ const listTypes = [
 const states = [{ name: "All States", value: "all" }, ...statesOfNigeria];
 
 const durationOptions = [
-	{ name: "6 hours", value: "6 hours" },
-	{ name: "12 hours", value: "12 hours" },
-	{ name: "24 hours", value: "24 hours" },
-	{ name: "48 hours", value: "48 hours" },
+	// { name: "6 hours", value: "6 hours" },
+	// { name: "12 hours", value: "12 hours" },
+	// { name: "24 hours", value: "24 hours" },
+	// { name: "48 hours", value: "48 hours" },
+	// { name: "1 week", value: "1 week" },
+	// { name: "1 month", value: "1 month" },
+
 	{ name: "1 week", value: "1 week" },
 	{ name: "1 month", value: "1 month" },
 ];

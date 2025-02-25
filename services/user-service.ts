@@ -319,7 +319,9 @@ export const createListing = async (listingData: {
 
         // Update the points of the user
         userDetails.set("points", userPoints - deduction);
-		const result = await userDetails.save();
+        const result = await userDetails.save();
+
+        await fetch("/api/sendNotification", { method: "POST" });
 
 		return result;
 	} catch (error) {

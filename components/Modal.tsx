@@ -24,7 +24,7 @@ const Modal: React.FC<IModal> = ({isOpen, toggleIsOpen, children}) => {
 				isOpen ? "opacity-100 z-[1024]" : "opacity-0 -z-50"
 			}`}
 		>
-			<div className="md:w-1/2 md:mx-auto lg:w-1/3 bg-brand-white text-brand-black px-4 py-8 relative rounded-lg">
+			<div className="md:w-1/2 sm:w-4/5 sm:mx-auto lg:w-1/3 bg-brand-white text-brand-black px-4 py-8 relative rounded-lg">
 				<button
 					className="bg-brand-lime text-white p-1 hover:bg-lime-600 transition-colors duration-300 ease-in-out rounded-full absolute right-2 top-2"
 					type="button"

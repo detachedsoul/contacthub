@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 const SignUp = () => {
 	return (
-		<main className="md:w-4/5 lg:w-1/2 md:mx-auto grid place-content-center min-h-svh px-4 py-8">
+		<main className="sm:w-4/5 lg:w-1/2 sm:mx-auto grid place-content-center min-h-svh px-4 py-8">
 			<section className="space-y-8 text-center">
 				<Image
-					className="mx-auto animate-floatBounce w-1/2 md:w-1/3 h-auto"
+					className="mx-auto animate-floatBounce w-1/2 sm:w-1/3 h-auto"
 					src={AuthImage}
 					alt=""
 				/>
@@ -36,7 +36,7 @@ const SignUp = () => {
 					<ResetPasswordForm />
 				</Suspense>
 
-				<p className="md:w-3/4 md:mx-auto">
+				<p className="sm:w-3/4 sm:mx-auto">
 					Remembered your login details?{" "}
 					<Link
 						className="text-brand-lime underline-offset-4 decoration-wavy hover:underline font-semibold"

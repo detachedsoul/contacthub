@@ -31,47 +31,49 @@ const Contacts = () => {
 	const UserDetails = Parse.Object.extend("UserDetails");
 	const userQuery = new Parse.Query(UserDetails);
 
-    useEffect(() => {
+	useEffect(() => {
 		let isMounted = true; // Prevent setting state on unmounted component
 
-
-
 		const fetchUser = async () => {
-		  try {
-			if (!authDetails?.id) return; // Ensure authDetails is available
+			try {
+				if (!authDetails?.id) return; // Ensure authDetails is available
 
+				userQuery.equalTo("objectId", authDetails.id);
+				const userData = await userQuery.first();
 
-			userQuery.equalTo("objectId", authDetails.id);
-			const userData = await userQuery.first();
+				if (userData && isMounted) {
+					const userDetails = {
+						id: userData.id,
+						name: userData.get("name"),
+						email: userData.get("email"),
+						state: userData.get("state"),
+						gender: userData.get("gender"),
+						points: userData.get("points"),
+					};
 
-			if (userData && isMounted) {
-			  const userDetails = {
-				id: userData.id,
-				name: userData.get("name"),
-				email: userData.get("email"),
-				state: userData.get("state"),
-				gender: userData.get("gender"),
-				points: userData.get("points"),
-			  };
-
-			  // Only update state if necessary to prevent infinite loops
-			  if (JSON.stringify(authDetails) !== JSON.stringify(userDetails)) {
-				setAuthDetails(userDetails);
-				localStorage.setItem("user-details", JSON.stringify(userDetails));
-			  }
+					// Only update state if necessary to prevent infinite loops
+					if (
+						JSON.stringify(authDetails) !==
+						JSON.stringify(userDetails)
+					) {
+						setAuthDetails(userDetails);
+						localStorage.setItem(
+							"user-details",
+							JSON.stringify(userDetails),
+						);
+					}
+				}
+			} catch (error) {
+				console.error("Error fetching user:", error);
 			}
-		  } catch (error) {
-			console.error("Error fetching user:", error);
-		  }
 		};
 
 		fetchUser();
 
 		return () => {
-		  isMounted = false; // Cleanup function to prevent memory leaks
+			isMounted = false; // Cleanup function to prevent memory leaks
 		};
-	  }, [authDetails]);
-
+	}, [authDetails]);
 
 	const { data, error, isLoading } = useFetch(
 		["fetchListings", authDetails?.id ?? "", authDetails?.email ?? ""],
@@ -181,7 +183,7 @@ const Contacts = () => {
 					</Link>
 				</div>
 			</div>
-			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
+			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 sm:grid-cols-2">
 				{isLoading &&
 					Array.from({ length: 6 }).map((_, index) => (
 						<div
@@ -285,20 +287,25 @@ const Contacts = () => {
 
 							<Link
 								className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2 h-12"
-								href={`https://wa.me/${selectedContact?.get(
-									"whatsapp_number",
-								) ?? selectedContact?.get("group_link")}?text=Hi, nice to meet you. Please save my name as ${authDetails?.name}.`
+								href={
+									`https://wa.me/${
+										selectedContact?.get(
+											"whatsapp_number",
+										) ?? selectedContact?.get("group_link")
+									}?text=Hi, nice to meet you. Please save my name as ${
+										authDetails?.name
+									}.`
 
-								// 	encodeURI(
-								// 	`https://wa.me/${
-								// 		selectedContact?.get(
-								// 			"whatsapp_number",
-								// 		) ?? selectedContact?.get("group_link")
-								// 	}&text=Hi, nice to meet you. Please save my name as ${
-								// 		authDetails?.name ?? ""
-								// 	}`,
-								// )
-							}
+									// 	encodeURI(
+									// 	`https://wa.me/${
+									// 		selectedContact?.get(
+									// 			"whatsapp_number",
+									// 		) ?? selectedContact?.get("group_link")
+									// 	}&text=Hi, nice to meet you. Please save my name as ${
+									// 		authDetails?.name ?? ""
+									// 	}`,
+									// )
+								}
 								target="_blank"
 								rel="noopener noreferrer"
 								onClick={async () =>

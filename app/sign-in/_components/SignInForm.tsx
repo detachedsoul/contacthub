@@ -81,7 +81,7 @@ const SignUpForm = () => {
 			className="space-y-8"
 			onSubmit={handleSubmit}
         >
-			<div className="grid gap-4 md:w-4/5 md:mx-auto">
+			<div className="grid gap-4 sm:w-4/5 sm:mx-auto">
 				<label htmlFor="email">
 					<input
 						className="input"
@@ -131,7 +131,7 @@ const SignUpForm = () => {
 			</div>
 
 			<button
-				className="btn md:w-4/5 md:mx-auto"
+				className="btn sm:w-4/5 sm:mx-auto"
 				type="submit"
 				disabled={
 					!isFormFieldsComplete(formValues) ||

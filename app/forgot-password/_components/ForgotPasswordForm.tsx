@@ -73,7 +73,7 @@ const ForgotPasswordForm = () => {
 			className="space-y-8"
 			onSubmit={handleSubmit}
 		>
-			<div className="grid gap-8 md:w-4/5 md:mx-auto">
+			<div className="grid gap-8 sm:w-4/5 sm:mx-auto">
 				<label htmlFor="email">
 					<input
 						className="input"
