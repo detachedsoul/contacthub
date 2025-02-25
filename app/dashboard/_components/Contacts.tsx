@@ -287,8 +287,8 @@ const Contacts = () => {
 								className="text-center text-sm btn font-medium ring-offset-brand-white place-content-center flex items-center gap-2 h-12"
 								href={`https://wa.me/${selectedContact?.get(
 									"whatsapp_number",
-								) ?? selectedContact?.get("group_link")}?text=Hi, nice to meet you. Please save my name as ${authDetails?.name}`
-									
+								) ?? selectedContact?.get("group_link")}?text=Hi, nice to meet you. Please save my name as ${authDetails?.name}.`
+
 								// 	encodeURI(
 								// 	`https://wa.me/${
 								// 		selectedContact?.get(
