@@ -132,7 +132,7 @@ const SignUpForm = () => {
 					<input
 						className="input"
 						type="text"
-						placeholder="Enter Name"
+						placeholder="Enter your full name"
 						name="name"
 						id="name"
 						value={formValues.name}

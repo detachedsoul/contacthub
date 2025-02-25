@@ -33,17 +33,17 @@ const Contacts = () => {
 
     useEffect(() => {
 		let isMounted = true; // Prevent setting state on unmounted component
-		
+
 
 
 		const fetchUser = async () => {
 		  try {
 			if (!authDetails?.id) return; // Ensure authDetails is available
-	  
-	  
+
+
 			userQuery.equalTo("objectId", authDetails.id);
 			const userData = await userQuery.first();
-	  
+
 			if (userData && isMounted) {
 			  const userDetails = {
 				id: userData.id,
@@ -53,7 +53,7 @@ const Contacts = () => {
 				gender: userData.get("gender"),
 				points: userData.get("points"),
 			  };
-	  
+
 			  // Only update state if necessary to prevent infinite loops
 			  if (JSON.stringify(authDetails) !== JSON.stringify(userDetails)) {
 				setAuthDetails(userDetails);
@@ -64,9 +64,9 @@ const Contacts = () => {
 			console.error("Error fetching user:", error);
 		  }
 		};
-	  
+
 		fetchUser();
-	  
+
 		return () => {
 		  isMounted = false; // Cleanup function to prevent memory leaks
 		};
@@ -183,7 +183,7 @@ const Contacts = () => {
 			</div>
 			<div className="grid gap-4 md:gap-x-8 md:gap-y-12 md:grid-cols-2">
 				{isLoading &&
-					Array.from({ length: 5 }).map((_, index) => (
+					Array.from({ length: 6 }).map((_, index) => (
 						<div
 							className="mt-8 grid gap-4"
 							key={index}
@@ -204,23 +204,6 @@ const Contacts = () => {
 
 							<div className="h-12 w-full rounded-lg bg-gray-400 animate-pulse"></div>
 						</div>
-
-						// <div
-						// 	className="text-brand-black flex gap-4 items-center"
-						// 	key={index}
-						// >
-						// 	<div className="h-12 w-14 rounded-full bg-gray-300 animate-pulse"></div>
-
-						// 	<div className="flex items-center justify-between w-full gap-4">
-						// 		<div className="grid gap-2 text-left">
-						// 			<div className="h-4 w-32 rounded-lg bg-gray-400 animate-pulse"></div>
-
-						// 			<div className="h-2 w-16 rounded-lg bg-brand-lime animate-pulse"></div>
-						// 		</div>
-
-						// 		<div className="h-2 w-10 rounded-lg bg-brand-lime animate-pulse"></div>
-						// 	</div>
-						// </div>
 					))}
 
 				{error && (
@@ -243,10 +226,6 @@ const Contacts = () => {
 						<div
 							className="mt-8 grid gap-4"
 							key={index}
-							// onClick={() => {
-							// 	setSelectedContact(selectedContact);
-							// 	setModalIsActive(true);
-							// }}
 						>
 							<Image
 								className="w-full h-[200px] rounded-lg object-center"

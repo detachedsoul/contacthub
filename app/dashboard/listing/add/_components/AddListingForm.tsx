@@ -16,13 +16,22 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import Modal from "@/components/Modal";
 
+// export const durationPoints: Record<string, number> = {
+// 	"6 hours": 1000,
+// 	"12 hours": 2000,
+// 	"24 hours": 4000,
+// 	"48 hours": 8000,
+// 	"1 week": 30000,
+// 	"1 month": 100000,
+// };
+
 export const durationPoints: Record<string, number> = {
-	"6 hours": 1000,
-	"12 hours": 2000,
-	"24 hours": 4000,
-	"48 hours": 8000,
-	"1 week": 30000,
-	"1 month": 100000,
+	// "6 hours": 1000,
+	// "12 hours": 2000,
+	// "24 hours": 4000,
+	// "48 hours": 8000,
+	"1 week": 1500,
+	"1 month": 6000,
 };
 
 export const getPointsForDuration = (duration: string): number => {
