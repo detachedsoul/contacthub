@@ -45,52 +45,77 @@ export default async function handler(
 
 		const userData = await userResponse.json();
 
-		const tokens = userData.results
-			.map((user: { fcmToken: string }) => user.fcmToken)
-			.filter(Boolean);
+		const tokens: string[] = userData.results
+			.map((user: { fcmToken?: string }) => user.fcmToken)
+			.filter((token: string) => Boolean(token));
 
 		if (tokens.length === 0) {
-			return res
-				.status(200)
-				.json({
-					message:
-						"No active user with notifications enabled to send notifications",
-				});
-        }
+			return res.status(200).json({
+				message:
+					"No active users with notifications enabled to send notifications",
+			});
+		}
 
-        const chunkArray = <T>(array: T[], size: number): T[][] => {
-            return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
-                array.slice(i * size, i * size + size),
-            );
-        };
+		const chunkArray = <T>(array: T[], size: number): T[][] => {
+			return Array.from(
+				{ length: Math.ceil(array.length / size) },
+				(_, i) => array.slice(i * size, i * size + size),
+			);
+		};
 
-        const tokenChunks = chunkArray(tokens, 500);
-        const responses = [];
+		const tokenChunks = chunkArray(tokens, 500);
+		const failedTokens: string[] = [];
+		const responses = [];
 
-        for (const chunk of tokenChunks) {
+		for (const chunk of tokenChunks) {
 			const payload = {
 				notification: {
 					title: "New Listing",
 					body: "A new user just listed! Go to your dashboard to check it out!",
 				},
-				tokens: tokens,
+				webpush: {
+					notification: {
+						icon: "/icon.png",
+						click_action: "https://contacthub.com.ng/dashboard",
+					},
+				},
+				android: {
+					notification: {
+						title: "New Listing",
+						body: "A new user just listed! Go to your dashboard to check it out!",
+						icon: "/icon.png",
+						click_action: "https://contacthub.com.ng/dashboard",
+					},
+				},
+				apns: {
+					payload: {
+						aps: {
+							alert: {
+								title: "New Listing",
+								body: "A new user just listed! Go to your dashboard to check it out!",
+							},
+							sound: "default",
+							badge: 1,
+							category: "NEW_LISTING",
+						},
+						customData: {
+							link: "https://contacthub.com.ng/dashboard",
+						},
+					},
+				},
+				tokens: chunk,
 			};
 
 			try {
-                const response = await admin
+				const response = await admin
 					.messaging()
 					.sendEachForMulticast(payload);
 
-				const failedTokens = chunk.filter(
-					(_, index) => !response.responses[index].success,
-				);
-
-				if (failedTokens.length) {
-                    return res.status(200).json({
-						message: "Invalid tokens detected",
-						tokens: failedTokens,
-					});
-				}
+				response.responses.forEach((resp, index) => {
+					if (!resp.success) {
+						failedTokens.push(chunk[index]);
+					}
+				});
 
 				responses.push(response);
 			} catch (error) {
@@ -101,10 +126,10 @@ export default async function handler(
 		res.status(200).json({
 			message: "Notification sent",
 			data: responses,
+			...(failedTokens.length > 0 && { invalidTokens: failedTokens }),
 		});
 	} catch (error) {
 		console.error("Error sending notification:", error);
-
-		res.status(500).json({ error: "Failed to send notification", cause: error });
+		res.status(500).json({ error: "Failed to send notification" });
 	}
 }

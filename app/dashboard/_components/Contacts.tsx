@@ -176,7 +176,7 @@ const Contacts = () => {
 					</div>
 
 					<Link
-						className="text-black bg-brand-lime rounded-full py-2 px-2 text-sm"
+						className="text-black bg-brand-lime rounded-full py-2 px-2 text-sm shrink-0"
 						href="/dashboard/listing/add"
 					>
 						Get listed

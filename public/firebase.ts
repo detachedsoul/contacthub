@@ -15,12 +15,10 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 const messaging = typeof window !== "undefined" ? getMessaging(app) : null;
 
-if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+if (typeof window !== "undefined" && navigator?.serviceWorker) {
 	window.addEventListener("load", async () => {
 		try {
-			await navigator.serviceWorker.register(
-				"/firebase-messaging-sw.js",
-			);
+			await navigator.serviceWorker.register("/firebase-messaging-sw.js");
 		} catch (error) {
 			console.error("Service Worker registration failed:", error);
 		}

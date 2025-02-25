@@ -1,5 +1,6 @@
 "use client";
 
+import NotificationPrompt from "@/components/NotificationPrompt";
 import Header from "./Header";
 import Footer from "./Footer";
 import useAuthValidation from "@/hooks/useAuthValidation";
@@ -7,45 +8,9 @@ import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
 import SingleLogo from "@/assets/single-logo.jpg";
 import Link from "next/link";
-import Parse from "@/utils/parse-config";
 import successToast from "@/utils/success-toast";
-import { messaging, getToken, onMessage } from "@/public/firebase";
+import { messaging, onMessage } from "@/public/firebase";
 import { useEffect } from "react";
-
-const requestNotificationPermission = async (userId: string) => {
-	try {
-		const permission = await Notification.requestPermission();
-
-		if (permission === "granted") {
-			if (messaging) {
-				const token = await getToken(messaging, {
-					vapidKey:
-						"BMcGlOhGvXp80DxJUb1vGeyBo2rpGhgsXiGzqng8Lz_2NMuhaccKE3-_HDHAv7IzVon3T31RywuY3aZ24Y8rgP8",
-				});
-
-				await saveTokenToBack4App(userId, token);
-			}
-		}
-	} catch (error) {
-		console.error("Error getting FCM token:", error);
-	}
-};
-
-const saveTokenToBack4App = async (userId: string, fcmToken: string) => {
-	const UserDetails = Parse.Object.extend("UserDetails");
-
-	const query = new Parse.Query(UserDetails);
-
-	try {
-		const userDetails = await query.get(userId);
-
-		userDetails.set("fcmToken", fcmToken);
-
-		await userDetails.save();
-	} catch (error) {
-		console.error("Error saving token:", error);
-	}
-};
 
 const DashboardLayoutWrapper = ({
 	children,
@@ -54,18 +19,16 @@ const DashboardLayoutWrapper = ({
 }) => {
 	const { authDetails } = useAuth();
 
-	const isDetailsValid = useAuthValidation();
+    const isDetailsValid = useAuthValidation();
 
 	useEffect(() => {
 		if (!authDetails?.id || !messaging) return;
 
-		requestNotificationPermission(authDetails.id);
-
-        if (messaging) {
-            onMessage(messaging, (payload) => {
+		if (messaging) {
+			onMessage(messaging, (payload) => {
 				successToast(
 					`${payload.notification?.body}`,
-                );
+				);
 			});
 		}
 	}, [authDetails]);
@@ -101,6 +64,8 @@ const DashboardLayoutWrapper = ({
 
 	return (
 		<>
+            <NotificationPrompt />
+
 			<Header />
 
 			<main className="sm:w-4/5 lg:w-1/2 sm:mx-auto px-4 py-8 mb-16">

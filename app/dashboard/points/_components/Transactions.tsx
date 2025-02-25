@@ -39,7 +39,7 @@ const Transactions = () => {
 		<>
 			{Array.isArray(data) && data.length < 1 && (
 				<div className="h-[150px] grid place-content-center">
-					<p className="font-medium text-lg">
+					<p className="font-medium text-lg text-center">
 						You are yet to make a transaction.
 					</p>
 				</div>
