@@ -19,7 +19,8 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-	const notificationTitle = payload.notification?.title || "New Notification";
+    const notificationTitle = payload.notification?.title || "New Notification";
+
 	const notificationOptions = {
 		body: payload.notification?.body || "You have a new message.",
 		icon: "/icon.png",

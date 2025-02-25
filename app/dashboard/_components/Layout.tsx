@@ -26,11 +26,29 @@ const DashboardLayoutWrapper = ({
 
 		if (messaging) {
 			onMessage(messaging, (payload) => {
-				successToast(
-					`${payload.notification?.body}`,
-				);
+				if (Notification.permission === "granted") {
+					const notification = new Notification(
+						payload.notification?.title || "New Notification",
+						{
+							body:
+								payload.notification?.body ||
+								"You have a new message.",
+							icon: "/icon.png",
+							badge: "/icon.png",
+						},
+					);
+
+					notification.onclick = () => {
+						window.open(
+							"https://contacthub.com.ng/dashboard",
+							"_blank",
+							"noopener,noreferrer",
+						);
+					};
+				}
 			});
 		}
+
 	}, [authDetails]);
 
 	if (isDetailsValid === null) {
