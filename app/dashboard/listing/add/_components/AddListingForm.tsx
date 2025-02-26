@@ -30,7 +30,7 @@ export const durationPoints: Record<string, number> = {
 	// "12 hours": 2000,
 	// "24 hours": 4000,
 	// "48 hours": 8000,
-	"1 week": 1500,
+	"1 week": 2000,
 	"1 month": 6000,
 };
 
