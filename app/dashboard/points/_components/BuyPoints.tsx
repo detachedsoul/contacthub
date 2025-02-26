@@ -7,7 +7,6 @@ import generateAccount from "@/services/generate-account";
 import errorToast from "@/utils/error-toast";
 import cookieManager from "@/utils/cookie-manager";
 import successToast from "@/utils/success-toast";
-// import useFetch from "@/hooks/useFetch";
 import { useState, useEffect } from "react";
 import { formatAmount } from "@/utils/format-money";
 import { CircleDotIcon, DatabaseIcon } from "lucide-react";
@@ -18,130 +17,57 @@ const BuyPoints = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [points, setPoints] = useState("");
-    const [cookieValues, setCookieValues] = useState<null | any>(null);
-    const [timeLeft, setTimeLeft] = useState<string>("");
+	const [cookieValues, setCookieValues] = useState<null | any>(null);
+	const [timeLeft, setTimeLeft] = useState<string>("");
 
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
-	
-	
-	 
-
-
-
-    // const { data } = useFetch(
-	// 	["confirmTransaction", authDetails, payload],
-	// 	async () => {
-    //         try {
-	// 			const req = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
-	// 				method: "POST",
-	// 				headers: { "Content-Type": "application/json" },
-	// 				body: JSON.stringify({
-	// 					...payload,
-	// 					user_id: authDetails?.id ?? "",
-	// 				}),
-	// 			});
-
-	// 			if (!req.ok) {
-	// 				const error = await req?.json();
-
-	// 				return error?.message;
-	// 			}
-
-	// 			const res = await req.json();
-
-	// 			return res;
-	// 		} catch (error: any) {
-	// 			throw new Error(String(error?.message));
-	// 		}
-	// 	},
-	// 	{
-	// 		refreshInterval: 50000,
-	// 	},
-	// );
-
-
-
-    // const {
-	// 	data: transaction
-	// } = useFetch(
-	// 	["confirmTransaction", authDetails, data],
-	// 	() =>
-	// 		checkOrCreateTransaction({
-	// 			user_id: authDetails?.id ?? "",
-	// 			desc: data?.data?.desc,
-	// 			amount: String(data?.data?.amount),
-	// 			response_email: String(data?.data?.email),
-	// 			fee: String(data?.data?.fee),
-	// 			settlement_amount: String(data?.data?.settlement_amount),
-    //             reference: data?.data?.reference,
-    //             email: authDetails?.email ?? "",
-	// 			date: new Date(),
-	// 		}),
-	// 	{
-	// 		refreshInterval: 50000,
-	// 	},
-	// );
-
-    // if (transaction && typeof transaction !== "string") {
-    //     const userDetails = {
-    //         id: transaction.id,
-    //         name: transaction.get("name"),
-    //         email: transaction.get("email"),
-    //         state: transaction.get("state"),
-    //         gender: transaction.get("gender"),
-    //         points: transaction.get("points"),
-    //     };
-
-    //     localStorage.setItem("user-details", JSON.stringify(userDetails));
-
-    //     setAuthDetails(userDetails);
-    // }
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setIsSubmitting(true);
+        setIsSubmitting(true);
 
-		const cookie = cookieManager.get("accountDetails");
+        if (!authDetails) {
+            errorToast("Invalid logged in user!");
+
+            return;
+        }
+
+        const cookieKey = `accountDetails_${authDetails.email}_${authDetails.id}`;
+		const cookie = cookieManager.get(cookieKey);
 
 		if (cookie) {
-            if (new Date(JSON.parse(cookie).expire_date) > new Date()) {
-                setCookieValues(JSON.parse(cookie));
+			if (new Date(JSON.parse(cookie).expire_date) > new Date()) {
+				setCookieValues(JSON.parse(cookie));
 
 				setIsSubmitting(false);
 				setIsSummaryShown(true);
 
 				return;
-            } else {
-                cookieManager.delete("accountDetails");
-            }
+			} else {
+				cookieManager.delete(cookieKey);
+			}
 		}
 
 		try {
+			const email: any = authDetails?.email;
+			const name: any = authDetails?.name;
+			const phone: any = "09022001100";
 
-			const email:any =  authDetails?.email
-			const name:any =  authDetails?.name
-			const phone :any=  "09022001100"
-			
-			const res = await generateAccount(email,name,phone);
-
+			const res = await generateAccount(email, name, phone);
 
 			if (res?.status === true) {
-				cookieManager.set(
-					"accountDetails",
-					JSON.stringify(res?.banks) ?? "",
-					{
-						hours: 1,
-					},
-				);
+				cookieManager.set(cookieKey, JSON.stringify(res?.banks) ?? "", {
+					hours: 1,
+				});
 
 				setCookieValues(res?.banks);
 
-                setIsSummaryShown(true);
+				setIsSummaryShown(true);
 
 				successToast("Account generated successfully");
-            } else {
-                errorToast(String(res));
-            }
+			} else {
+				errorToast(String(res));
+			}
 
 			setIsSubmitting(false);
 		} catch (error) {
@@ -151,11 +77,11 @@ const BuyPoints = () => {
 		} finally {
 			setIsSubmitting(false);
 		}
-    };
+	};
 
 	useEffect(() => {
-        if (cookieValues) {
-            const target = new Date(cookieValues?.expire_date ?? "").getTime();
+		if (cookieValues) {
+			const target = new Date(cookieValues?.expire_date ?? "").getTime();
 
 			if (isNaN(target)) {
 				console.error("Invalid date provided");
@@ -184,7 +110,7 @@ const BuyPoints = () => {
 			}, 1000);
 
 			return () => clearInterval(interval);
-        }
+		}
 	}, [cookieValues, timeLeft]);
 
 	return (
@@ -297,10 +223,12 @@ const BuyPoints = () => {
 							<span className="font-semibold text-red-800">
 								{formatAmount({ amount: Number(points) })}
 							</span>{" "}
-							to the bank with the details below, your wallet will automatic credit immediatly the payment received.{" "}
+							to the bank with the details below, your wallet will
+							automatic credit immediatly the payment received.{" "}
 							<span className="font-semibold">
-								Please note that this account is only  for this transaction and valid for
-								1 hour, and would expire in{" "}
+								Please note that this account is only for this
+								transaction and valid for 1 hour, and would
+								expire in{" "}
 								<span className="text-red-800">{timeLeft}</span>
 							</span>
 						</p>
