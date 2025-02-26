@@ -370,6 +370,8 @@ export const fetchUserListing = async ({
 			listingQuery.lessThan("end_date", new Date());
 		}
 
+        listingQuery.descending("createdAt");
+
 		const listings = await listingQuery.find();
 
 		return listings;
@@ -385,7 +387,8 @@ export const fetchListings = async ({
 	id: string;
 	email: string;
 }) => {
-	const userQuery = new Parse.Query(UserDetails);
+    const userQuery = new Parse.Query(UserDetails);
+
 	userQuery.equalTo("email", email);
 	userQuery.equalTo("objectId", id);
 
@@ -408,6 +411,8 @@ export const fetchListings = async ({
 		} else {
 			listingQuery.equalTo("preferred_location", "all");
 		}
+
+        listingQuery.descending("createdAt");
 
 		const results = await listingQuery.find();
 
