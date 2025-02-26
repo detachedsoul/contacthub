@@ -8,7 +8,6 @@ import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
 import SingleLogo from "@/assets/single-logo.jpg";
 import Link from "next/link";
-import successToast from "@/utils/success-toast";
 import { messaging, onMessage } from "@/public/firebase";
 import { useEffect } from "react";
 
