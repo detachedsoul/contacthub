@@ -7,6 +7,7 @@ import errorToast from "@/utils/error-toast";
 import isEmailValid from "@/utils/isEmailValid";
 import successToast from "@/utils/success-toast";
 import useAuth from "@/hooks/useAuth";
+import cleanText from "@/utils/clean-text";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { createUser } from "@/services/user-service";
@@ -75,7 +76,7 @@ const SignUpForm = () => {
 			return;
 		}
 
-        const nameParts = formValues.name.trim().split(/\s+/);
+        const nameParts = cleanText(formValues.name).split(/\s+/);
 
 		if (nameParts.length < 2) {
 			errorToast("Please enter both first and last name.");

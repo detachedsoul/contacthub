@@ -20,7 +20,7 @@ const PasswordReset = Parse.Object.extend("PasswordReset");
 const Transaction = Parse.Object.extend("Transactions");
 
 export const createUser = async (userDetails: IUserDetails) => {
-	const user = new UserDetails();
+    const user = new UserDetails();
 
 	user.set("name", cleanText(userDetails.name));
 	user.set("email", userDetails.email.toLowerCase().trim());
@@ -28,7 +28,13 @@ export const createUser = async (userDetails: IUserDetails) => {
 	user.set("state", cleanText(userDetails.state));
 	user.set("gender", cleanText(userDetails.gender));
 
-	try {
+    try {
+        const nameParts = cleanText(userDetails.name).split(/\s+/);
+
+		if (nameParts.length < 2) {
+			throw new Error("Please enter both first and last name.");
+		}
+
 		// Check if the email already exists
 		const checkIfUserExists = new Parse.Query(user);
 
@@ -126,6 +132,12 @@ export const updateAccountDetails = async ({
 			existingUserWithNewEmail.id !== userExists.id
 		) {
 			throw new Error("A user with this email already exists.");
+        }
+
+        const nameParts = cleanText(newName).split(/\s+/);
+
+		if (nameParts.length < 2) {
+			throw new Error("Please enter both first and last name.");
 		}
 
 		userExists.set("email", newEmail.toLowerCase().trim());

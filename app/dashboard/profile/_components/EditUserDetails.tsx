@@ -6,6 +6,7 @@ import isEmailValid from "@/utils/isEmailValid";
 import isFormFieldsComplete from "@/utils/isFormComplete";
 import errorToast from "@/utils/error-toast";
 import successToast from "@/utils/success-toast";
+import cleanText from "@/utils/clean-text";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { UserRoundIcon } from "lucide-react";
 import { updateAccountDetails } from "@/services/user-service";
@@ -34,7 +35,7 @@ const EditUserDetails = () => {
 	useEffect(() => {
 		if (authDetails) {
 			setFormValues({
-				name: authDetails?.name.trim(),
+				name: cleanText(authDetails?.name),
 				email: authDetails?.email.trim(),
 			});
 		}
@@ -46,7 +47,7 @@ const EditUserDetails = () => {
 		setIsLoading(true);
 
         try {
-            const nameParts = formValues.name.trim().split(/\s+/);
+            const nameParts = cleanText(formValues.name).split(/\s+/);
 
 			if (nameParts.length < 2) {
 				errorToast("Please enter both first and last name.");
@@ -54,7 +55,7 @@ const EditUserDetails = () => {
 				setIsLoading(false);
 
 				return;
-            }
+			}
 
             if (!isEmailValid(formValues.email)) {
 				errorToast("Invalid email address.");
@@ -67,7 +68,7 @@ const EditUserDetails = () => {
 				id: authDetails?.id ?? "",
 				currentEmail: authDetails?.email ?? "",
 				newEmail: formValues.email.toLowerCase().trim(),
-				newName: formValues.name.trim(),
+				newName: cleanText(formValues.name),
 			});
 
 			if (typeof res === "string") {
