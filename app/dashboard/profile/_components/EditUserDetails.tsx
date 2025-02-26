@@ -34,8 +34,8 @@ const EditUserDetails = () => {
 	useEffect(() => {
 		if (authDetails) {
 			setFormValues({
-				name: authDetails?.name,
-				email: authDetails?.email,
+				name: authDetails?.name.trim(),
+				email: authDetails?.email.trim(),
 			});
 		}
 	}, [authDetails]);
@@ -45,12 +45,29 @@ const EditUserDetails = () => {
 
 		setIsLoading(true);
 
-		try {
+        try {
+            const nameParts = formValues.name.trim().split(/\s+/);
+
+			if (nameParts.length < 2) {
+				errorToast("Please enter both first and last name.");
+
+				setIsLoading(false);
+
+				return;
+            }
+
+            if (!isEmailValid(formValues.email)) {
+				errorToast("Invalid email address.");
+				setIsLoading(false);
+
+				return;
+			}
+
 			const res = await updateAccountDetails({
 				id: authDetails?.id ?? "",
 				currentEmail: authDetails?.email ?? "",
-				newEmail: formValues.email,
-				newName: formValues.name,
+				newEmail: formValues.email.toLowerCase().trim(),
+				newName: formValues.name.trim(),
 			});
 
 			if (typeof res === "string") {

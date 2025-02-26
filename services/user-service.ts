@@ -3,6 +3,7 @@ import isEmailValid from "@/utils/isEmailValid";
 import convertToDate from "@/utils/convert-to-date";
 import { hashPassword, verifyPassword } from "@/utils/hash-password";
 import { getPointsForDuration } from "@/app/dashboard/listing/add/_components/AddListingForm";
+import cleanText from "@/utils/clean-text";
 
 interface IUserDetails {
 	name: string;
@@ -21,11 +22,11 @@ const Transaction = Parse.Object.extend("Transactions");
 export const createUser = async (userDetails: IUserDetails) => {
 	const user = new UserDetails();
 
-	user.set("name", userDetails.name);
-	user.set("email", userDetails.email.toLowerCase());
+	user.set("name", cleanText(userDetails.name));
+	user.set("email", userDetails.email.toLowerCase().trim());
 	user.set("password", await hashPassword(userDetails.password));
-	user.set("state", userDetails.state);
-	user.set("gender", userDetails.gender);
+	user.set("state", cleanText(userDetails.state));
+	user.set("gender", cleanText(userDetails.gender));
 
 	try {
 		// Check if the email already exists
@@ -127,8 +128,8 @@ export const updateAccountDetails = async ({
 			throw new Error("A user with this email already exists.");
 		}
 
-		userExists.set("email", newEmail.toLowerCase());
-		userExists.set("name", newName);
+		userExists.set("email", newEmail.toLowerCase().trim());
+		userExists.set("name", cleanText(newName));
 
 		const result = await userExists.save();
 

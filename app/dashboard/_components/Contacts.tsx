@@ -294,7 +294,7 @@ const Contacts = () => {
 										) ?? selectedContact?.get("group_link")
 									}?text=Hi, nice to meet you. Please save my name as ${
 										authDetails?.name
-									}.`
+									}`
 
 									// 	encodeURI(
 									// 	`https://wa.me/${

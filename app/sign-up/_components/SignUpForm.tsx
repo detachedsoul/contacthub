@@ -39,8 +39,8 @@ const SignUpForm = () => {
 		setFormValues((prev) => {
 			return {
 				...prev,
-				state: state,
-				gender: gender,
+				state: state.trim(),
+				gender: gender.trim(),
 			};
 		});
 	}, [state, gender]);
@@ -70,6 +70,16 @@ const SignUpForm = () => {
 
 		if (!isEmailValid(formValues.email)) {
 			errorToast("Invalid email address.");
+			setIsLoading(false);
+
+			return;
+		}
+
+        const nameParts = formValues.name.trim().split(/\s+/);
+
+		if (nameParts.length < 2) {
+			errorToast("Please enter both first and last name.");
+
 			setIsLoading(false);
 
 			return;
