@@ -430,7 +430,7 @@ const AddListingForm = () => {
 							</span>
 							. This would cost you{" "}
 							<span className="bg-brand-lime font-bold px-1.5">
-								{getPointsForDuration("1 month")}
+								{getPointsForDuration(duration)}
 							</span>{" "}
 							points.
 						</p>
