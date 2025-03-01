@@ -11,7 +11,7 @@ const generateAccount = async (
 	try {
 		// Send POST request using Axios
 		const response = await axios.post(
-			"https://api.payvessel.com/api/external/request/customerReservedAccount/",
+			"https://api.payvessel.com/pms/api/external/request/customerReservedAccount/",
 			{
 				email: email,
 				name: name,
