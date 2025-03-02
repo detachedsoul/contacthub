@@ -18,14 +18,14 @@ const generateAccount = async (
 				phoneNumber: phoneNumber,
 				bankcode: ["120001"],
 				account_type: "DYNAMIC",
-				businessid: process.env.BUSINESS_ID,
+				businessid: process.env.NEXT_PUBLIC_BUSINESS_ID,
 				bvn: "",
 				nin: "",
 			},
 			{
 				headers: {
-					"api-key": process.env.API_KEY ?? "",
-					"api-secret": process.env.API_SECRET ?? "",
+					"api_key": process.env.NEXT_PUBLIC_API_KEY ?? "",
+					"api_secret": process.env.NEXT_PUBLIC_API_SECRET ?? "",
 					"Content-Type": "application/json",
 				},
 			},
