@@ -8,12 +8,12 @@ const generateAccount = async (
 ) => {
 	try {
 		const req = await fetch(
-			"https://api.payvessel.ng/pms/api/external/request/customerReservedAccount/",
+			"https://api.payvessel.com/pms/api/external/request/customerReservedAccount/",
 			{
 				method: "POST",
 				headers: {
-					"api-key": process.env.NEXT_PUBLIC_API_KEY!,
-					"api-secret": process.env.NEXT_PUBLIC_API_SECRET!,
+					"api-key": process.env.API_KEY!,
+					"api-secret": process.env.API_SECRET!,
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
@@ -22,7 +22,7 @@ const generateAccount = async (
 					phoneNumber: phoneNumber,
 					bankcode: ["120001"],
 					account_type: "DYNAMIC",
-					businessid: process.env.NEXT_PUBLIC_BUSINESS_ID!,
+					businessid: process.env.BUSINESS_ID!,
 					bvn: "",
 					nin: "",
 				}),

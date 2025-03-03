@@ -38,7 +38,7 @@ const BuyPoints = () => {
         const cookie = cookieManager.get(cookieKey);
 
 		if (cookie) {
-			if (new Date(JSON.parse(cookie).expire_date) > new Date()) {
+			if (new Date(JSON.parse(cookie).expire_datetime) > new Date()) {
 				setCookieValues(JSON.parse(cookie));
 
 				setIsSubmitting(false);
@@ -83,7 +83,9 @@ const BuyPoints = () => {
 
 	useEffect(() => {
 		if (cookieValues) {
-			const target = new Date(cookieValues?.expire_date ?? "").getTime();
+			const target = new Date(
+				cookieValues?.expire_datetime ?? "",
+			).getTime();
 
 			if (isNaN(target)) {
 				console.error("Invalid date provided");
@@ -239,21 +241,21 @@ const BuyPoints = () => {
 							<p>
 								Bank:{" "}
 								<span className="font-semibold">
-									{cookieValues?.bankName}
+									{cookieValues?.bank_name}
 								</span>
 							</p>
 
 							<p>
 								Account Name:{" "}
 								<span className="font-semibold">
-									{cookieValues?.accountName}
+									{cookieValues?.account_name}
 								</span>
 							</p>
 
 							<p>
 								Account Number:{" "}
 								<span className="font-semibold">
-									{cookieValues?.accountNumber}
+									{cookieValues?.account_number}
 								</span>
 							</p>
 						</div>
