@@ -1,7 +1,5 @@
-"use server";
-import axios from "axios";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use server";
 
 const generateAccount = async (
 	email: string,
@@ -9,43 +7,39 @@ const generateAccount = async (
 	phoneNumber: string,
 ) => {
 	try {
-		// Send POST request using Axios
-		const response = await axios.post(
-			"https://api.payvessel.com/pms/api/external/request/customerReservedAccount/",
+		const req = await fetch(
+			"https://api.payvessel.ng/pms/api/external/request/customerReservedAccount/",
 			{
-				email: email,
-				name: name,
-				phoneNumber: phoneNumber,
-				bankcode: ["120001"],
-				account_type: "DYNAMIC",
-				businessid: process.env.NEXT_PUBLIC_BUSINESS_ID,
-				bvn: "",
-				nin: "",
-			},
-			{
+				method: "POST",
 				headers: {
-					"api_key": process.env.NEXT_PUBLIC_API_KEY ?? "",
-					"api_secret": process.env.NEXT_PUBLIC_API_SECRET ?? "",
+					"api-key": process.env.NEXT_PUBLIC_API_KEY!,
+					"api-secret": process.env.NEXT_PUBLIC_API_SECRET!,
 					"Content-Type": "application/json",
 				},
+				body: JSON.stringify({
+					email: email,
+					name: name,
+					phoneNumber: phoneNumber,
+					bankcode: ["120001"],
+					account_type: "DYNAMIC",
+					businessid: process.env.NEXT_PUBLIC_BUSINESS_ID!,
+					bvn: "",
+					nin: "",
+				}),
 			},
 		);
 
-		// Handle successful response
-		return response.data; // Axios returns data directly in the response object
-	} catch (error: any) {
-		// Handle error response
-		if (error.response) {
-			console.log(error.response);
+		if (!req.ok) {
+			const error = await req?.json();
 
-			// Axios error response structure
-			const errorMessage =
-				error.response.data?.message || "Unknown error";
-			throw new Error(errorMessage);
-		} else {
-			// Generic error if no response
-			throw new Error(error?.message || "Something went wrong");
+			throw new Error(error.message);
 		}
+
+		const res = await req.json();
+
+		return res;
+	} catch (error: any) {
+		return String(error);
 	}
 };
 

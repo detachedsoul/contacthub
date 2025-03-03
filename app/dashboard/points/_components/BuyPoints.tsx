@@ -20,6 +20,8 @@ const BuyPoints = () => {
 	const [cookieValues, setCookieValues] = useState<null | any>(null);
 	const [timeLeft, setTimeLeft] = useState<string>("");
 
+    console.log(cookieValues);
+
 	const [isSummaryShown, setIsSummaryShown] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +35,7 @@ const BuyPoints = () => {
         }
 
         const cookieKey = `accountDetails_${authDetails.email}_${authDetails.id}`;
-		const cookie = cookieManager.get(cookieKey);
+        const cookie = cookieManager.get(cookieKey);
 
 		if (cookie) {
 			if (new Date(JSON.parse(cookie).expire_date) > new Date()) {
@@ -56,22 +58,22 @@ const BuyPoints = () => {
 			const res = await generateAccount(email, name, phone);
 
 			if (res?.status === true) {
-				cookieManager.set(cookieKey, JSON.stringify(res?.banks) ?? "", {
+				cookieManager.set(cookieKey, JSON.stringify(res?.banks[0]) ?? "", {
 					hours: 1,
 				});
 
-				setCookieValues(res?.banks);
+				setCookieValues(res?.banks[0]);
 
 				setIsSummaryShown(true);
 
 				successToast("Account generated successfully");
 			} else {
-				errorToast(String(res));
+                errorToast(String(res));
 			}
 
 			setIsSubmitting(false);
-		} catch (error) {
-			errorToast(String(error));
+        } catch (error) {
+            errorToast(String(error));
 
 			setIsSubmitting(false);
 		} finally {
