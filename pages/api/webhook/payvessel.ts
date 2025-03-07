@@ -12,12 +12,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // const payvesselSignature = req.headers["http_payvessel_http_signature"] as string;
-  const ipAddress:any = req.headers["x-forwarded-for"];
+  const ipAddressHeader: any = req.headers["x-forwarded-for"];
+  const ipAddress = ipAddressHeader ? ipAddressHeader.split(",")[0].trim() : "";
+  
 
   const  whitelist = ["162.246.254.36", "3.255.23.38"]
   
   if ( !whitelist.includes(ipAddress)) {
-    return res.status(405).json({ message: `Uknown Ip Address ${ipAddress} ${req.headers}` });
+    return res.status(405).json({ message: `Uknown Ip Address ${ipAddress}` });
   }
 
   const payload: any = req.body;
