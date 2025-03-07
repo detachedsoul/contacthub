@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const  whitelist = ["162.246.254.36", "3.255.23.38"]
   
   if ( !whitelist.includes(ipAddress)) {
-    return res.status(405).json({ message: `Uknown Ip Address` });
+    return res.status(405).json({ message: `Uknown Ip Address ${ipAddress} ${req.headers}` });
   }
 
   const payload: any = req.body;
