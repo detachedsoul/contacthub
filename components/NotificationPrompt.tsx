@@ -24,9 +24,9 @@ const NotificationPrompt = () => {
 	const handleEnableNotifications = async () => {
         setShowPrompt(false);
 
-        await requestNotificationPermission(authDetails?.id ?? "");
-
         localStorage.setItem("notifications_prompted", "true");
+
+        await requestNotificationPermission(authDetails?.id ?? "");
 	};
 
 	const handleDismiss = () => {

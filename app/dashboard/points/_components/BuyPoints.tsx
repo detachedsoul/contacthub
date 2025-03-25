@@ -57,11 +57,11 @@ const BuyPoints = () => {
 			const res = await generateAccount(email, name, phone);
 
 			if (res?.status === true) {
-                const expireDate = new Date(res?.banks[0].expire_date);
+                const expireDate = new Date(res?.banks.expire_date);
 				expireDate.setHours(expireDate.getHours() + 1);
 
                 const updatedBankDetails = {
-					...res?.banks[0],
+					...res?.banks,
 					expire_date: expireDate,
 				};
 

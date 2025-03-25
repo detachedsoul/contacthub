@@ -230,7 +230,7 @@ const Contacts = () => {
 							key={index}
 						>
 							<Image
-								className="w-full h-[200px] rounded-lg object-center"
+								className="w-full h-[200px] rounded-lg object-top"
 								src={selectedContact?.get("image_url") ?? ""}
 								width={100}
 								height={300}
